@@ -3,8 +3,6 @@ package co.edu.udea.SalasInfo.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -12,13 +10,13 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class Room_State {
+@Table(name="role")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="room_state_id")
-    private Integer room_state_id;
+    @Column(name="roleId")
+    private Integer roleId;
 
-    @Column(name="computer_amount", nullable = false, length = 3)
-    private Integer computer_amount;
-
+    @Column(name="roleName", nullable = false, length = 64)
+    private String roleName;
 }

@@ -12,28 +12,26 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Table(name="room")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="room_id")
-    private Integer room_id;
+    @Column(name="roomId")
+    private Integer roomId;
 
-    @Column(name="computer_amount", nullable = false, length = 3)
-    private Integer computer_amount;
+    @Column(name="computerAmount", nullable = false, length = 3)
+    private Integer computerAmount;
 
     @Column(name="building", nullable = false, length = 16)
     private String building;
 
-    @Column(name="room_num", nullable = false, length = 3)
-    private String room_num;
+    @Column(name="roomNum", nullable = false, length = 3)
+    private String roomNum;
 
-    @Column(name="name", length = 64)
-    private String name;
+    @Column(name="roomName", length = 64)
+    private String roomName;
 
-    @Column(name="room_state")
-    private String room_state;
-
-    @Column(name="subroom",  length = 2)
-    private String subroom;
+    @Column(name="subRoom",  length = 2)
+    private Integer subRoom;
 
 }

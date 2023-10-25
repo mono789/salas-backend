@@ -12,22 +12,35 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Table(name="reservation")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="reservation_id")
-    private Integer reservation_id;
+    @Column(name="reservationId")
+    private Integer reservationId;
 
-    @Column(name="activity_name", nullable = false, length = 64)
-    private String activity_name;
+    @Column(name="activityName", nullable = false, length = 64)
+    private String activityName;
 
-    @Column(name="description", nullable = false, length = 512)
-    private String description;
+    @Column(name="activityDescription", nullable = false, length = 512)
+    private String activityDescription;
 
-    @Column(name="starts_at", nullable = false)
-    private Date starts_at;
+    @Column(name="startsAt", nullable = false)
+    private Date startsAt;
 
-    @Column(name="ends_at", nullable = false)
-    private Date ends_at;
+    @Column(name="endsAt", nullable = false)
+    private Date endsAt;
+
+    @ManyToOne
+    @JoinColumn(name="userId", referencedColumnName = "userId")
+    private User userId;
+
+    @ManyToOne
+    @JoinColumn(name="roomId", referencedColumnName = "roomId")
+    private Room roomId;
+
+    @ManyToOne
+    @JoinColumn(name="reservationStateId", referencedColumnName = "reservationStateId")
+    private Reservation_State reservationStateId;
 
 }
