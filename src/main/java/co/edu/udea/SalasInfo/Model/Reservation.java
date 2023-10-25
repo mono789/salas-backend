@@ -41,6 +41,6 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name="reservationStateId", referencedColumnName = "reservationStateId")
-    private Reservation_State reservationStateId;
+    private ReservationState reservationStateId;
 
 }

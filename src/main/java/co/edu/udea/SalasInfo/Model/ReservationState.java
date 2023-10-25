@@ -11,7 +11,7 @@ import lombok.*;
 @Setter
 @ToString
 @Table(name="reservationstate")
-public class Reservation_State {
+public class ReservationState {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="reservationStateId")
