@@ -71,10 +71,10 @@ public class ReservationService {
     //actualizar una reserva existente
 
     public ResponseEntity<Reservation> update(@RequestBody Reservation reservation){
-        if(reservation.getReservation_id()==null){ //no le mande un id
+        if(reservation.getReservationId()==null){ //no le mande un id
             return ResponseEntity.badRequest().build();
         }
-        if(!reservationRepository.existsById(reservation.getReservation_id())){ //si el Id NO existe (NUMEO MUY GRANDE)
+        if(!reservationRepository.existsById(reservation.getReservationId())){ //si el Id NO existe (NUMEO MUY GRANDE)
             return ResponseEntity.notFound().build();
         }
         //de lo contrario
