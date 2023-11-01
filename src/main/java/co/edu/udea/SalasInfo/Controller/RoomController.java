@@ -31,7 +31,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Room> delete(@PathVariable Integer id) {
+    public ResponseEntity<Room> remove(@PathVariable Integer id) {
         return roomService.deleteRoom(id);
     }
 
