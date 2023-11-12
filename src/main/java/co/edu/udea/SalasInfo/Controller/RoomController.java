@@ -1,5 +1,6 @@
 package co.edu.udea.SalasInfo.Controller;
 
+import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.Service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,34 +10,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/api")
 public class RoomController {
 
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/find-all")
+    @GetMapping("/room")
     public ResponseEntity<List<Room>> findAll() {
-        return ResponseEntity.ok(roomService.findAll());
+        return roomService.findAll();
     }
 
-    @PostMapping("/save")
+    @PostMapping("/room")
     public ResponseEntity<Room> save(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
 
-    @GetMapping("/find-by-id/{id}")
+    @GetMapping("/room/{id}")
     public ResponseEntity<Room> findById(@PathVariable Integer id) {
         return roomService.findById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/room/{id}")
     public ResponseEntity<Room> remove(@PathVariable Integer id) {
         return roomService.deleteRoom(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/room/{id}")
     public ResponseEntity<Room> update(@PathVariable Integer id,@RequestBody Room room) {
         return roomService.updateRoom(id, room);
+    }
+
+    @GetMapping("/room/{id}/software")
+    public ResponseEntity<List<Application>> findRoomSoftwareById(@PathVariable Integer id) {
+        return roomService.findRoomSoftware(id);
     }
 }

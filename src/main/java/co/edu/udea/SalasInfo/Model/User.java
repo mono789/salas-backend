@@ -29,6 +29,4 @@ public class User {
     @ManyToOne
     @JoinColumn(name="roleId", referencedColumnName = "roleId")
     private Role roleId;
-
-
 }
