@@ -62,14 +62,14 @@ public class RoomService {
     }
 
     /**
-     * Updates the room of the given Id with using the changes of the given room object.
+     * Updates the room of the given room's Id with using the changes of the given room object.
      *
-     * @param id The Id of the wanted room.
      * @param room The room that contain the changes.
      * @return A response entity with 200 as status code and the updated room as body
      * or a response entity with 404 as status code.
      */
-    public ResponseEntity<Room> updateRoom(int id, Room room) {
+    public ResponseEntity<Room> updateRoom(Room room) {
+        Integer id = room.getRoomId();
         Optional<Room> optionalRoom = roomRepository.findById(id);
         if (optionalRoom.isEmpty()) return ResponseEntity.notFound().build();
         Room roomToUpdate = optionalRoom.get();

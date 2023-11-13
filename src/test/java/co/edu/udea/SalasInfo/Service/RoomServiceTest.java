@@ -61,10 +61,11 @@ class RoomServiceTest {
     public void updateRoom() {
         Room body = new Room();
         body.setRoomName("Updated");
+        body.setRoomId(223250);
         Mockito.when(roomRepository.findById(223250)).thenReturn(Optional.of(room));
         Mockito.when(roomRepository.save(any(Room.class))).thenReturn(body);
 
-        Room updated = roomService.updateRoom(223250, body).getBody();
+        Room updated = roomService.updateRoom(body).getBody();
         assertNotNull(updated);
         assertEquals("Updated", updated.getRoomName());
     }
@@ -77,17 +78,4 @@ class RoomServiceTest {
         assertEquals(room, roomService.deleteRoom(223250).getBody());
     }
 
-    @Test
-    public void findRoomSoftware(){
-        // Set mock room software
-        List<Application> roomSoftware = new ArrayList<>();
-        roomSoftware.add(new Application(4, "Krita", "5.2.1"));
-        roomSoftware.add(new Application(5, "IntelliJ", "2023.2"));
-        room.setSoftware(roomSoftware);
-
-        Mockito.when(roomRepository.findById(223250)).thenReturn(Optional.ofNullable(room));
-        List<Application> foundSoftware = roomService.findRoomSoftware(223250).getBody();
-        assertNotNull(foundSoftware);
-        assertEquals(roomSoftware, foundSoftware);
-    }
 }

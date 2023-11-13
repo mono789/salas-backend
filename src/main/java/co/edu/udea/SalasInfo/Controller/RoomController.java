@@ -10,39 +10,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/room")
 public class RoomController {
 
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/room")
+    @GetMapping("/find-all")
     public ResponseEntity<List<Room>> findAll() {
         return roomService.findAll();
     }
 
-    @PostMapping("/room")
+    @PostMapping("/save")
     public ResponseEntity<Room> save(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
 
-    @GetMapping("/room/{id}")
+    @GetMapping("/find-by-id/{id}")
     public ResponseEntity<Room> findById(@PathVariable Integer id) {
         return roomService.findById(id);
     }
 
-    @DeleteMapping("/room/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Room> remove(@PathVariable Integer id) {
         return roomService.deleteRoom(id);
     }
 
-    @PutMapping("/room/{id}")
-    public ResponseEntity<Room> update(@PathVariable Integer id,@RequestBody Room room) {
-        return roomService.updateRoom(id, room);
-    }
-
-    @GetMapping("/room/{id}/software")
-    public ResponseEntity<List<Application>> findRoomSoftwareById(@PathVariable Integer id) {
-        return roomService.findRoomSoftware(id);
+    @PutMapping("/update")
+    public ResponseEntity<Room> update(@RequestBody Room room) {
+        return roomService.updateRoom(room);
     }
 }

@@ -36,6 +36,7 @@ public class Application {
     )
     private List<Room> rooms;
 
+    //Constructor
     public Application(Integer applicationId, String applicationName, String version) {
         this.applicationId = applicationId;
         this.applicationName = applicationName;

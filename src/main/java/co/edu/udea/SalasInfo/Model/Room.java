@@ -1,5 +1,6 @@
 package co.edu.udea.SalasInfo.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,8 +44,26 @@ public class Room {
     )
     private List<Application> software;
 
-    // Constructor
+    @ManyToMany(targetEntity = Restriction.class, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "roomrestriction",
+            joinColumns = @JoinColumn(name = "roomId"),
+            inverseJoinColumns = @JoinColumn(name = "restrictionId")
+    )
 
+    List<Restriction> restrictions;
+
+    @ManyToMany(targetEntity = Implement.class, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "roomimplement",
+            joinColumns = @JoinColumn(name = "roomId"),
+            inverseJoinColumns = @JoinColumn(name = "implementId")
+    )
+    @JsonProperty("implements")
+    List<Implement> implementList;
+
+
+    // Constructor
     public Room(Integer roomId, Integer computerAmount, String building, String roomNum, String roomName, Integer subRoom) {
         this.roomId = roomId;
         this.computerAmount = computerAmount;
