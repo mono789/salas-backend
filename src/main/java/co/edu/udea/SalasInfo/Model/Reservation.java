@@ -12,6 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name="reservation")
 public class Reservation {
     @Id

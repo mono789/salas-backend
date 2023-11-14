@@ -8,13 +8,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ReservationService {
     @Autowired
-    ReservationRepository reservationRepository; //lista de aulas
+    ReservationRepository reservationRepository;
 
     public List<Reservation> findAll(){
         //capturar y enviar los elementos de la bas de datos
@@ -23,18 +28,41 @@ public class ReservationService {
     }
 
 
+    //Lista de salones que estan libre en una hora especifica
+    public List<Reservation> freeAll(@PathVariable String hora1){
+        //formato como se recibe la hora-->  2023-10-25T15:30:00.000+00:00
 
-    //crear un Nuevo elemento
+        //capturo todas las reservas
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-    public ResponseEntity<Reservation> save(@RequestBody Reservation reservation){
+        // Convierte el String a OffsetDateTime
+        OffsetDateTime hora = OffsetDateTime.parse(hora1, formato);
+        List<Reservation> Lista=reservationRepository.findAll();
+        //lista de salones que no estan dentro de la consulta de reservas
+        List<Reservation> free=new ArrayList<>();
+        // evaluo si la fecha que paso se encuentra entre las fechas de ese dia horas de startsAt o endsAt
+        for (Reservation i : Lista) {
+            //System.out.println(i.getStartsAt());
+            //System.out.println(hora);
+            if (i.getStartsAt() != null) {
+                String[] j = i.getStartsAt().toString().split(" ");
+                //
+                //System.out.println(j[0]);
+                if (j[0].equals(hora.toLocalDate().toString())) {
+                    //evaluo si el salon esta libre en  esa Hora
+                    LocalTime horaInicio = LocalTime.of(i.getStartsAt().getHours(), i.getStartsAt().getMinutes());
+                    LocalTime horaFin = LocalTime.of(i.getEndsAt().getHours(), i.getEndsAt().getMinutes());
 
-        //guardar
-        Reservation result= reservationRepository.save(reservation);
-
-        return  ResponseEntity.ok(result);
-    }
-
-
+                    LocalTime horaFecha = hora.toLocalTime();
+                    if (!(horaFecha.isAfter(horaInicio) && horaFecha.isBefore(horaFin))) {
+                        free.add(i);
+                    }
+                } else {
+                    free.add(i);
+                }
+            }}
+            return free;
+        }
 
 
     //buscar segun su room
@@ -49,6 +77,20 @@ public class ReservationService {
             //si no existe debolvemos un 404 con un response entity
             return ResponseEntity.notFound().build();
     }
+
+    //crear un Nuevo elemento
+
+    public ResponseEntity<Reservation> save(@RequestBody Reservation reservation){
+
+        //guardar
+        Reservation result= reservationRepository.save(reservation);
+
+        return  ResponseEntity.ok(result);
+    }
+
+
+
+
 
 
 
@@ -71,9 +113,11 @@ public class ReservationService {
     //actualizar una reserva existente
 
     public ResponseEntity<Reservation> update(@RequestBody Reservation reservation){
+
         if(reservation.getReservationId()==null){ //no le mande un id
             return ResponseEntity.badRequest().build();
         }
+        //System.out.println(reservationRepository.existsById(reservation.getReservationId()));
         if(!reservationRepository.existsById(reservation.getReservationId())){ //si el Id NO existe (NUMEO MUY GRANDE)
             return ResponseEntity.notFound().build();
         }
