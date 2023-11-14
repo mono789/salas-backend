@@ -20,4 +20,7 @@ public class ReservationState {
     @Column(name="description", nullable = false, length = 20)
     private String description;
 
+    public ReservationState(Integer reservationStateId) {
+        this.reservationStateId = reservationStateId;
+    }
 }

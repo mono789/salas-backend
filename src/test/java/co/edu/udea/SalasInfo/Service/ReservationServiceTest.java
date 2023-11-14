@@ -2,13 +2,14 @@ package co.edu.udea.SalasInfo.Service;
 
 import co.edu.udea.SalasInfo.DAO.ReservationRepository;
 import co.edu.udea.SalasInfo.Model.Reservation;
-import co.edu.udea.SalasInfo.Model.Reservation_State;
+import co.edu.udea.SalasInfo.Model.ReservationState;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.Model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,16 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ReservationServiceTest {
 
@@ -38,7 +41,7 @@ class ReservationServiceTest {
         MockitoAnnotations.initMocks(this);
         reservation= new Reservation();
         reservation.setReservationId(10);//id de reserva
-        reservation.setReservationStateId(new Reservation_State());//un estado de reserva (1:clase, 2:reserva, 3:libre)
+        reservation.setReservationStateId(new ReservationState());//un estado de reserva (1:clase, 2:reserva, 3:libre)
         reservation.setRoomId(new Room());
         String cadenaFecha = "2023-11-03 10:30:00.0";
         String cadenaFecha2= "2023-11-03 12:30:00.0";
@@ -56,8 +59,9 @@ class ReservationServiceTest {
         // Convierte java.util.Date a java.sql.Timestamp
         Timestamp startAt = new Timestamp(date.getTime());
         Timestamp endsAt = new Timestamp(date1.getTime());
-        reservation.setStartsAt(startAt);
-        reservation.setEndsAt(endsAt);
+        reservation.setStartsAt(startAt.toLocalDateTime());
+        reservation.setEndsAt(endsAt.toLocalDateTime());
+        reservation.setReservationType(1);
         reservation.setActivityName("clase de 10");
         reservation.setUserId(new User());
         reservation.setActivityDescription("nada de raro");
@@ -124,5 +128,36 @@ class ReservationServiceTest {
 
         // Verifica que la reserva devuelta sea la misma que la configurada en el mock
         assertEquals(updatedReservation, response.getBody());
+    }
+
+    @Test
+    public void updateClassDates(){
+        // Creating the updated List
+        Reservation classReservation = new Reservation();
+        classReservation.setReservationId(reservation.getReservationId());
+        classReservation.setActivityName(reservation.getActivityName());
+        classReservation.setActivityDescription(reservation.getActivityDescription());
+
+        LocalDateTime startDate = reservation.getStartsAt();
+        LocalDateTime endDate = reservation.getEndsAt();
+
+        classReservation.setStartsAt(
+                startDate.with(TemporalAdjusters.next(startDate.getDayOfWeek()))
+        );
+
+        classReservation.setEndsAt(
+                endDate.with(TemporalAdjusters.next(endDate.getDayOfWeek()))
+        );
+
+        classReservation.setReservationType(reservation.getReservationType());
+        classReservation.setRoomId(reservation.getRoomId());
+        classReservation.setUserId(reservation.getUserId());
+        classReservation.setReservationStateId(reservation.getReservationStateId());
+
+        when(reservationRepository.findByReservationType(1)).thenReturn(Collections.singletonList(reservation));
+
+        reservationService.updateClassDates();
+
+        verify(reservationRepository, times(1)).save(eq(classReservation));
     }
 }

@@ -1,6 +1,5 @@
 package co.edu.udea.SalasInfo.Service;
 
-import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.DAO.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,9 @@ public class RoomService {
     }
 
     /**
-     * Seeks for a Room in the database given a specific Id.
+     * Seeks for a Room in the database given a specific id.
      *
-     * @param Id The Id of the Wanted Room.
+     * @param id The id of the Wanted Room.
      * @return A Response Entity with the found room as body and status code 200
      * Or a Response Entity without body and status code 404.
      */
@@ -41,13 +40,13 @@ public class RoomService {
 
 
     /**
-     * Receives a room, creates the room's Id using the building, number and sub room, then save it in the database.
+     * Receives a room, creates the room's id using the building, number and sub room, then save it in the database.
      *
      * @param room A room object with the needed attributes.
      * @return A response entity with a 200 as status code and the saved room as body if there's a success and a 400 if something is wrong.
      */
     public ResponseEntity<Room> createRoom(Room room) {
-        String stringId = String.valueOf(room.getBuilding()) +
+        String stringId = room.getBuilding() +
                 room.getRoomNum() +
                 room.getSubRoom();
         Integer id = Integer.parseInt(stringId);
@@ -62,7 +61,7 @@ public class RoomService {
     }
 
     /**
-     * Updates the room of the given room's Id with using the changes of the given room object.
+     * Updates the room of the given room's id with using the changes of the given room object.
      *
      * @param room The room that contain the changes.
      * @return A response entity with 200 as status code and the updated room as body
@@ -80,9 +79,9 @@ public class RoomService {
     }
 
     /**
-     * Deletes the room of the given Id if it exists.
+     * Deletes the room of the given id if it exists.
      *
-     * @param id The Id of the room that is going to be deleted.
+     * @param id The id of the room that is going to be deleted.
      * @return The Deleted room.
      */
     public ResponseEntity<Room> deleteRoom(int id) {
