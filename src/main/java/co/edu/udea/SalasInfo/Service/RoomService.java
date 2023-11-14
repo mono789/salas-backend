@@ -91,19 +91,4 @@ public class RoomService {
         roomRepository.deleteById(id);
         return ResponseEntity.ok(optionalRoom.get());
     }
-
-    /**
-     * Returns which software is available in the room of the given id.
-     *
-     * @param id the Id of the room to seek its software.
-     * @return A response entity that contains a 200 as status code and a list of the available software
-     * or a response entity with status code 404 if there's no room using the Id.
-     */
-    public ResponseEntity<List<Application>> findRoomSoftware(Integer id){
-        Optional<Room> optionalRoom = roomRepository.findById(id);
-        if (optionalRoom.isEmpty()) return ResponseEntity.notFound().build();
-        List<Application> software = optionalRoom.get().getSoftware();
-        return ResponseEntity.ok(software);
-    }
-
 }
