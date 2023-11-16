@@ -1,6 +1,5 @@
 package co.edu.udea.SalasInfo.Controller;
 
-import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.Service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;

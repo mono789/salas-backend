@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -48,7 +44,7 @@ class ReservationServiceTest {
         // Define el formato de fecha
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         // Parsea la cadena de fecha y hora a un objeto java.util.Date
-        Date date, date1=null;
+        Date date, date1;
         try {
              date = formatoFecha.parse(cadenaFecha);
              date1 = formatoFecha.parse(cadenaFecha2);
@@ -69,7 +65,7 @@ class ReservationServiceTest {
 
     @Test
     void findAll() {
-        when(reservationRepository.findAll()).thenReturn(Arrays.asList(reservation));
+        when(reservationRepository.findAll()).thenReturn(Collections.singletonList(reservation));
         assertNotNull(reservationService.findAll());
     }
 
@@ -77,7 +73,7 @@ class ReservationServiceTest {
     void freeAll() {
         String horaConsulta = "2023-10-25T15:30:00.000+00:00";
         String horaConsulta1 = "2023-11-03T11:30:00.000+00:00";
-        when(reservationRepository.findAll()).thenReturn(Arrays.asList(reservation)); // primera llamada returna algo, la segunda no
+        when(reservationRepository.findAll()).thenReturn(Collections.singletonList(reservation)); // primera llamada returna algo, la segunda no
         // Llama al método
         List<Reservation> salasLibres = reservationService.freeAll(horaConsulta);
         // Realiza aserciones
@@ -131,7 +127,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void updateClassDates(){
+    void updateClassDates(){
         // Creating the updated List
         Reservation classReservation = new Reservation();
         classReservation.setReservationId(reservation.getReservationId());
@@ -158,6 +154,6 @@ class ReservationServiceTest {
 
         reservationService.updateClassDates();
 
-        verify(reservationRepository, times(1)).save(eq(classReservation));
+        verify(reservationRepository, times(1)).save(classReservation);
     }
 }

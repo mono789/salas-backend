@@ -28,7 +28,7 @@ class RoomServiceTest {
     private Room room;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
 
         // Creating a mock room
@@ -40,27 +40,27 @@ class RoomServiceTest {
     }
 
     @Test
-    public void findAll() {
+    void findAll() {
         List<Room> rooms = Collections.singletonList(room);
         Mockito.when(roomRepository.findAll()).thenReturn(rooms);
         assertNotNull(roomService.findAll());
     }
 
     @Test
-    public void findById() {
+    void findById() {
         Mockito.when(roomRepository.findById(223250)).thenReturn(Optional.ofNullable(room));
         assertNotNull(roomService.findById(223250));
     }
 
     @Test
-    public void createRoom() {
+    void createRoom() {
         Mockito.when(roomRepository.save(any(Room.class))).thenReturn(room);
 
         assertNotNull(roomService.createRoom(room));
     }
 
     @Test
-    public void updateRoom() {
+    void updateRoom() {
         Room body = new Room();
         body.setRoomName("Updated");
         body.setRoomId(223250);
@@ -73,7 +73,7 @@ class RoomServiceTest {
     }
 
     @Test
-    public void deleteRoom() {
+    void deleteRoom() {
         Mockito.when(roomRepository.findById(223250)).thenReturn(Optional.of(room));
         roomService.deleteRoom(223250);
         Mockito.verify(roomRepository).deleteById(223250);

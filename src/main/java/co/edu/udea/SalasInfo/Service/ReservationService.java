@@ -34,14 +34,13 @@ public class ReservationService {
 
         // Convierte el String a OffsetDateTime
         OffsetDateTime hora = OffsetDateTime.parse(hora1, formato);
-        List<Reservation> Lista=reservationRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findAll();
         //lista de salones que no estan dentro de la consulta de reservas
         List<Reservation> free=new ArrayList<>();
         // evaluo si la fecha que paso se encuentra entre las fechas de ese dia horas de startsAt o endsAt
-        for (Reservation reservation : Lista) {
+        for (Reservation reservation : reservations) {
             if (reservation.getStartsAt() != null) {
                 LocalDateTime fechaReserva = reservation.getStartsAt();
-                LocalDateTime horaDateTime = hora.toLocalDateTime();
 
                 //System.out.println(j[0]);
                 if (!fechaReserva.equals(hora.toLocalDateTime())) {
@@ -74,18 +73,19 @@ public class ReservationService {
 
     //crear un Nuevo elemento
     public ResponseEntity<Reservation> save(@RequestBody Reservation reservation){
-        //guardar
+        Optional<Reservation> foundReservation = reservationRepository.findFirstByStartsAt(reservation.getStartsAt());
+        if(foundReservation.isPresent()) return ResponseEntity.badRequest().build();
         Reservation result= reservationRepository.save(reservation);
         return  ResponseEntity.ok(result);
     }
 
     //borrar una reserva de la DB con un id de reserva
-    public ResponseEntity<Reservation> delete(@PathVariable Integer reservation_id){
+    public ResponseEntity<Reservation> delete(@PathVariable Integer reservationId){
 
-        if (!reservationRepository.existsById(reservation_id)) { //si el Id NO existe (NUMEO MUY GRANDE)
+        if (!reservationRepository.existsById(reservationId)) { //si el Id NO existe (NUMEO MUY GRANDE)
             return ResponseEntity.notFound().build();
         }
-        reservationRepository.deleteById(reservation_id);
+        reservationRepository.deleteById(reservationId);
         return ResponseEntity.noContent().build();
 
     }
@@ -96,8 +96,7 @@ public class ReservationService {
         if(reservation.getReservationId()==null){ //no le mande un id
             return ResponseEntity.badRequest().build();
         }
-        //System.out.println(reservationRepository.existsById(reservation.getReservationId()));
-        if(!reservationRepository.existsById(reservation.getReservationId())){ //si el Id NO existe (NUMEO MUY GRANDE)
+        if(!reservationRepository.existsById(reservation.getReservationId())){ //si el Id NO existe (NUMERO MUY GRANDE)
             return ResponseEntity.notFound().build();
         }
         //de lo contrario
@@ -111,7 +110,7 @@ public class ReservationService {
      * Updates start and end dates of the class Reservations every day
      * and
      */
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // Every day
+    @Scheduled(fixedRate = 7 * 24 * 60 * 60 * 1000) // Every day
     public void updateClassDates(){
         // Retrieve the list of class reservations
         List<Reservation> classes = reservationRepository.findByReservationType(1);

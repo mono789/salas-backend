@@ -24,7 +24,6 @@ public class Restriction {
     @Column(name = "description")
     private String description;
 
-
     @JsonIgnore
     @ManyToMany(
             targetEntity = Room.class,

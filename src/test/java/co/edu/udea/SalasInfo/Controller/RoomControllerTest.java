@@ -1,9 +1,7 @@
 package co.edu.udea.SalasInfo.Controller;
 
-import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.Service.RoomService;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RoomController.class)
-public class RoomControllerTest {
+class RoomControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -37,11 +34,10 @@ public class RoomControllerTest {
         MockitoAnnotations.openMocks(this);
 
         room = new Room(191020, 30, "19", "102", "Test", 0);
-        Application application = new Application(4, "Krita", "5.2.1");
     }
 
     @Test
-    public void getAll() throws Exception {
+    void getAll() throws Exception {
         List<Room> rooms = Collections.singletonList(room);
         Mockito.when(roomService.findAll()).thenReturn(ResponseEntity.ok(rooms));
         mockMvc.perform(get("/room/find-all")
@@ -57,7 +53,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void save() throws Exception {
+    void save() throws Exception {
         Room roomPost = new Room(null, 30, "19", "102", "Test", 0);
         Mockito.when(roomService.createRoom(roomPost)).thenReturn(ResponseEntity.ok(room));
         mockMvc.perform(post("/room/save")
@@ -75,7 +71,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void findById() throws Exception {
+    void findById() throws Exception {
         Mockito.when(roomService.findById(191020)).thenReturn(ResponseEntity.ok(room));
         mockMvc.perform(get("/room/find-by-id/191020")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -87,7 +83,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void remove() throws Exception {
+    void remove() throws Exception {
         Mockito.when(roomService.deleteRoom(191020)).thenReturn(ResponseEntity.ok(room));
         mockMvc.perform(delete("/room/delete/191020")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -99,7 +95,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void update() throws Exception {
+    void update() throws Exception {
         Room body = new Room(191020, 50, null, null, "Updated", null);
         Room updatedRoom = new Room(191020, 50, "19", "102", "Updated", 0);
         Mockito.when(roomService.updateRoom(body)).thenReturn(ResponseEntity.ok(updatedRoom));
