@@ -1,0 +1,32 @@
+stages:
+  - install
+  - test
+  - build
+  - deploy
+
+cache:
+  paths:
+    - .m2/repository
+    - .sonar/cache
+  key: "$CI_BUILD_REF_NAME"
+
+variables:
+  TAG_BRANCH: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+  TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=./.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+  SONAR_PROJECT_KEY: salascomputo_salascomputo_back_AYv-5Ds2HL6X8jpemlmd
+  INFRA_PRD: 'on-premise'
+  INFRA_DEV: 'on-premise'
+
+
+include:
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - project: 'io/devops/ci-cd-templates'
+    file:
+      - 'workflow.yml'
+      - '/jobs/spring_boot_install_dependencies.yml'
+      - '/jobs/spring_boot_test.yml' 
+      - '/jobs/spring_boot_build.yml'
+      - '/jobs/container_build.yml'
+      - '/jobs/deploy_service.yml'
