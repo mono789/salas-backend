@@ -15,6 +15,11 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<sonar.coverage.jacoco.xmlReportPaths>../target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.exclusions>**/model/**,**/repository/**,**/config/**,**/exception/**, **/**Dto.java
+		</sonar.coverage.exclusions>
+		<sonar.junit.reportPaths>target/test-results/TEST-**.xml</sonar.junit.reportPaths>
+		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -85,6 +90,31 @@
 
 	<build>
 		<plugins>
+		    <plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<formats>
+								<format>XML</format>
+							</formats>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
