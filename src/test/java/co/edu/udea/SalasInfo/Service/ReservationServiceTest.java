@@ -38,7 +38,9 @@ class ReservationServiceTest {
         reservation= new Reservation();
         reservation.setReservationId(10);//id de reserva
         reservation.setReservationStateId(new ReservationState());//un estado de reserva (1:clase, 2:reserva, 3:libre)
-        reservation.setRoomId(new Room());
+        Room room = new Room();
+        room.setRoomId(123250);
+        reservation.setRoomId(room);
         String cadenaFecha = "2023-11-03 10:30:00.0";
         String cadenaFecha2= "2023-11-03 12:30:00.0";
         // Define el formato de fecha
@@ -102,6 +104,10 @@ class ReservationServiceTest {
 
     @Test
     void delete() {
+        when(reservationRepository.existsById(10)).thenReturn(true);
+        doNothing().when(reservationRepository).deleteById(10);
+        ResponseEntity<Reservation> deletedReservation = reservationService.delete(10);
+        verify(reservationRepository).deleteById(10);
     }
 
     @Test
@@ -155,5 +161,17 @@ class ReservationServiceTest {
         reservationService.updateClassDates();
 
         verify(reservationRepository, times(1)).save(classReservation);
+    }
+
+    @Test
+    void findReservationByRoom() {
+        List<Reservation> expectedReservations = Collections.singletonList(reservation);
+        when(reservationRepository.findReservationsByRoomIdRoomId(123250))
+                .thenReturn(expectedReservations);
+        ResponseEntity<List<Reservation>> response = reservationService.findReservationByRoomId(123250);
+        assertNotNull(response.getBody());
+        Room retrievedReservationRoom = response.getBody().get(0).getRoomId();
+        assertEquals(expectedReservations, response.getBody());
+        assertEquals(123250, retrievedReservationRoom.getRoomId());
     }
 }

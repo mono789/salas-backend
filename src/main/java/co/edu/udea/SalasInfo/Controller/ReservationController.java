@@ -46,5 +46,9 @@ public class ReservationController {
         return reservationService.update(reservation);
     }
 
+    @GetMapping("/find-by-room/{roomId}")
+    public ResponseEntity<List<Reservation>> findByRoomId(@PathVariable Integer roomId){
+        return reservationService.findReservationByRoomId(roomId);
+    }
 
 }

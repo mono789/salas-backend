@@ -107,16 +107,26 @@ public class ReservationService {
     }
 
     /**
-     * Updates start and end dates of the class Reservations every day
-     * and
+     * Search all the reservations of a room using a given roomId
+     * @param roomId the id of the room.
+     * @return a Response entity with the found Reservations and 200 as status code.
      */
-    @Scheduled(fixedRate = 7 * 24 * 60 * 60 * 1000) // Every day
+    public ResponseEntity<List<Reservation>> findReservationByRoomId(Integer roomId){
+        List<Reservation> reservations = reservationRepository.findReservationsByRoomIdRoomId(roomId);
+        return ResponseEntity.ok(reservations);
+    }
+
+    /**
+     * Updates start and end dates of the class Reservations every week
+     * if they have the date before the current day.
+     */
+    @Scheduled(fixedRate = 7 * 24 * 60 * 60 * 1000) // Every week
     public void updateClassDates(){
         // Retrieve the list of class reservations
         List<Reservation> classes = reservationRepository.findByReservationType(1);
 
         for (Reservation classReservation : classes){
-            // Get class dates
+            // Get start and end class dates
             assert classReservation != null;
             LocalDateTime startDate = classReservation.getStartsAt();
             LocalDateTime endDate = classReservation.getEndsAt();
