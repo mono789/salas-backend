@@ -12,8 +12,12 @@ import java.util.List;
 @RequestMapping("/room")
 public class RoomController {
 
+    private final RoomService roomService;
+
     @Autowired
-    RoomService roomService;
+    public RoomController(RoomService roomService){
+        this.roomService = roomService;
+    }
 
     @GetMapping("/find-all")
     public ResponseEntity<List<Room>> findAll() {
@@ -38,5 +42,10 @@ public class RoomController {
     @PutMapping("/update")
     public ResponseEntity<Room> update(@RequestBody Room room) {
         return roomService.updateRoom(room);
+    }
+
+    @GetMapping("/find-by-app/{applicationId}")
+    public ResponseEntity<List<Room>> findAll(@PathVariable Integer applicationId) {
+        return roomService.findRoomsBySoftwareId(applicationId);
     }
 }

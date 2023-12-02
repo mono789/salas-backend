@@ -164,7 +164,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    void findReservationByRoom() {
+    void findReservationByRoomId() {
         List<Reservation> expectedReservations = Collections.singletonList(reservation);
         when(reservationRepository.findReservationsByRoomIdRoomId(123250))
                 .thenReturn(expectedReservations);

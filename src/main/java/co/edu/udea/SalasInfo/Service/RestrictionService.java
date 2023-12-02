@@ -12,8 +12,12 @@ import java.util.Optional;
 @Service
 public class RestrictionService {
 
+    private final RestrictionRepository restrictionRepository;
+
     @Autowired
-    RestrictionRepository restrictionRepository;
+    public RestrictionService(RestrictionRepository restrictionRepository){
+        this.restrictionRepository = restrictionRepository;
+    }
 
     /**
      * Retrieves all existent room restrictions.
@@ -47,18 +51,6 @@ public class RestrictionService {
         return optionalRestriction.map(ResponseEntity::ok).orElseGet(() ->
                 ResponseEntity.notFound().build()
         );
-    }
-
-    /**
-     * Update a existent restriction with the given Restriction Parameters.
-     * @param restriction An object which contains the information to update.
-     * @return A response entity with the updated restriction or a not found code.
-     */
-    public ResponseEntity<Restriction> updateRestriction(Restriction restriction){
-        Optional<Restriction> optionalRestriction = restrictionRepository.findById(restriction.getRestrictionId());
-        return optionalRestriction.isEmpty() ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(restrictionRepository.save(restriction));
     }
 
     /**

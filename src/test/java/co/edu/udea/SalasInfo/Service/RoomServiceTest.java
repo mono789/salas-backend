@@ -4,14 +4,12 @@ import co.edu.udea.SalasInfo.DAO.RoomRepository;
 import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +35,10 @@ class RoomServiceTest {
         room.setBuilding("22");
         room.setRoomNum("325");
         room.setSubRoom(0);
+        Application app = new Application();
+        app.setApplicationId(1);
+        app.setApplicationName("Gogle draiv");
+        room.setSoftware(List.of(app));
     }
 
     @Test
@@ -78,6 +80,16 @@ class RoomServiceTest {
         roomService.deleteRoom(223250);
         Mockito.verify(roomRepository).deleteById(223250);
         assertEquals(room, roomService.deleteRoom(223250).getBody());
+    }
+
+    @Test
+    void findRoomsBySoftwareId(){
+        Application app = new Application();
+        app.setApplicationId(1);
+        Mockito.when(roomRepository.findRoomsBySoftwareContaining(app)).thenReturn(Collections.singletonList(room));
+        List<Room> retrievedRooms = roomService.findRoomsBySoftwareId(1).getBody();
+        assert retrievedRooms != null;
+        assertEquals(room, retrievedRooms.get(0));
     }
 
 }
