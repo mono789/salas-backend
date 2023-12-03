@@ -1,5 +1,6 @@
 package co.edu.udea.SalasInfo.Service;
 
+import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.DAO.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,12 @@ import java.util.Optional;
 
 @Service
 public class RoomService {
+    private final RoomRepository roomRepository;
+
     @Autowired
-    private RoomRepository roomRepository;
+    public RoomService(RoomRepository roomRepository){
+        this.roomRepository = roomRepository;
+    }
 
     /**
      * Retrieves a List of Rooms from the Database
@@ -89,5 +94,17 @@ public class RoomService {
         if (optionalRoom.isEmpty()) return ResponseEntity.notFound().build();
         roomRepository.deleteById(id);
         return ResponseEntity.ok(optionalRoom.get());
+    }
+
+    /**
+     * A method that retrieves rooms which have a specific application
+     * @param applicationId It's the application id with the method will search rooms.
+     * @return A ResponseEntity with the found Rooms and status code 200.
+     */
+    public ResponseEntity<List<Room>> findRoomsBySoftwareId(Integer applicationId){
+        Application app = new Application();
+        app.setApplicationId(applicationId);
+        List<Room> foundRooms = roomRepository.findRoomsBySoftwareContaining(app);
+        return ResponseEntity.ok(foundRooms);
     }
 }

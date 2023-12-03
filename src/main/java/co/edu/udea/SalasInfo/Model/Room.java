@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -61,7 +60,6 @@ public class Room {
     )
     @JsonProperty("implements")
     List<Implement> implementList;
-
 
     // Constructor
     public Room(Integer roomId, Integer computerAmount, String building, String roomNum, String roomName, Integer subRoom) {

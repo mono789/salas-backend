@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -47,5 +46,9 @@ public class ReservationController {
         return reservationService.update(reservation);
     }
 
+    @GetMapping("/find-by-room/{roomId}")
+    public ResponseEntity<List<Reservation>> findByRoomId(@PathVariable Integer roomId){
+        return reservationService.findReservationByRoomId(roomId);
+    }
 
 }

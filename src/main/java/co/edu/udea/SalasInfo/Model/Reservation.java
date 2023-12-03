@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -36,17 +35,6 @@ public class Reservation {
     @Column(name="reservationType", nullable = false)
     private Integer reservationType;
 
-    /*
-    @Column(name="userId")
-    private String userId;
-
-    @Column(name = "roomId")
-    private Integer roomId;
-
-    @Column(name = "reservationStateId")
-    private Integer reservationStateId;
-
-     */
     @ManyToOne
     @JoinColumn(name="userId", referencedColumnName = "userId")
     private User userId;

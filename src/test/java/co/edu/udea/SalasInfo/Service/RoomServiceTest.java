@@ -4,14 +4,12 @@ import co.edu.udea.SalasInfo.DAO.RoomRepository;
 import co.edu.udea.SalasInfo.Model.Application;
 import co.edu.udea.SalasInfo.Model.Room;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +26,7 @@ class RoomServiceTest {
     private Room room;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
 
         // Creating a mock room
@@ -37,30 +35,34 @@ class RoomServiceTest {
         room.setBuilding("22");
         room.setRoomNum("325");
         room.setSubRoom(0);
+        Application app = new Application();
+        app.setApplicationId(1);
+        app.setApplicationName("Gogle draiv");
+        room.setSoftware(List.of(app));
     }
 
     @Test
-    public void findAll() {
+    void findAll() {
         List<Room> rooms = Collections.singletonList(room);
         Mockito.when(roomRepository.findAll()).thenReturn(rooms);
         assertNotNull(roomService.findAll());
     }
 
     @Test
-    public void findById() {
+    void findById() {
         Mockito.when(roomRepository.findById(223250)).thenReturn(Optional.ofNullable(room));
         assertNotNull(roomService.findById(223250));
     }
 
     @Test
-    public void createRoom() {
+    void createRoom() {
         Mockito.when(roomRepository.save(any(Room.class))).thenReturn(room);
 
         assertNotNull(roomService.createRoom(room));
     }
 
     @Test
-    public void updateRoom() {
+    void updateRoom() {
         Room body = new Room();
         body.setRoomName("Updated");
         body.setRoomId(223250);
@@ -73,11 +75,21 @@ class RoomServiceTest {
     }
 
     @Test
-    public void deleteRoom() {
+    void deleteRoom() {
         Mockito.when(roomRepository.findById(223250)).thenReturn(Optional.of(room));
         roomService.deleteRoom(223250);
         Mockito.verify(roomRepository).deleteById(223250);
         assertEquals(room, roomService.deleteRoom(223250).getBody());
+    }
+
+    @Test
+    void findRoomsBySoftwareId(){
+        Application app = new Application();
+        app.setApplicationId(1);
+        Mockito.when(roomRepository.findRoomsBySoftwareContaining(app)).thenReturn(Collections.singletonList(room));
+        List<Room> retrievedRooms = roomService.findRoomsBySoftwareId(1).getBody();
+        assert retrievedRooms != null;
+        assertEquals(room, retrievedRooms.get(0));
     }
 
 }
