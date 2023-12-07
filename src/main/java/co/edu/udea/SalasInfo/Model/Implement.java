@@ -18,7 +18,7 @@ public class Implement {
 
     // Attributes
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "implementId")
     private Integer implementId;
 

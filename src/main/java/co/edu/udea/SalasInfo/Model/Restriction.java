@@ -17,7 +17,7 @@ import java.util.List;
 public class Restriction {
     // Attributes
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restrictionId")
     private Integer restrictionId;
 

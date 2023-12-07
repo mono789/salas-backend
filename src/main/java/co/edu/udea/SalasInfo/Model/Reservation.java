@@ -36,8 +36,8 @@ public class Reservation {
     private Integer reservationType;
 
     @ManyToOne
-    @JoinColumn(name="userId", referencedColumnName = "userId")
-    private User userId;
+    @JoinColumn(name="customerId", referencedColumnName = "customerId")
+    private Customer customerId;
 
     @ManyToOne
     @JoinColumn(name="roomId", referencedColumnName = "roomId")
