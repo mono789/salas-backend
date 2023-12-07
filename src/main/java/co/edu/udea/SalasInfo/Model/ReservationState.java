@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name="reservationstate")
 public class ReservationState {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="reservationStateId")
     private Integer reservationStateId;
 

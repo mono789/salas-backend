@@ -10,15 +10,15 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@Table(name="user")
-public class User {
+@Table(name="customer")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="userId")
-    private Integer userId;
+    @Column(name="customerId")
+    private Integer customerId;
 
-    @Column(name="userName", nullable = false, length = 64)
-    private String userName;
+    @Column(name="customerName", nullable = false, length = 64)
+    private String customerName;
 
     @Column(name="lastName", nullable = false, length = 64)
     private String lastName;

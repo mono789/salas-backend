@@ -4,7 +4,7 @@ import co.edu.udea.SalasInfo.DAO.ReservationRepository;
 import co.edu.udea.SalasInfo.Model.Reservation;
 import co.edu.udea.SalasInfo.Model.ReservationState;
 import co.edu.udea.SalasInfo.Model.Room;
-import co.edu.udea.SalasInfo.Model.User;
+import co.edu.udea.SalasInfo.Model.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -61,7 +61,7 @@ class ReservationServiceTest {
         reservation.setEndsAt(endsAt.toLocalDateTime());
         reservation.setReservationType(1);
         reservation.setActivityName("clase de 10");
-        reservation.setUserId(new User());
+        reservation.setCustomerId(new Customer());
         reservation.setActivityDescription("nada de raro");
     }
 
@@ -153,7 +153,7 @@ class ReservationServiceTest {
 
         classReservation.setReservationType(reservation.getReservationType());
         classReservation.setRoomId(reservation.getRoomId());
-        classReservation.setUserId(reservation.getUserId());
+        classReservation.setCustomerId(reservation.getCustomerId());
         classReservation.setReservationStateId(reservation.getReservationStateId());
 
         when(reservationRepository.findByReservationType(1)).thenReturn(Collections.singletonList(reservation));
