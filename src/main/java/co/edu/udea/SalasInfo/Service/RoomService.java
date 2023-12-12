@@ -1,6 +1,7 @@
 package co.edu.udea.SalasInfo.Service;
 
 import co.edu.udea.SalasInfo.Model.Application;
+import co.edu.udea.SalasInfo.Model.Implement;
 import co.edu.udea.SalasInfo.Model.Room;
 import co.edu.udea.SalasInfo.DAO.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,18 @@ public class RoomService {
         Application app = new Application();
         app.setApplicationId(applicationId);
         List<Room> foundRooms = roomRepository.findRoomsBySoftwareContaining(app);
+        return ResponseEntity.ok(foundRooms);
+    }
+
+    /**
+     * A method that retrieves rooms which have a specific implement
+     * @param implementId It's the implement id the method will search rooms with.
+     * @return A ResponseEntity with the found Rooms and status code 200.
+     */
+    public ResponseEntity<List<Room>> findRoomsByImplementId(Integer implementId){
+        Implement implement = new Implement();
+        implement.setImplementId(implementId);
+        List<Room> foundRooms = roomRepository.findRoomsByImplementListContaining(implement);
         return ResponseEntity.ok(foundRooms);
     }
 }

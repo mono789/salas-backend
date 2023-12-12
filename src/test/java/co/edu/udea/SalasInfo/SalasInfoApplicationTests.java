@@ -8,10 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 // @EnableScheduling
 class SalasInfoApplicationTests {
 
-	/*
 	@Test
 	void contextLoads() {
 	}
-	*/
 
 }

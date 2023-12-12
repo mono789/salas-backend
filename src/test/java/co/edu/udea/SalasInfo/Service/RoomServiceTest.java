@@ -2,6 +2,7 @@ package co.edu.udea.SalasInfo.Service;
 
 import co.edu.udea.SalasInfo.DAO.RoomRepository;
 import co.edu.udea.SalasInfo.Model.Application;
+import co.edu.udea.SalasInfo.Model.Implement;
 import co.edu.udea.SalasInfo.Model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,9 @@ class RoomServiceTest {
         Application app = new Application();
         app.setApplicationId(1);
         app.setApplicationName("Gogle draiv");
+        Implement impl = new Implement(1, "Projector", "Good");
         room.setSoftware(List.of(app));
+        room.setImplementList(List.of(impl));
     }
 
     @Test
@@ -92,4 +95,13 @@ class RoomServiceTest {
         assertEquals(room, retrievedRooms.get(0));
     }
 
+    @Test
+    void findRoomsByImplementId(){
+        Implement implement = new Implement();
+        implement.setImplementId(1);
+        Mockito.when(roomRepository.findRoomsByImplementListContaining(implement)).thenReturn(Collections.singletonList(room));
+        List<Room> retrievedRooms = roomService.findRoomsByImplementId(1).getBody();
+        assert retrievedRooms != null;
+        assertEquals(room, retrievedRooms.get(0));
+    }
 }

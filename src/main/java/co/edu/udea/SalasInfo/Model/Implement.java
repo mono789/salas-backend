@@ -37,4 +37,9 @@ public class Implement {
     )
     List<Room> rooms;
 
+    public Implement(Integer implementId, String implementName, String state) {
+        this.implementId = implementId;
+        this.implementName = implementName;
+        this.state = state;
+    }
 }

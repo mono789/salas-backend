@@ -44,8 +44,13 @@ public class RoomController {
         return roomService.updateRoom(room);
     }
 
-    @GetMapping("/find-by-app/{applicationId}")
-    public ResponseEntity<List<Room>> findAll(@PathVariable Integer applicationId) {
+    @GetMapping("/find-by-application/{applicationId}")
+    public ResponseEntity<List<Room>> findByApplication(@PathVariable Integer applicationId) {
         return roomService.findRoomsBySoftwareId(applicationId);
+    }
+
+    @GetMapping("/find-by-implement/{implementId}")
+    public ResponseEntity<List<Room>> findByImplement(@PathVariable Integer implementId) {
+        return roomService.findRoomsBySoftwareId(implementId);
     }
 }
