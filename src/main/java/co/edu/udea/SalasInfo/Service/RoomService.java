@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * It's the rooms data accessor, which saves and retrieves rooms
+ */
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;

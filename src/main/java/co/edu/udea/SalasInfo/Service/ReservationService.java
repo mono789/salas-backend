@@ -73,7 +73,7 @@ public class ReservationService {
 
     //crear un Nuevo elemento
     public ResponseEntity<Reservation> save(@RequestBody Reservation reservation){
-        Optional<Reservation> foundReservation = reservationRepository.findFirstByStartsAt(reservation.getStartsAt());
+        Optional<Reservation> foundReservation = reservationRepository.findFirstByStartsAtAndRoomId(reservation.getStartsAt(), reservation.getRoomId());
         if(foundReservation.isPresent()) return ResponseEntity.badRequest().build();
         Reservation result= reservationRepository.save(reservation);
         return  ResponseEntity.ok(result);
@@ -81,7 +81,6 @@ public class ReservationService {
 
     //borrar una reserva de la DB con un id de reserva
     public ResponseEntity<Reservation> delete(@PathVariable Integer reservationId){
-
         if (!reservationRepository.existsById(reservationId)) { //si el Id NO existe (NUMEO MUY GRANDE)
             return ResponseEntity.notFound().build();
         }
