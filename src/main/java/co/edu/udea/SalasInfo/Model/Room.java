@@ -1,5 +1,6 @@
 package co.edu.udea.SalasInfo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,7 @@ public class Room {
     @Column(name="subRoom",  length = 2)
     private Integer subRoom;
 
+    @JsonIgnore
     @ManyToMany(targetEntity = Application.class, cascade = CascadeType.ALL)
     @JoinTable(
             name = "roomsoftware",
@@ -43,6 +45,7 @@ public class Room {
     )
     private List<Application> software;
 
+    @JsonIgnore
     @ManyToMany(targetEntity = Restriction.class, cascade = CascadeType.ALL)
     @JoinTable(
             name = "roomrestriction",
@@ -52,6 +55,7 @@ public class Room {
 
     List<Restriction> restrictions;
 
+    @JsonIgnore
     @ManyToMany(targetEntity = Implement.class, cascade = CascadeType.ALL)
     @JoinTable(
             name = "roomimplement",

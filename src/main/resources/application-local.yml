@@ -1,0 +1,21 @@
+spring: # Spring Configuration
+  datasource: # Connection with database
+    url: jdbc:postgresql://${DB_HOST:aws-0-us-west-1.pooler.supabase.com}:${DB_PORT:5432}/${DB_NAME:postgres}
+    username: ${DB_USER:postgres.xyiebdeoxjnkmxtutrtn}
+    password: ${DB_PASSWORD:S4lasInf0*udea}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    database: postgresql
+
+server:
+  servlet:
+    context-path: ${APP_PATH:/salasinfo}

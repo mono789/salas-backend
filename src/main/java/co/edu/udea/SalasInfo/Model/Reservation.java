@@ -1,5 +1,6 @@
 package co.edu.udea.SalasInfo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,14 +36,17 @@ public class Reservation {
     @Column(name="reservationType", nullable = false)
     private Integer reservationType;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="customerId", referencedColumnName = "customerId")
     private Customer customerId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="roomId", referencedColumnName = "roomId")
     private Room roomId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="reservationStateId", referencedColumnName = "reservationStateId")
     private ReservationState reservationStateId;

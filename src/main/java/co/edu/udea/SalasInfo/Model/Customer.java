@@ -1,5 +1,6 @@
 package co.edu.udea.SalasInfo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class Customer {
     @Column(name="email", nullable = false, length = 64, unique=true)
     private String email;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="roleId", referencedColumnName = "roleId")
     private Role roleId;
