@@ -1,6 +1,7 @@
 package co.edu.udea.SalasInfo.Controller;
 
 import co.edu.udea.SalasInfo.Model.Room;
+import co.edu.udea.SalasInfo.Security.WebSecurityConfiguration;
 import co.edu.udea.SalasInfo.Service.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -22,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RoomController.class)
+@Import(WebSecurityConfiguration.class)
+
 class RoomControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -37,6 +42,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAll() throws Exception {
         List<Room> rooms = Collections.singletonList(room);
         Mockito.when(roomService.findAll()).thenReturn(ResponseEntity.ok(rooms));
@@ -53,6 +59,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void save() throws Exception {
         Room roomPost = new Room(null, 30, "19", "102", "Test", 0);
         Mockito.when(roomService.createRoom(roomPost)).thenReturn(ResponseEntity.ok(room));
@@ -71,6 +78,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void findById() throws Exception {
         Mockito.when(roomService.findById(191020)).thenReturn(ResponseEntity.ok(room));
         mockMvc.perform(get("/room/find-by-id/191020")
@@ -83,6 +91,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void remove() throws Exception {
         Mockito.when(roomService.deleteRoom(191020)).thenReturn(ResponseEntity.ok(room));
         mockMvc.perform(delete("/room/delete/191020")
@@ -95,6 +104,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void update() throws Exception {
         Room body = new Room(191020, 50, null, null, "Updated", null);
         Room updatedRoom = new Room(191020, 50, "19", "102", "Updated", 0);

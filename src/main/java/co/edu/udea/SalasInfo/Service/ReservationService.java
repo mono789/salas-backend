@@ -2,6 +2,7 @@ package co.edu.udea.SalasInfo.Service;
 
 import co.edu.udea.SalasInfo.DAO.ReservationRepository;
 import co.edu.udea.SalasInfo.Model.Reservation;
+import co.edu.udea.SalasInfo.Model.ReservationState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -75,6 +76,7 @@ public class ReservationService {
     public ResponseEntity<Reservation> save(@RequestBody Reservation reservation){
         Optional<Reservation> foundReservation = reservationRepository.findFirstByStartsAtAndRoomId(reservation.getStartsAt(), reservation.getRoomId());
         if(foundReservation.isPresent()) return ResponseEntity.badRequest().build();
+        reservation.setReservationId(3);//in revision
         Reservation result= reservationRepository.save(reservation);
         return  ResponseEntity.ok(result);
     }
@@ -99,11 +101,41 @@ public class ReservationService {
             return ResponseEntity.notFound().build();
         }
         //de lo contrario
+        reservation.setReservationStateId(new ReservationState(3));
         Reservation result= reservationRepository.save(reservation);
         return ResponseEntity.ok(result);
 
+    }
+
+    public ResponseEntity<Reservation> updateState(@RequestBody Reservation reservation,@PathVariable Integer state ) {
+        if(reservation.getReservationId()==null){ //no le mande un id
+            return ResponseEntity.badRequest().build();
+        }
+        if(!reservationRepository.existsById(reservation.getReservationId())){ //si el Id NO existe (NUMERO MUY GRANDE)
+            return ResponseEntity.notFound().build();
+        }
+        //de lo contrario
+        reservation.setReservationStateId(new ReservationState(state));
+        Reservation result= reservationRepository.save(reservation);
+        return ResponseEntity.ok(result);
 
     }
+
+    public List<Reservation> findStated(@PathVariable Integer state){
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        //lista de reservas
+        List<Reservation> type=new ArrayList<>();
+        //itero por las recervas
+        for (Reservation reservation : reservations) {
+            if (Objects.equals(reservation.getReservationStateId().getReservationStateId(), state)) {
+                    type.add(reservation);
+            }
+        }
+        return type;
+    }
+
+
 
     /**
      * Search all the reservations of a room using a given roomId

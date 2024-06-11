@@ -174,4 +174,56 @@ class ReservationServiceTest {
         assertEquals(expectedReservations, response.getBody());
         assertEquals(123250, retrievedReservationRoom.getRoomId());
     }
+    @Test
+    void updateState_success() {
+        ReservationState newState = new ReservationState(2);
+        reservation.setReservationStateId(newState);
+
+        when(reservationRepository.existsById(10)).thenReturn(true);
+        when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
+
+        ResponseEntity<Reservation> response = reservationService.updateState(reservation, 2);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().getReservationStateId().getReservationStateId());
+    }
+
+    @Test
+    void updateState_noId() {
+        reservation.setReservationId(null);
+
+        ResponseEntity<Reservation> response = reservationService.updateState(reservation, 2);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void updateState_notFound() {
+        when(reservationRepository.existsById(10)).thenReturn(false);
+
+        ResponseEntity<Reservation> response = reservationService.updateState(reservation, 2);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void findStated() {
+        Reservation reservation1 = new Reservation();
+        reservation1.setReservationId(1);
+        reservation1.setReservationStateId(new ReservationState(1));
+
+        Reservation reservation2 = new Reservation();
+        reservation2.setReservationId(2);
+        reservation2.setReservationStateId(new ReservationState(2));
+
+        List<Reservation> reservations = Arrays.asList(reservation1, reservation2);
+
+        when(reservationRepository.findAll()).thenReturn(reservations);
+
+        List<Reservation> result = reservationService.findStated(1);
+
+        assertEquals(1, result.size());
+        assertEquals(1, result.get(0).getReservationStateId().getReservationStateId());
+    }
 }
