@@ -70,6 +70,11 @@ public class ReservationController {
         return reservationService.update(reservation);
     }
 
+    @PutMapping("/update-state")
+    public ResponseEntity<Reservation> updateState(@RequestBody Reservation reservation,@PathVariable Integer state){
+        return reservationService.updateState(reservation,state);
+    }
+
     @GetMapping("/find-by-room/{roomId}")
     public ResponseEntity<List<Reservation>> findByRoomId(@PathVariable Integer roomId){
         return reservationService.findReservationByRoomId(roomId);

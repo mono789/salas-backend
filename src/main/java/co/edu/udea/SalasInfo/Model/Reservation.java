@@ -39,7 +39,7 @@ public class Reservation {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="customerId", referencedColumnName = "customerId")
-    private Customer customerId;
+    private User userId;
 
     @JsonIgnore
     @ManyToOne

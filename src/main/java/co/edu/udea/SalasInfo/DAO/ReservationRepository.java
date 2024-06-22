@@ -14,4 +14,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> findByReservationType(Integer reservationType);
     Optional<Reservation> findFirstByStartsAtAndRoomId(LocalDateTime startsAt, Room roomId);
     List<Reservation> findReservationsByRoomIdRoomId(Integer roomId);
+
 }

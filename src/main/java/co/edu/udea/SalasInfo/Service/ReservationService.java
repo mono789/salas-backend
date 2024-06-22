@@ -21,8 +21,8 @@ public class ReservationService {
     ReservationRepository reservationRepository;
 
     public List<Reservation> findAll(){
-        //capturar y enviar los elementos de la bas de datos
-        return reservationRepository.findAll();
+        //capturar y enviar los elementos de la bas de datos que tengan reservationstateid=2
+        return findStated(2);
 
     }
 
@@ -35,8 +35,17 @@ public class ReservationService {
 
         // Convierte el String a OffsetDateTime
         OffsetDateTime hora = OffsetDateTime.parse(hora1, formato);
-        List<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> reservations1 = reservationRepository.findAll();
+        //comparo solo con las recervas aceptadas
+        List<Reservation> reservations=new ArrayList<>();
+        //itero por las recervas
+        for (Reservation reservation : reservations1) {
+            if (Objects.equals(reservation.getReservationStateId().getReservationStateId(), 2)) {
+                reservations.add(reservation);
+            }
+        }
         //lista de salones que no estan dentro de la consulta de reservas
+
         List<Reservation> free=new ArrayList<>();
         // evaluo si la fecha que paso se encuentra entre las fechas de ese dia horas de startsAt o endsAt
         for (Reservation reservation : reservations) {
@@ -144,7 +153,17 @@ public class ReservationService {
      */
     public ResponseEntity<List<Reservation>> findReservationByRoomId(Integer roomId){
         List<Reservation> reservations = reservationRepository.findReservationsByRoomIdRoomId(roomId);
-        return ResponseEntity.ok(reservations);
+
+        //retorno solo las aceptadas State ==2
+        List<Reservation> type=new ArrayList<>();
+        //itero por las recervas
+        for (Reservation reservation : reservations) {
+            if (Objects.equals(reservation.getReservationStateId().getReservationStateId(), 2)) {
+                type.add(reservation);
+            }
+        }
+
+        return ResponseEntity.ok(type);
     }
 
     /**
@@ -175,6 +194,8 @@ public class ReservationService {
             }
         }
     }
+
+
 }
 
 
