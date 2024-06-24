@@ -8,11 +8,18 @@ import co.edu.udea.SalasInfo.DAO.UserRepository;
 import co.edu.udea.SalasInfo.Jwt.JwtService;
 import co.edu.udea.SalasInfo.Model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,4 +58,31 @@ public class AuthService {
                 .token(jwtService.getToken(user))
                 .build();
     }
+
+    public ResponseEntity<User> updateRol(@RequestBody User user, @PathVariable String rol ) {
+        if(user.getCustomerId()==null){ //no le mande un id
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<User> existingUserOptional = userRepository.findById(user.getCustomerId());
+        if (!existingUserOptional.isPresent()) { // si el Id NO existe (NUMERO MUY GRANDE)
+            return ResponseEntity.notFound().build();
+        }
+
+        User existingUser = existingUserOptional.get();
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(existingUser.getUsername(), user.getPassword()));
+            // Autenticación exitosa, puedes continuar con la lógica de actualización del rol
+        } catch (AuthenticationException e) {
+            // Autenticación fallida, la contraseña es incorrecta
+            System.out.println("PASSWORD ERROR: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // de lo contrario
+        existingUser.setRole(Role.valueOf(rol));
+        existingUser.setPassword(passwordEncoder.encode(user.getPassword())); // Encripta la contraseña nuevamente si es necesario
+        User result = userRepository.save(existingUser);
+        return ResponseEntity.ok(result);
+    }
+
 }

@@ -29,9 +29,9 @@ public class WebSecurityConfiguration{
     private final AuthenticationProvider authProvider;
 
      String[] PUBLIC_ENDPOINTS = {
-            "/application/rooms",
-            "/auth/**",
-
+             "/application/rooms",
+             "/auth/register",
+             "/auth/login",
             "/implement/rooms",
             "/reservation/find-all",
             "/reservation/free-all",
@@ -43,6 +43,7 @@ public class WebSecurityConfiguration{
             "/room/find-by-implement/**"
     };
     String[] ADMIN_ENDPOINTS = {
+            "/auth/**",
             "/reservation/**",
             "/application/**",
             "/implement/**",

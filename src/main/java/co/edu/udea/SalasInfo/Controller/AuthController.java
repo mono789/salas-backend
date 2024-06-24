@@ -4,13 +4,12 @@ package co.edu.udea.SalasInfo.Controller;
 import co.edu.udea.SalasInfo.Auth.AuthResponse;
 import co.edu.udea.SalasInfo.Auth.LoginRequest;
 import co.edu.udea.SalasInfo.Auth.RegisterRequest;
+import co.edu.udea.SalasInfo.Model.Reservation;
+import co.edu.udea.SalasInfo.Model.User;
 import co.edu.udea.SalasInfo.Service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,5 +29,9 @@ public class AuthController {
         //y se retorna al cliente
         return ResponseEntity.ok(authService.register(request));
 
+    }
+    @PutMapping("/update-role/{role}")
+    public ResponseEntity<User> updateState(@RequestBody User user, @PathVariable String role){
+        return authService.updateRol(user,role);
     }
 }
