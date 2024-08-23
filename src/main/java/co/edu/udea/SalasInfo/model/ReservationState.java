@@ -1,0 +1,26 @@
+package co.edu.udea.SalasInfo.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@Table(name="reservationstate")
+public class ReservationState {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="reservationStateId")
+    private Integer reservationStateId;
+
+    @Column(name="description", nullable = false, length = 20)
+    private String description;
+
+    public ReservationState(Integer reservationStateId) {
+        this.reservationStateId = reservationStateId;
+    }
+}

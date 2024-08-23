@@ -6,11 +6,11 @@ INSERT INTO Role (roleName) VALUES ('STUDENT');
 
 
 -- Inserting customers
-INSERT INTO Customer (customerId, firstname, lastName, username, roleId, password)
+INSERT INTO Customer (customerId, firstname, lastName, username, role, password)
 VALUES (123456, 'John', 'Doe', 'john.doe@example.com', 1,'password1');
-INSERT INTO Customer (customerId, firstname, lastName, username, roleId, password)
+INSERT INTO Customer (customerId, firstname, lastName, username, role, password)
 VALUES (789012, 'Jane', 'Smith', 'jane.smith@example.com', 2,'password1');
-INSERT INTO Customer (customerId, firstname, lastName, username, roleId, password)
+INSERT INTO Customer (customerId, firstname, lastName, username, role, password)
 VALUES (345678, 'Bob', 'Johnson', 'bob.johnson@example.com', 3,'oo');
 
 -- Inserting rooms
