@@ -32,7 +32,7 @@ public class Restriction implements Serializable {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private transient List<Room> rooms;
+    private List<Room> rooms;
 
     // Constructor
     public Restriction(Integer restrictionId, String description) {

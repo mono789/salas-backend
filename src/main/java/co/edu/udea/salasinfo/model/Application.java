@@ -35,7 +35,7 @@ public class Application implements Serializable {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private transient List<Room> rooms;
+    private List<Room> rooms;
 
     //Constructor
     public Application(Integer applicationId, String applicationName, String version) {

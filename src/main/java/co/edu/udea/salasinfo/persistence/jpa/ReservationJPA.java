@@ -34,12 +34,12 @@ public class ReservationJPA implements ReservationDAO {
     @Override
     public Reservation findFirstByStartsAtAndRoomId(LocalDateTime startsAt, Room roomId) {
         return reservationRepository
-                .findFirstByStartsAtAndRoomId(startsAt, roomId).orElseThrow(() -> new ReservationNotFoundException(roomId.getRoomId()));
+                .findFirstByStartsAtAndRoom(startsAt, roomId).orElseThrow(() -> new ReservationNotFoundException(roomId.getRoomId()));
     }
 
     @Override
     public List<Reservation> findReservationsByRoomIdRoomId(Integer roomId) {
-        return reservationRepository.findReservationsByRoomIdRoomId(roomId);
+        return reservationRepository.findReservationsByRoomRoomId(roomId);
     }
 
     @Override

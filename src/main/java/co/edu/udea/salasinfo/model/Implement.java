@@ -36,7 +36,7 @@ public class Implement implements Serializable {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private transient List <Room> rooms;
+    private List <Room> rooms;
 
     public Implement(Integer implementId, String implementName, String state) {
         this.implementId = implementId;

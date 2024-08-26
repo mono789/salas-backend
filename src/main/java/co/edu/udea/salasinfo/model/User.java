@@ -39,7 +39,7 @@ public class User implements UserDetails, Serializable {
 
     @ManyToOne
     @JoinColumn(name="roleId", referencedColumnName = "roleId")
-    private transient Role role;
+    private Role role;
 
 
     @Override

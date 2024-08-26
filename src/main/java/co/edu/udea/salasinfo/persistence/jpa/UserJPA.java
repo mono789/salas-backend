@@ -36,6 +36,6 @@ public class UserJPA implements UserDAO {
 
     @Override
     public Boolean existsByCustomerId(Long customerId) {
-        return userRepository.existsByCustomerId(customerId);
+        return userRepository.existsByUserId(customerId);
     }
 }

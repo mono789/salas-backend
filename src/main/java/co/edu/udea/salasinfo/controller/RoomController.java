@@ -16,12 +16,12 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<RoomDTO>> findAll() {
         return ResponseEntity.ok(roomService.findAll());
     }
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<RoomDTO> save(@RequestBody RoomDTO room) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roomService.createRoom(room));
     }

@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 //para filtrar y garantizar queel filtro solo se ejecuete 1 vez por peticion http
-@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 

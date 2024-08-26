@@ -44,7 +44,7 @@ public class Room implements Serializable {
             joinColumns = @JoinColumn(name = "roomId"),
             inverseJoinColumns = @JoinColumn(name = "applicationId")
     )
-    private transient List<Application> software;
+    private List<Application> software;
 
     @JsonIgnore
     @ManyToMany(targetEntity = Restriction.class, cascade = CascadeType.ALL)
@@ -54,7 +54,7 @@ public class Room implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "restrictionId")
     )
 
-    private transient List<Restriction> restrictions;
+    private List<Restriction> restrictions;
 
     @JsonIgnore
     @ManyToMany(targetEntity = Implement.class, cascade = CascadeType.ALL)
@@ -64,7 +64,7 @@ public class Room implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "implementId")
     )
     @JsonProperty("implements")
-    private transient List<Implement> implementList;
+    private List<Implement> implementList;
 
     // Constructor
     public Room(Integer roomId, Integer computerAmount, String building, String roomNum, String roomName, Integer subRoom) {

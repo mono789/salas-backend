@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class ExceptionHandlerController {
+public class ExceptionAdvisor {
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionDTO> handleRuntimeException(RuntimeException e) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionDTO> handleRuntimeException(Exception e) {
         String message = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();
         ExceptionDTO exceptionResponse = ExceptionDTO.builder()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())

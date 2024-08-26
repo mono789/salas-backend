@@ -45,12 +45,12 @@ public class Reservation implements Serializable {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="roomId", referencedColumnName = "roomId")
-    private transient Room room;
+    private Room room;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="reservationStateId", referencedColumnName = "reservationStateId")
-    private transient ReservationState reservationState;
+    private ReservationState reservationState;
 
     @Override
     public String toString() {
