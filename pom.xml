@@ -181,6 +181,7 @@
 							</formats>
 							<excludes>
 								<exclude>**/*Lombok*</exclude>
+								<exclude>**/*mapper*</exclude>
 							</excludes>
 						</configuration>
 					</execution>

@@ -1,8 +1,6 @@
 package co.edu.udea.salasinfo.persistence.jpa;
 
 import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
-import co.edu.udea.salasinfo.model.Application;
-import co.edu.udea.salasinfo.model.Implement;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.persistence.RoomDAO;
 import co.edu.udea.salasinfo.repository.RoomRepository;
@@ -17,17 +15,7 @@ public class RoomJPA implements RoomDAO {
     private final RoomRepository roomRepository;
 
     @Override
-    public List<Room> findRoomsBySoftwareContaining(Application application) {
-        return roomRepository.findRoomsBySoftwareContaining(application);
-    }
-
-    @Override
-    public List<Room> findRoomsByImplementListContaining(Implement implement) {
-        return roomRepository.findRoomsByImplementListContaining(implement);
-    }
-
-    @Override
-    public Room findById(Integer id) {
+    public Room findById(Long id) {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Room.class.getSimpleName(), id));
     }
@@ -43,7 +31,7 @@ public class RoomJPA implements RoomDAO {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         roomRepository.deleteById(id);
     }
 }

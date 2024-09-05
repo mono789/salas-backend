@@ -16,7 +16,7 @@ public class RestrictionJPA implements RestrictionDAO {
     private final RestrictionRepository restrictionRepository;
 
     @Override
-    public Restriction findById(Integer id) {
+    public Restriction findById(Long id) {
         return restrictionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Restriction.class.getSimpleName(), id));
     }
@@ -39,7 +39,7 @@ public class RestrictionJPA implements RestrictionDAO {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         restrictionRepository.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.model;
 
+import co.edu.udea.salasinfo.utils.enums.RState;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,17 +13,15 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name="reservationstate")
 public class ReservationState implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="reservationStateId")
-    private Integer reservationStateId;
+    private Long reservationStateId;
 
     @Column(name="description", nullable = false, length = 20)
-    private String description;
+    private RState state;
 
-    public ReservationState(Integer reservationStateId) {
-        this.reservationStateId = reservationStateId;
-    }
 }

@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.utils;
+package co.edu.udea.salasinfo.utils.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

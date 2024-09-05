@@ -5,6 +5,7 @@ import co.edu.udea.salasinfo.model.Reservation;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.persistence.ReservationDAO;
 import co.edu.udea.salasinfo.repository.ReservationRepository;
+import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +28,8 @@ public class ReservationJPA implements ReservationDAO {
     }
 
     @Override
-    public List<Reservation> findByReservationType(Integer reservationType) {
-        return reservationRepository.findByReservationType(reservationType);
+    public List<Reservation> findByType(ReservationType reservationType) {
+        return reservationRepository.findByType(reservationType);
     }
 
     @Override
@@ -38,22 +39,22 @@ public class ReservationJPA implements ReservationDAO {
     }
 
     @Override
-    public List<Reservation> findReservationsByRoomIdRoomId(Integer roomId) {
+    public List<Reservation> findReservationsByRoomIdRoomId(Long roomId) {
         return reservationRepository.findReservationsByRoomRoomId(roomId);
     }
 
     @Override
-    public boolean existsById(Integer reservationId) {
+    public boolean existsById(Long reservationId) {
         return reservationRepository.existsById(reservationId);
     }
 
     @Override
-    public void deleteById(Integer reservationId) {
+    public void deleteById(Long reservationId) {
         reservationRepository.deleteById(reservationId);
     }
 
     @Override
-    public Reservation findById(Integer roomId) {
+    public Reservation findById(Long roomId) {
         return reservationRepository.findById(roomId).orElseThrow(() -> new ReservationNotFoundException(roomId));
     }
 }

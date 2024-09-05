@@ -7,10 +7,8 @@ import co.edu.udea.salasinfo.model.Room;
 import java.util.List;
 
 public interface RoomDAO{
-    List<Room> findRoomsBySoftwareContaining(Application application);
-    List<Room> findRoomsByImplementListContaining(Implement implement);
-    Room findById(Integer id);
+    Room findById(Long id);
     List<Room> findAll();
     Room save(Room room);
-    void deleteById(int id);
+    void deleteById(Long id);
 }

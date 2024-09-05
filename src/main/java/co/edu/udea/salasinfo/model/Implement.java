@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.model;
 
+import co.edu.udea.salasinfo.utils.enums.IState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name = "implement")
 public class Implement implements Serializable {
 
@@ -21,13 +23,13 @@ public class Implement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "implementId")
-    private Integer implementId;
+    private Long implementId;
 
     @Column(name = "implementName")
     private String implementName;
 
     @Column(name = "state")
-    private String state;
+    private IState state;
 
     @JsonIgnore
     @ManyToMany(
@@ -37,10 +39,4 @@ public class Implement implements Serializable {
             fetch = FetchType.LAZY
     )
     private List <Room> rooms;
-
-    public Implement(Integer implementId, String implementName, String state) {
-        this.implementId = implementId;
-        this.implementName = implementName;
-        this.state = state;
-    }
 }

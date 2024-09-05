@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 // @SpringBootTest
 // @EnableScheduling
-class SalasInfoApplicationDTOTests {
+class SalasInfoApplicationResponseMapperTests {
 
 	@Test
 	void contextLoads() {

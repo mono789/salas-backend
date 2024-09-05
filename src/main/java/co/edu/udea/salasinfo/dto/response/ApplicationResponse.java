@@ -1,5 +1,6 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.response;
 
+import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import lombok.*;
 
 import java.util.List;
@@ -10,9 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ApplicationDTO {
-    private Integer applicationId;
+public class ApplicationResponse {
+    private Long applicationId;
     private String applicationName;
     private String version;
-    private List<RoomDTO> rooms;
 }

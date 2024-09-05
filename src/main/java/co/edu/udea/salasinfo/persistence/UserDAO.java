@@ -5,7 +5,7 @@ import co.edu.udea.salasinfo.model.User;
 public interface UserDAO{
     User findByEmail(String username);
     User save(User user);
-    User findById(Long customerId);
+    User findById(String customerId);
     Boolean existsByUsername(String username);
-    Boolean existsByCustomerId(Long customerId);
+    Boolean existsByCustomerId(String customerId);
 }

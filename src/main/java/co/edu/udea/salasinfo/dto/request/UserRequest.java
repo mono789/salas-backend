@@ -1,6 +1,6 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.request;
 
-import co.edu.udea.salasinfo.utils.RoleName;
+import co.edu.udea.salasinfo.utils.enums.RoleName;
 import lombok.*;
 
 
@@ -10,11 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserDTO {
-    private Long userId;
+public class UserRequest {
     private String firstname;
     private String lastname;
-    private String email;    //email
+    private String email;
     private String password;
     private RoleName roleName;
 }

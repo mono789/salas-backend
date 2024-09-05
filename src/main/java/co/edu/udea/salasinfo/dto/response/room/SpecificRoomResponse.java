@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.response.room;
 
 import lombok.*;
 
@@ -10,15 +10,15 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class RoomDTO {
+public class SpecificRoomResponse {
     private Integer roomId;
     private Integer computerAmount;
     private String building;
     private String roomNum;
     private String roomName;
     private Integer subRoom;
-    private List<ApplicationDTO> software;
-    private List<RestrictionDTO> restrictions;
-    private List<ImplementDTO> implementList;
+    private List<RoomApplicationResponse> software;
+    private List<RoomRestrictionResponse> restrictions;
+    private List<RoomImplementResponse> implementList;
 
 }

@@ -24,9 +24,9 @@ public class UserJPA implements UserDAO {
     }
 
     @Override
-    public User findById(Long customerId) {
+    public User findById(String customerId) {
         return userRepository.findById(customerId)
-                .orElseThrow(() -> new EntityNotFoundException(User.class.getSimpleName(), Math.toIntExact(customerId)));
+                .orElseThrow(() -> new EntityNotFoundException(User.class.getSimpleName(), customerId));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UserJPA implements UserDAO {
     }
 
     @Override
-    public Boolean existsByCustomerId(Long customerId) {
+    public Boolean existsByCustomerId(String customerId) {
         return userRepository.existsByUserId(customerId);
     }
 }

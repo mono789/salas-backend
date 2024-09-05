@@ -1,29 +1,26 @@
 package co.edu.udea.salasinfo.service;
 
-import co.edu.udea.salasinfo.dto.ReservationDTO;
+import co.edu.udea.salasinfo.dto.request.ReservationRequest;
+import co.edu.udea.salasinfo.dto.response.ReservationResponse;
+import co.edu.udea.salasinfo.utils.enums.RState;
 
 import java.util.*;
 
 public interface ReservationService {
-    List<ReservationDTO> findAll();
+    List<ReservationResponse> findAll();
 
-    List<ReservationDTO> freeAll(String hora1);
+    List<ReservationResponse> freeAll(String hour);
 
-    ReservationDTO findById(Integer room_id);
+    ReservationResponse findById(Long id);
 
-    ReservationDTO save(ReservationDTO reservation);
+    ReservationResponse save(ReservationRequest reservation);
 
-    ReservationDTO delete(Integer reservationId);
+    ReservationResponse delete(Long reservationId);
 
-    ReservationDTO update(ReservationDTO reservation);
+    ReservationResponse update(Long id, ReservationRequest reservation);
 
-    ReservationDTO updateState(ReservationDTO reservation, Integer state);
-
-    List<ReservationDTO> findReservationByRoomId(Integer roomId);
-
-    List<ReservationDTO> findStated(Integer state);
-
-    void updateClassDates();
+    ReservationResponse updateState(Long id, Long state);
+    List<ReservationResponse> findStated(RState state);
 }
 
 

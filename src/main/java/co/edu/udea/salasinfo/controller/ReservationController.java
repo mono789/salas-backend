@@ -1,7 +1,10 @@
 package co.edu.udea.salasinfo.controller;
 
-import co.edu.udea.salasinfo.dto.ReservationDTO;
+import co.edu.udea.salasinfo.dto.request.ReservationRequest;
+import co.edu.udea.salasinfo.dto.response.ReservationResponse;
 import co.edu.udea.salasinfo.service.ReservationService;
+import co.edu.udea.salasinfo.utils.enums.RState;
+import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,69 +21,56 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping()
-    public ResponseEntity<List<ReservationDTO>> findAll() {
+    public ResponseEntity<List<ReservationResponse>> findAll() {
         return ResponseEntity.ok(reservationService.findAll());
     }
 
-    @GetMapping("/find-refused")
-    public ResponseEntity<List<ReservationDTO>> findRefused(){
-        return ResponseEntity.ok(reservationService.findStated(1));
+    @GetMapping("/refused")
+    public ResponseEntity<List<ReservationResponse>> findRefused(){
+        return ResponseEntity.ok(reservationService.findStated(RState.REFUSED));
     }
 
-    @GetMapping("/find-accept")
-    public ResponseEntity<List<ReservationDTO>> findAccept(){
-        return ResponseEntity.ok(reservationService.findStated(2));
+    @GetMapping("/accepted")
+    public ResponseEntity<List<ReservationResponse>> findAccept(){
+        return ResponseEntity.ok(reservationService.findStated(RState.ACCEPTED));
     }
 
-    @GetMapping("/find-revision")
-    public ResponseEntity<List<ReservationDTO>> findRevision(){
-        return ResponseEntity.ok(reservationService.findStated(3));
+    @GetMapping("/revision")
+    public ResponseEntity<List<ReservationResponse>> findRevision(){
+        return ResponseEntity.ok(reservationService.findStated(RState.IN_REVISION));
     }
 
-    @PutMapping("/accept")
-    public ResponseEntity<ReservationDTO> acceptReservation(@RequestBody ReservationDTO reservation) {
-        return ResponseEntity.ok(reservationService.updateState(reservation,2));
+    @PutMapping("/{id}/accept")
+    public ResponseEntity<ReservationResponse> acceptReservation(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.updateState(id,2L));
     }
-    @PutMapping("/reject")
-    public ResponseEntity<ReservationDTO> rejectReservation(@RequestBody ReservationDTO reservation) {
-        return ResponseEntity.ok(reservationService.updateState(reservation,1));
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<ReservationResponse> rejectReservation(@PathVariable Long id) {
+        return ResponseEntity.ok(reservationService.updateState(id,1L));
     }
 
-    @GetMapping("/free-all/{hora}")
-    public ResponseEntity<List<ReservationDTO>> freeAll(@PathVariable String hora){
+    @GetMapping("/free/{hora}")
+    public ResponseEntity<List<ReservationResponse>> freeAll(@PathVariable String hora){
         return ResponseEntity.ok(reservationService.freeAll(hora));
     }
 
     @PostMapping()
-    public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservation) {
+    public ResponseEntity<ReservationResponse> save(@RequestBody ReservationRequest reservation) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
     }
 
-    @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<ReservationDTO> findById(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.findById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ReservationDTO> delete(@PathVariable Integer id) {
+    public ResponseEntity<ReservationResponse> delete(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.delete(id));
     }
 
-    @PutMapping()
-    public ResponseEntity<ReservationDTO> update(@RequestBody ReservationDTO reservation) {
-        return ResponseEntity.ok(reservationService.update(reservation));
+    @PutMapping("/{id}")
+    public ResponseEntity<ReservationResponse> update(@PathVariable Long id, @Valid @RequestBody ReservationRequest reservation) {
+        return ResponseEntity.ok(reservationService.update(id, reservation));
     }
-
-    @PutMapping("/update-state/{state}")
-    public ResponseEntity<ReservationDTO> updateState(@RequestBody ReservationDTO reservation,@PathVariable Integer state){
-        return ResponseEntity.ok(reservationService.updateState(reservation,state));
-    }
-
-    @GetMapping("/find-by-room/{roomId}")
-    public ResponseEntity<List<ReservationDTO>> findByRoomId(@PathVariable Integer roomId){
-        return ResponseEntity.ok(reservationService.findReservationByRoomId(roomId));
-    }
-
-
-
 }

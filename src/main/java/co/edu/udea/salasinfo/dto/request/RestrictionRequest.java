@@ -1,6 +1,8 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.request;
 
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -8,7 +10,6 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class ReservationStateDTO {
-    private Integer reservationStateId;
+public class RestrictionRequest {
     private String description;
 }

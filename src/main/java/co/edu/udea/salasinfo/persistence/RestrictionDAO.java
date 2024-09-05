@@ -6,10 +6,10 @@ import java.util.List;
 
 
 public interface RestrictionDAO{
-    Restriction findById(Integer id);
+    Restriction findById(Long id);
     List<Restriction> findAll();
     Restriction save(Restriction restriction);
     Restriction findByDescription(String description);
 
-    void deleteById(Integer id);
+    void deleteById(Long id);
 }

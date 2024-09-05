@@ -14,13 +14,14 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name="application")
 public class Application implements Serializable {
     // Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "applicationId")
-    private Integer applicationId;
+    private Long applicationId;
 
     @Column(name = "applicationName")
     private String applicationName;
@@ -36,11 +37,4 @@ public class Application implements Serializable {
             fetch = FetchType.LAZY
     )
     private List<Room> rooms;
-
-    //Constructor
-    public Application(Integer applicationId, String applicationName, String version) {
-        this.applicationId = applicationId;
-        this.applicationName = applicationName;
-        this.version = version;
-    }
 }

@@ -1,18 +1,19 @@
 package co.edu.udea.salasinfo.service;
 
-import co.edu.udea.salasinfo.dto.RoomDTO;
+import co.edu.udea.salasinfo.dto.request.RoomRequest;
+import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * It's the rooms data accessor, which saves and retrieves rooms
  */
 public interface RoomService {
-    List<RoomDTO> findAll();
-    RoomDTO findById(Integer id) ;
-    RoomDTO createRoom(RoomDTO room) ;
-    RoomDTO updateRoom(RoomDTO room) ;
-    RoomDTO deleteRoom(int id) ;
-    List<RoomDTO> findRoomsBySoftwareId(Integer applicationId);
-    List<RoomDTO> findRoomsByImplementId(Integer implementId);
+    List<RoomResponse> findAll();
+    RoomResponse findById(Long id) ;
+    RoomResponse createRoom(RoomRequest room) ;
+    RoomResponse updateRoom(Long id, RoomRequest room) ;
+    RoomResponse deleteRoom(Long id) ;
+    List<RoomResponse> findFreeAt(LocalDateTime date);
 }

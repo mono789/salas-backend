@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.response.room;
 
 import lombok.*;
 
@@ -10,9 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class RestrictionDTO {
+public class RoomRestrictionResponse {
     // Attributes
     private Integer restrictionId;
     private String description;
-    private List<RoomDTO> rooms;
 }

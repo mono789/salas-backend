@@ -22,8 +22,9 @@ import java.util.List;
 @Table(name="customer",uniqueConstraints = {@UniqueConstraint(columnNames = {"email","customerId"})} )
 public class User implements UserDetails, Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "customerId", length = 20)
-    private Long userId;
+    private String userId;
 
     @Column(name="firstname")
     private String firstname;
@@ -52,11 +53,6 @@ public class User implements UserDetails, Serializable {
     @Override
     public String getUsername() {
         return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
     }
 
     //todos los booleans retornan true porque es el token el que va a decir que pasa, por lo tanto lo que retornen no afecta

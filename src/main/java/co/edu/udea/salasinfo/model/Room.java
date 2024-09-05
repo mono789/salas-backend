@@ -15,12 +15,13 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name="room")
 public class Room implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="roomId")
-    private Integer roomId;
+    private Long roomId;
 
     @Column(name="computerAmount", nullable = false, length = 3)
     private Integer computerAmount;
@@ -65,14 +66,4 @@ public class Room implements Serializable {
     )
     @JsonProperty("implements")
     private List<Implement> implementList;
-
-    // Constructor
-    public Room(Integer roomId, Integer computerAmount, String building, String roomNum, String roomName, Integer subRoom) {
-        this.roomId = roomId;
-        this.computerAmount = computerAmount;
-        this.building = building;
-        this.roomNum = roomNum;
-        this.roomName = roomName;
-        this.subRoom = subRoom;
-    }
 }

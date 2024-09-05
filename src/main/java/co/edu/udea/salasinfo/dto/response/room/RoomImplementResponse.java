@@ -1,8 +1,6 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.response.room;
 
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -10,9 +8,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ImplementDTO {
+public class RoomImplementResponse {
     private Integer implementId;
     private String implementName;
     private String state;
-    private List<RoomDTO> rooms;
 }

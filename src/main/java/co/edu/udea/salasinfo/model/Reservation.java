@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.model;
 
+import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +21,7 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="reservationId")
-    private Integer reservationId;
+    private Long reservationId;
 
     @Column(name="activityName", nullable = false, length = 64)
     private String activityName;
@@ -35,7 +36,7 @@ public class Reservation implements Serializable {
     private LocalDateTime endsAt;
 
     @Column(name="reservationType", nullable = false)
-    private Integer reservationType;
+    private ReservationType type;
 
     @JsonIgnore
     @ManyToOne
@@ -60,7 +61,7 @@ public class Reservation implements Serializable {
                 ", activityDescription='" + activityDescription + '\'' +
                 ", startsAt=" + startsAt +
                 ", endsAt=" + endsAt +
-                ", reservationType=" + reservationType +
+                ", reservationType=" + type +
                 '}';
     }
 }

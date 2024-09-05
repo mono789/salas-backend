@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.dto;
+package co.edu.udea.salasinfo.dto.response;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @ToString
-public class ExceptionDTO {
+public class ExceptionResponse {
     private Integer statusCode;
     private HttpStatus status;
     private String message;

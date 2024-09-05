@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.model;
 
-import co.edu.udea.salasinfo.utils.RoleName;
+import co.edu.udea.salasinfo.utils.enums.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,16 +15,13 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name = "role")
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roleId;
+    private Long roleId;
 
     @Column(name = "name")
     private RoleName roleName;
-
-    @OneToMany
-    @JsonIgnore
-    private List<User> users;
 }

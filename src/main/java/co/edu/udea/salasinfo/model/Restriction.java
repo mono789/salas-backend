@@ -14,13 +14,14 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @Table(name = "restriction")
 public class Restriction implements Serializable {
     // Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restrictionId")
-    private Integer restrictionId;
+    private Long restrictionId;
 
     @Column(name = "description")
     private String description;
@@ -34,9 +35,4 @@ public class Restriction implements Serializable {
     )
     private List<Room> rooms;
 
-    // Constructor
-    public Restriction(Integer restrictionId, String description) {
-        this.restrictionId = restrictionId;
-        this.description = description;
-    }
 }
