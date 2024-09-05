@@ -1,12 +1,13 @@
 -- TABLES
 CREATE TABLE Customer (
                           customerId int NOT NULL,
-                          customerName varchar(64) NOT NULL,
-                          lastName varchar(64) NOT NULL,
-                          email varchar(64) NOT NULL,
-                          roleId int NOT NULL,
+                          firstname varchar(64) NOT NULL,
+                          lastname varchar(64) NOT NULL,
+                          username varchar(64) NOT NULL,
+                          role int NOT NULL,
+                          password varchar(64) NOT NULL,
                           PRIMARY KEY (customerId),
-                          CONSTRAINT uc_Customer_email UNIQUE (email)
+                          CONSTRAINT uc_Customer_email UNIQUE (username)
 );
 
 CREATE TABLE Role (
@@ -38,7 +39,7 @@ CREATE TABLE Reservation (
                              reservationType int NOT NULL,
                              roomId int NOT NULL,
                              reservationStateId int,
-                             customerId varchar(64) NOT NULL,
+                             customerId int NOT NULL,
                              FOREIGN KEY (reservationStateId) REFERENCES ReservationState (reservationStateId),
                              FOREIGN KEY (roomId) REFERENCES Room (roomId),
                              FOREIGN KEY (customerId) REFERENCES Customer (customerId)
@@ -83,7 +84,7 @@ CREATE TABLE RoomImplement (
 );
 
 -- CONSTRAINTS
-ALTER TABLE Customer ADD CONSTRAINT fk_CustomerRoleId FOREIGN KEY (roleId) REFERENCES Role (roleId);
+ALTER TABLE Customer ADD CONSTRAINT fk_CustomerRoleId FOREIGN KEY (role) REFERENCES Role (roleId);
 
 ALTER TABLE Reservation ADD CONSTRAINT fk_ReservStateId FOREIGN KEY (reservationStateId) REFERENCES ReservationState (reservationStateId);
 

@@ -1,0 +1,7 @@
+spring:
+    profiles:
+      active: dev
+
+app:
+    version: 0.0.1
+    description: SalasInfo backend made by Arley and Gerard
