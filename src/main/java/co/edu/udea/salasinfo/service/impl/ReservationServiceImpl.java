@@ -35,45 +35,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     }
 
-    //Lista de salones que estan libre en una hora especifica
-    @Override
-    public List<ReservationResponse> freeAll(String hour) {
-        //formato como se recibe la hora-->  2023-10-25T15:30:00.000+00:00
-
-        //capturo todas las reservas
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-
-        // Convierte el String a OffsetDateTime
-        OffsetDateTime hora = OffsetDateTime.parse(hour, formato);
-        List<Reservation> reservations = reservationDAO.findAll();
-        //comparo solo con las recervas aceptadas
-        List<Reservation> filteredReservations = reservations.stream()
-                .filter(reservation -> reservation.getReservationState().getState().equals(RStatus.ACCEPTED)).toList();
-        //lista de salones que no estan dentro de la consulta de reservas
-        List<Reservation> free = new ArrayList<>();
-
-        // evaluo si la fecha que paso se encuentra entre las fechas de ese dia horas de startsAt o endsAt
-
-        filteredReservations.forEach(reservation -> {
-            if (reservation.getStartsAt() != null) {
-                LocalDateTime fechaReserva = reservation.getStartsAt();
-
-                if (!fechaReserva.equals(hora.toLocalDateTime())) {
-                    //evaluo si el salon esta libre en  esa Hora
-                    LocalTime startTime = LocalTime.of(reservation.getStartsAt().getHour(), reservation.getStartsAt().getMinute());
-                    LocalTime endTime = LocalTime.of(reservation.getEndsAt().getHour(), reservation.getEndsAt().getMinute());
-
-                    LocalTime horaFecha = hora.toLocalTime();
-                    if (!(horaFecha.isAfter(startTime) && horaFecha.isBefore(endTime))) {
-                        free.add(reservation);
-                    }
-                } else {
-                    free.add(reservation);
-                }
-            }
-        });
-        return reservationResponseMapper.toResponses(free);
-    }
 
     //buscar segun su room
     @Override

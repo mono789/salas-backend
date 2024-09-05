@@ -9,8 +9,6 @@ import java.util.*;
 public interface ReservationService {
     List<ReservationResponse> findAll();
 
-    List<ReservationResponse> freeAll(String hour);
-
     ReservationResponse findById(Long id);
 
     ReservationResponse save(ReservationRequest reservation);

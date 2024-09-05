@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.dto.auth;
+package co.edu.udea.salasinfo.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
-    String username;
+public class RegisterRequest {
+    Integer customerId;
+    String email;
+    String document;
     String password;
+    String firstname;
+    String lastname;
 
 }
