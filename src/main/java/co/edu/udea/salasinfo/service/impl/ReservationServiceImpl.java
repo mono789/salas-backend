@@ -9,7 +9,7 @@ import co.edu.udea.salasinfo.model.Reservation;
 import co.edu.udea.salasinfo.model.ReservationState;
 import co.edu.udea.salasinfo.persistence.ReservationDAO;
 import co.edu.udea.salasinfo.service.ReservationService;
-import co.edu.udea.salasinfo.utils.enums.RState;
+import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,7 +31,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRequestMapper reservationRequestMapper;
 
     public List<ReservationResponse> findAll() {
-        return findStated(RState.ACCEPTED);
+        return reservationResponseMapper.toResponses(reservationDAO.findAll());
 
     }
 
@@ -48,7 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<Reservation> reservations = reservationDAO.findAll();
         //comparo solo con las recervas aceptadas
         List<Reservation> filteredReservations = reservations.stream()
-                .filter(reservation -> reservation.getReservationState().getState().equals(RState.ACCEPTED)).toList();
+                .filter(reservation -> reservation.getReservationState().getState().equals(RStatus.ACCEPTED)).toList();
         //lista de salones que no estan dentro de la consulta de reservas
         List<Reservation> free = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationResponse save(ReservationRequest reservation) {
         Reservation entity = reservationRequestMapper.toEntity(reservation);
         reservationDAO.findFirstByStartsAtAndRoomId(entity.getStartsAt(), entity.getRoom());
-        entity.setReservationState(ReservationState.builder().state(RState.IN_REVISION).build());//in revision
+        entity.setReservationState(ReservationState.builder().state(RStatus.IN_REVISION).build());//in revision
         Reservation result = reservationDAO.save(entity);
         return reservationResponseMapper.toResponse(result);
     }
@@ -106,25 +106,25 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation entity = reservationDAO.findById(id);
         if (reservationDAO.existsById(id))
             throw new EntityNotFoundException(Reservation.class.getSimpleName(), id);
-        entity.setReservationState(ReservationState.builder().reservationStateId(3L).build());
+        entity.setReservationState(ReservationState.builder().state(RStatus.IN_REVISION).build());
         Reservation result = reservationDAO.save(entity);
         return reservationResponseMapper.toResponse(result);
 
     }
 
     @Override
-    public ReservationResponse updateState(Long id, Long state) {
+    public ReservationResponse updateState(Long id, RStatus state) {
         Reservation reservation = reservationDAO.findById(id);
 
         //de lo contrario
-        reservation.setReservationState(ReservationState.builder().reservationStateId(state).build());
+        reservation.setReservationState(ReservationState.builder().state(state).build());
         Reservation result = reservationDAO.save(reservation);
         return reservationResponseMapper.toResponse(result);
 
     }
 
     @Override
-    public List<ReservationResponse> findStated(RState state) {
+    public List<ReservationResponse> findStated(RStatus state) {
 
         List<Reservation> reservations = reservationDAO.findAll();
         //lista de reservas

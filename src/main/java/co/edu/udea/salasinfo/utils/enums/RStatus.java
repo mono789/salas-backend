@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.utils.enums;
 
-public enum RState {
+public enum RStatus {
     ACCEPTED,
     IN_REVISION,
     REFUSED

@@ -10,6 +10,6 @@ import lombok.*;
 @Setter
 @ToString
 public class RoleResponse {
-    private Long roleId;
+    private Long id;
     private RoleName roleName;
 }

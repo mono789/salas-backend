@@ -1,8 +1,8 @@
 package co.edu.udea.salasinfo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -14,14 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @Table(name="room")
 public class Room implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     @Column(name="roomId")
-    private Long roomId;
+    private Long id;
 
     @Column(name="computerAmount", nullable = false, length = 3)
     private Integer computerAmount;
@@ -64,6 +63,8 @@ public class Room implements Serializable {
             joinColumns = @JoinColumn(name = "roomId"),
             inverseJoinColumns = @JoinColumn(name = "implementId")
     )
-    @JsonProperty("implements")
     private List<Implement> implementList;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "room")
+    private List<Reservation> reservations;
 }

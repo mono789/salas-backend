@@ -23,11 +23,14 @@ import java.util.List;
 public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "customerId", length = 20)
-    private String userId;
+    @Column(name = "customerId", length = 64)
+    private String id;
 
     @Column(name="firstname")
     private String firstname;
+
+    @Column(name = "document")
+    private String document;
 
     @Column(name="lastname")
     private String lastname;

@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 public class ApplicationResponse {
-    private Long applicationId;
-    private String applicationName;
+    private Long id;
+    private String name;
     private String version;
 }

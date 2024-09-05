@@ -1,15 +1,20 @@
 package co.edu.udea.salasinfo.service.impl;
 
 import co.edu.udea.salasinfo.dto.request.RoomRequest;
+import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
 import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
+import co.edu.udea.salasinfo.dto.response.room.RoomScheduleResponse;
+import co.edu.udea.salasinfo.dto.response.room.SpecificRoomResponse;
 import co.edu.udea.salasinfo.mapper.request.RoomRequestMapper;
 import co.edu.udea.salasinfo.mapper.response.RoomResponseMapper;
+import co.edu.udea.salasinfo.mapper.response.RoomScheduleResponseMapper;
+import co.edu.udea.salasinfo.mapper.response.SpecificRoomResponseMapper;
 import co.edu.udea.salasinfo.model.Reservation;
 import co.edu.udea.salasinfo.persistence.ReservationDAO;
 import co.edu.udea.salasinfo.persistence.RoomDAO;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.service.RoomService;
-import co.edu.udea.salasinfo.utils.enums.RState;
+import co.edu.udea.salasinfo.utils.enums.RStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,14 +34,16 @@ public class RoomServiceImpl implements RoomService {
     private final ReservationDAO reservationDAO;
     private final RoomResponseMapper roomResponseMapper;
     private final RoomRequestMapper roomRequestMapper;
+    private final SpecificRoomResponseMapper specificRoomResponseMapper;
+    private final RoomScheduleResponseMapper roomScheduleResponseMapper;
 
     /**
      * Retrieves a List of Rooms from the Database
      *
      * @return A list of the retrieved Rooms.
      */
-    public List<RoomResponse> findAll() {
-        List<Room> rooms = roomDAO.findAll();
+    public List<RoomResponse> findAll(RoomFilter filter) {
+        List<Room> rooms = roomDAO.findAll(filter);
         return roomResponseMapper.toResponses(rooms);
     }
 
@@ -47,9 +54,9 @@ public class RoomServiceImpl implements RoomService {
      * @return A Response Entity with the found room as body and status code 200
      * Or a Response Entity without body and status code 404.
      */
-    public RoomResponse findById(Long id) {
+    public SpecificRoomResponse findById(Long id) {
         Room optRoom = roomDAO.findById(id);
-        return roomResponseMapper.toResponse(optRoom);
+        return specificRoomResponseMapper.toResponse(optRoom);
     }
 
 
@@ -69,7 +76,7 @@ public class RoomServiceImpl implements RoomService {
             throw new EntityExistsException("Room with id " + id + " already exists");
         }catch (EntityExistsException e) {
             Room entity = roomRequestMapper.toEntity(room);
-            entity.setRoomId(id);
+            entity.setId(id);
             return roomResponseMapper.toResponse(roomDAO.save(entity));
         }
     }
@@ -101,20 +108,36 @@ public class RoomServiceImpl implements RoomService {
         return roomResponseMapper.toResponse(deletedRoom);
     }
 
+    /**
+     * Find free room at the given time.
+     * <p>
+     * It filters the accepted reservations, filters occupied rooms at that time and then gets occupied rooms.
+     * With those rooms it filters free rooms.
+     * @param date a date that must be between [startAt, endsAt)
+     * @return A list of free rooms at the given time.
+     */
     @Override
     public List<RoomResponse> findFreeAt(LocalDateTime date) {
         List<Reservation> reservations = reservationDAO.findAll();
         List<Room> occupiedReservations = reservations.stream()
-                .filter(reservation -> reservation.getReservationState().getState() == RState.ACCEPTED) // Accepted reservations
+                .filter(reservation -> reservation.getReservationState().getState() == RStatus.ACCEPTED) // Accepted reservations
                 .filter(reservation -> { // Reservations at that specific time
-                    log.warn("Search Date {} and class dates {} {}", date, reservation.getStartsAt(), reservation.getEndsAt());
                     if(reservation.getStartsAt().isEqual(date)) return true;
                     return date.isAfter(reservation.getStartsAt()) && date.isBefore(reservation.getEndsAt());
                 })
                 .map(Reservation::getRoom) // Occupied room
                 .toList();
-        List<Room> freeRooms = roomDAO.findAll().stream()
+        List<Room> freeRooms = roomDAO.findAll(null).stream()
                 .filter(room -> !occupiedReservations.contains(room)).toList();
         return roomResponseMapper.toResponses(freeRooms);
+    }
+
+    @Override
+    public List<RoomScheduleResponse> findRoomSchedule(Long id) {
+        Room foundRoom = roomDAO.findById(id);
+        List<Reservation> reservations = foundRoom.getReservations().stream()
+                .filter(reservation -> reservation.getReservationState().getState().equals(RStatus.ACCEPTED))
+                .toList();
+        return roomScheduleResponseMapper.toResponses(reservations);
     }
 }

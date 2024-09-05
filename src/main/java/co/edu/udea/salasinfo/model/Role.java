@@ -20,7 +20,8 @@ import java.util.List;
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
+    @Column(name = "roleId")
+    private Long id;
 
     @Column(name = "name")
     private RoleName roleName;

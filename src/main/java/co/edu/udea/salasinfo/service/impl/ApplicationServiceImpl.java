@@ -3,7 +3,6 @@ package co.edu.udea.salasinfo.service.impl;
 import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.mapper.response.RoomResponseMapper;
 import co.edu.udea.salasinfo.persistence.ApplicationDAO;
-import co.edu.udea.salasinfo.persistence.RoomDAO;
 import co.edu.udea.salasinfo.model.Application;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.service.ApplicationService;
@@ -16,7 +15,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationDAO applicationDAO;
-    private final RoomDAO roomDAO;
     private final RoomResponseMapper roomResponseMapper;
 
 
@@ -29,11 +27,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         List<Long> applicationIds = applicationNames.stream()
                 .map(name -> {
                     Application application = allApplications.stream()
-                            .filter(app -> app.getApplicationName().equals(name))
+                            .filter(app -> app.getName().equals(name))
                             .findFirst()
                             .orElse(null);
 
-                    return application != null ? application.getApplicationId() : null;
+                    return application != null ? application.getId() : null;
                 })
                 .filter(Objects::nonNull)
                         .toList();
@@ -53,7 +51,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             Application application = applicationDAO.findById(applicationId);
             if (application != null) {
                 // Obtener las salas que contienen esta app
-                List<Room> rooms = applicationDAO.findRoomsByApplicationId(application.getApplicationId());
+                List<Room> rooms = applicationDAO.findRoomsByApplicationId(application.getId());
                 tempRooms.addAll(rooms);
 
             }
@@ -64,12 +62,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         Set<Long> addedRoomIds = new HashSet<>();
         // Contar la frecuencia de cada ID en tempRooms
         for (Room room : tempRooms) {
-            Long roomId = room.getRoomId();
+            Long roomId = room.getId();
             idCountMap.put(roomId, idCountMap.getOrDefault(roomId, 0) + 1);
         }
         // Agregar solo los salones cuyo ID aparece N veces, donde N es la cantidad de appsIds
         for (Room room : tempRooms) {
-            Long roomId = room.getRoomId();
+            Long roomId = room.getId();
             if (idCountMap.get(roomId) == applicationIds.size() && !addedRoomIds.contains(roomId)) {
                 addedRoomIds.add(roomId);
                 matchedRooms.add(room);

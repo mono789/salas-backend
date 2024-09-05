@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 public class RoomResponse {
-    private Integer roomId;
+    private Integer id;
     private Integer computerAmount;
     private String building;
     private String roomNum;

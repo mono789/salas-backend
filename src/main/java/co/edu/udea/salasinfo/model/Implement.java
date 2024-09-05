@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.model;
 
-import co.edu.udea.salasinfo.utils.enums.IState;
+import co.edu.udea.salasinfo.utils.enums.ImplementCondition;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,13 +23,13 @@ public class Implement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "implementId")
-    private Long implementId;
+    private Long id;
 
     @Column(name = "implementName")
-    private String implementName;
+    private String name;
 
     @Column(name = "state")
-    private IState state;
+    private ImplementCondition state;
 
     @JsonIgnore
     @ManyToMany(

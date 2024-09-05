@@ -12,8 +12,8 @@ import java.util.List;
 @Setter
 @ToString
 public class ImplementResponse {
-    private Long implementId;
-    private String implementName;
+    private Long id;
+    private String name;
     private String state;
     private List<RoomResponse> rooms;
 }

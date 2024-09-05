@@ -26,10 +26,10 @@ public class ImplementServiceImpl implements ImplementService {
         List<Long> implementIds = implementNames.stream()
                 .map(name -> {
                     Implement implement = allImplements.stream()
-                            .filter(impl -> impl.getImplementName().equals(name))
+                            .filter(impl -> impl.getName().equals(name))
                             .findFirst()
                             .orElse(null);
-                    return implement != null ? implement.getImplementId() : null;
+                    return implement != null ? implement.getId() : null;
                 })
                 .filter(Objects::nonNull)
                 .toList();
@@ -57,13 +57,13 @@ public class ImplementServiceImpl implements ImplementService {
         Set<Long> addedRoomIds = new HashSet<>();
         // Contar la frecuencia de cada ID en tempRooms
         tempRooms.forEach(room -> {
-            Long roomId = room.getRoomId();
+            Long roomId = room.getId();
             idCountMap.put(roomId, idCountMap.getOrDefault(roomId, 0) + 1);
 
         });
         // Agregar solo los salones cuyo ID aparece N veces, donde N es la cantidad de implementIds
         tempRooms.forEach(room -> {
-            Long roomId = room.getRoomId();
+            Long roomId = room.getId();
             if (idCountMap.get(roomId) == implementIds.size() && !addedRoomIds.contains(roomId)) {
                 addedRoomIds.add(roomId);
                 matchedRooms.add(room);

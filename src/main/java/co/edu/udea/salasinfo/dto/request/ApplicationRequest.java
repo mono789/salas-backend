@@ -9,6 +9,6 @@ import lombok.*;
 @Setter
 @ToString
 public class ApplicationRequest {
-    private String applicationName;
+    private String name;
     private String version;
 }

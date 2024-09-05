@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByType(ReservationType reservationType);
     Optional<Reservation> findFirstByStartsAtAndRoom(LocalDateTime startsAt, Room roomId);
-    List<Reservation> findReservationsByRoomRoomId(Long roomId);
+    List<Reservation> findReservationsByRoomId(Long roomId);
 
 }

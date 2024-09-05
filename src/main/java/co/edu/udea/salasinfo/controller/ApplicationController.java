@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/application")
+@RequestMapping("/software")
 @RequiredArgsConstructor
 public class ApplicationController {
     private final ApplicationService applicationService;

@@ -12,6 +12,6 @@ import java.util.List;
 @ToString
 public class RoomRestrictionResponse {
     // Attributes
-    private Integer restrictionId;
+    private Integer id;
     private String description;
 }

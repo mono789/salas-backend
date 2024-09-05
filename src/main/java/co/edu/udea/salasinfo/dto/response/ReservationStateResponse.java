@@ -9,6 +9,6 @@ import lombok.*;
 @Setter
 @ToString
 public class ReservationStateResponse {
-    private Long reservationStateId;
-    private String description;
+    private Long id;
+    private String state;
 }

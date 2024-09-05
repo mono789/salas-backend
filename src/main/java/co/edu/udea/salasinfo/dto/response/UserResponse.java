@@ -10,7 +10,8 @@ import lombok.*;
 @Setter
 @Getter
 public class UserResponse {
-    private String userId;
+    private String id;
+    private String document;
     private String firstname;
     private String lastname;
     private String email;    //email

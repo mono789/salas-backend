@@ -21,10 +21,10 @@ public class Application implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "applicationId")
-    private Long applicationId;
+    private Long id;
 
     @Column(name = "applicationName")
-    private String applicationName;
+    private String name;
 
     @Column(name = "version")
     private String version;

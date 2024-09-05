@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.dto.request;
 
+import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class ReservationRequest {
     private String activityDescription;
     private LocalDateTime startsAt;
     private LocalDateTime endsAt;
-    private Integer reservationType;
+    private ReservationType type;
     private UserRequest user;
     private RoomRequest room;
     private ReservationStateRequest reservationState;

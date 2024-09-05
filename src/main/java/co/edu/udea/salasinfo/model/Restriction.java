@@ -21,7 +21,7 @@ public class Restriction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restrictionId")
-    private Long restrictionId;
+    private Long id;
 
     @Column(name = "description")
     private String description;

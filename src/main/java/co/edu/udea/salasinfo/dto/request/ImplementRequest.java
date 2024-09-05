@@ -9,6 +9,6 @@ import lombok.*;
 @Setter
 @ToString
 public class ImplementRequest {
-    private String implementName;
+    private String name;
     private String state;
 }

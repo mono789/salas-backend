@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.dto.response.room;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 public class SpecificRoomResponse {
-    private Integer roomId;
+    private Integer id;
     private Integer computerAmount;
     private String building;
     private String roomNum;
@@ -19,6 +20,7 @@ public class SpecificRoomResponse {
     private Integer subRoom;
     private List<RoomApplicationResponse> software;
     private List<RoomRestrictionResponse> restrictions;
+    @JsonProperty("implements")
     private List<RoomImplementResponse> implementList;
 
 }

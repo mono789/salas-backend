@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 public class RoomApplicationResponse {
-    private Integer applicationId;
-    private String applicationName;
+    private Integer id;
+    private String name;
     private String version;
 }

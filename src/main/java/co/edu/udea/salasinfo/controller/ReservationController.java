@@ -3,7 +3,7 @@ package co.edu.udea.salasinfo.controller;
 import co.edu.udea.salasinfo.dto.request.ReservationRequest;
 import co.edu.udea.salasinfo.dto.response.ReservationResponse;
 import co.edu.udea.salasinfo.service.ReservationService;
-import co.edu.udea.salasinfo.utils.enums.RState;
+import co.edu.udea.salasinfo.utils.enums.RStatus;
 import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Builder
 @RestController
-@RequestMapping("/reservation")
+@RequestMapping("/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;
@@ -27,26 +27,26 @@ public class ReservationController {
 
     @GetMapping("/refused")
     public ResponseEntity<List<ReservationResponse>> findRefused(){
-        return ResponseEntity.ok(reservationService.findStated(RState.REFUSED));
+        return ResponseEntity.ok(reservationService.findStated(RStatus.REFUSED));
     }
 
     @GetMapping("/accepted")
     public ResponseEntity<List<ReservationResponse>> findAccept(){
-        return ResponseEntity.ok(reservationService.findStated(RState.ACCEPTED));
+        return ResponseEntity.ok(reservationService.findStated(RStatus.ACCEPTED));
     }
 
     @GetMapping("/revision")
     public ResponseEntity<List<ReservationResponse>> findRevision(){
-        return ResponseEntity.ok(reservationService.findStated(RState.IN_REVISION));
+        return ResponseEntity.ok(reservationService.findStated(RStatus.IN_REVISION));
     }
 
     @PutMapping("/{id}/accept")
     public ResponseEntity<ReservationResponse> acceptReservation(@PathVariable Long id) {
-        return ResponseEntity.ok(reservationService.updateState(id,2L));
+        return ResponseEntity.ok(reservationService.updateState(id,RStatus.ACCEPTED));
     }
     @PutMapping("/{id}/reject")
     public ResponseEntity<ReservationResponse> rejectReservation(@PathVariable Long id) {
-        return ResponseEntity.ok(reservationService.updateState(id,1L));
+        return ResponseEntity.ok(reservationService.updateState(id, RStatus.REFUSED));
     }
 
     @GetMapping("/free/{hora}")

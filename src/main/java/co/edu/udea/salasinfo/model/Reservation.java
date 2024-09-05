@@ -21,7 +21,7 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="reservationId")
-    private Long reservationId;
+    private Long id;
 
     @Column(name="activityName", nullable = false, length = 64)
     private String activityName;
@@ -41,7 +41,7 @@ public class Reservation implements Serializable {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="customerId", referencedColumnName = "customerId")
-    private User userId;
+    private User user;
 
     @JsonIgnore
     @ManyToOne
@@ -56,7 +56,7 @@ public class Reservation implements Serializable {
     @Override
     public String toString() {
         return "Reservation{" +
-                "reservationId=" + reservationId +
+                "reservationId=" + id +
                 ", activityName='" + activityName + '\'' +
                 ", activityDescription='" + activityDescription + '\'' +
                 ", startsAt=" + startsAt +

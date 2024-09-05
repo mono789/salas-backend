@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/implement")
+@RequestMapping("/implements")
 @RequiredArgsConstructor
 public class ImplementController {
     private final ImplementService implementService;
 
     @GetMapping("/rooms")
     public ResponseEntity<List<RoomResponse>> implementMatch(@RequestParam List<String> implementNames) {
-        List<RoomResponse> matchedRooms=implementService.implementMatch(implementNames);
-        return  ResponseEntity.ok(matchedRooms);
+        List<RoomResponse> matchedRooms = implementService.implementMatch(implementNames);
+        return ResponseEntity.ok(matchedRooms);
     }
 
     // ToDo: find implement rooms

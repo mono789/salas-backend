@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.model;
 
-import co.edu.udea.salasinfo.utils.enums.RState;
+import co.edu.udea.salasinfo.utils.enums.RStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +19,9 @@ public class ReservationState implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="reservationStateId")
-    private Long reservationStateId;
+    private Long id;
 
     @Column(name="description", nullable = false, length = 20)
-    private RState state;
+    private RStatus state;
 
 }

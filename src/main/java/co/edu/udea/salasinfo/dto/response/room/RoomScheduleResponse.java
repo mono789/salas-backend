@@ -1,6 +1,5 @@
-package co.edu.udea.salasinfo.dto.response;
+package co.edu.udea.salasinfo.dto.response.room;
 
-import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import lombok.*;
 
@@ -12,14 +11,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class ReservationResponse {
+public class RoomScheduleResponse {
     private Long id;
     private String activityName;
     private String activityDescription;
     private LocalDateTime startsAt;
     private LocalDateTime endsAt;
     private ReservationType type;
-    private UserResponse user;
-    private RoomResponse room;
-    private ReservationStateResponse reservationState;
 }

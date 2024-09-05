@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class RestrictionResponse {
     // Attributes
-    private Long restrictionId;
+    private Long id;
     private String description;
     private List<RoomResponse> rooms;
 }

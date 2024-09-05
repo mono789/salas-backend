@@ -1,10 +1,14 @@
 package co.edu.udea.salasinfo.persistence.jpa;
 
+import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
 import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.persistence.RoomDAO;
 import co.edu.udea.salasinfo.repository.RoomRepository;
+import co.edu.udea.salasinfo.service.specification.RoomSpec;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,8 +25,9 @@ public class RoomJPA implements RoomDAO {
     }
 
     @Override
-    public List<Room> findAll() {
-        return roomRepository.findAll();
+    public List<Room> findAll(@Nullable RoomFilter filter) {
+        Specification<Room> specs = RoomSpec.filterBy(filter);
+        return roomRepository.findAll(specs);
     }
 
     @Override

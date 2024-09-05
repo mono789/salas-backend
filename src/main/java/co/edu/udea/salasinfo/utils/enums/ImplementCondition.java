@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.utils.enums;
 
-public enum IState {
+public enum ImplementCondition {
     GOOD,
     MEDIUM,
     BAD,

@@ -9,14 +9,14 @@ spring: # Spring Configuration
 
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: create
             naming:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         properties:
             hibernate:
                 format_sql: true
         database-platform: org.hibernate.dialect.PostgreSQLDialect
-        show-sql: true
+        show-sql: false
         database: postgresql
 
 server:

@@ -9,5 +9,5 @@ import lombok.*;
 @Setter
 @ToString
 public class ReservationStateRequest {
-    private String description;
+    private String state;
 }

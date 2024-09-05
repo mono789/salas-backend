@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 public class RoomImplementResponse {
-    private Integer implementId;
-    private String implementName;
+    private Integer id;
+    private String name;
     private String state;
 }
