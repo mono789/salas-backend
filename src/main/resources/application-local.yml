@@ -31,3 +31,10 @@ logging:
             springframework:
                 web: trace
 
+jwt:
+    secret_key: 87b19ab09c7f3a0da74dadc36353101073f7b63d86190cd1160d2be978290239
+    expiration_time: 86400000
+
+allowed-origins:
+    http://localhost:3000/,
+    *,

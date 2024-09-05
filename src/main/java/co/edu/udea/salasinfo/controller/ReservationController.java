@@ -49,11 +49,6 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.updateState(id, RStatus.REFUSED));
     }
 
-    @GetMapping("/free/{hora}")
-    public ResponseEntity<List<ReservationResponse>> freeAll(@PathVariable String hora){
-        return ResponseEntity.ok(reservationService.freeAll(hora));
-    }
-
     @PostMapping()
     public ResponseEntity<ReservationResponse> save(@RequestBody ReservationRequest reservation) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));

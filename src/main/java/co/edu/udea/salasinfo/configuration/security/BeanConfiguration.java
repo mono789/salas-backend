@@ -1,8 +1,9 @@
-package co.edu.udea.salasinfo.security;
+package co.edu.udea.salasinfo.configuration.security;
 
 import co.edu.udea.salasinfo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,7 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+@Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
     private final UserRepository userRepository;
@@ -28,17 +32,20 @@ public class BeanConfiguration {
         return authenticationProvider;
     }
 
-    //encripto la password
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    //busco y capturo el username
     @Bean
     public UserDetailsService userDetailService() {
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(()->new UsernameNotFoundException("Usuario no encontrado"));
+    }
+
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
     }
 
 }
