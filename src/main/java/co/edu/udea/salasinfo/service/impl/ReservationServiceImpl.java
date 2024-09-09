@@ -10,6 +10,8 @@ import co.edu.udea.salasinfo.mapper.response.ReservationResponseMapper;
 import co.edu.udea.salasinfo.model.Reservation;
 import co.edu.udea.salasinfo.model.ReservationState;
 import co.edu.udea.salasinfo.persistence.ReservationDAO;
+import co.edu.udea.salasinfo.persistence.ReservationStateDAO;
+import co.edu.udea.salasinfo.persistence.RoleDAO;
 import co.edu.udea.salasinfo.service.ReservationService;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
@@ -27,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationDAO reservationDAO;
+    private final ReservationStateDAO reservationStateDAO;
     private final ReservationResponseMapper reservationResponseMapper;
     private final ReservationRequestMapper reservationRequestMapper;
 
@@ -46,7 +49,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservationDAO.existsByStartsAtAndRoomId(entity.getStartsAt(), entity.getRoom()))
             throw new RoomOccupiedAtException(entity.getRoom().getId().toString(), entity.getStartsAt());
 
-        entity.setReservationState(ReservationState.builder().state(RStatus.IN_REVISION).build());//in revision
+        entity.setReservationState(reservationStateDAO.findByState(RStatus.IN_REVISION));
         Reservation result = reservationDAO.save(entity);
         return reservationResponseMapper.toResponse(result);
     }
@@ -132,9 +135,11 @@ public class ReservationServiceImpl implements ReservationService {
                 startAt = startAt.plusWeeks(1L);
             }
         });
+
+        ReservationState reservationState = reservationStateDAO.findByState(RStatus.ACCEPTED);
         return reservationRequestMapper.toEntities(reservationRequests).stream()
                 .map(reservation -> {
-                    reservation.setReservationState(ReservationState.builder().state(RStatus.ACCEPTED).build());
+                    reservation.setReservationState(reservationState);
                     return reservation;
                 }).toList();
     }

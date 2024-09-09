@@ -39,17 +39,17 @@ public class Reservation implements Serializable {
     private ReservationType type;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="customerId", referencedColumnName = "customerId")
     private User user;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="roomId", referencedColumnName = "roomId")
     private Room room;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="reservationStateId", referencedColumnName = "reservationStateId")
     private ReservationState reservationState;
 
