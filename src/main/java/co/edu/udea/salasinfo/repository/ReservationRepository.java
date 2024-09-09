@@ -8,12 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByType(ReservationType reservationType);
-    Optional<Reservation> findFirstByStartsAtAndRoom(LocalDateTime startsAt, Room roomId);
     List<Reservation> findReservationsByRoomId(Long roomId);
+    boolean existsByStartsAtAndRoom(LocalDateTime startsAt, Room roomId);
 
 }

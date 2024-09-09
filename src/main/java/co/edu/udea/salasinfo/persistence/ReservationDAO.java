@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface ReservationDAO{
     Reservation save(Reservation reservation);
+    List<Reservation> saveAll(List<Reservation> reservations);
     List<Reservation> findAll();
     List<Reservation> findByType(ReservationType reservationType);
-    Reservation findFirstByStartsAtAndRoomId(LocalDateTime startsAt, Room roomId);
+    boolean existsByStartsAtAndRoomId(LocalDateTime startsAt, Room roomId);
     List<Reservation> findReservationsByRoomIdRoomId(Long roomId);
     boolean existsById(Long reservationId);
     void deleteById(Long reservationId);
