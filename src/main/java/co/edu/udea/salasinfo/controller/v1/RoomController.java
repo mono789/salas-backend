@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.controller;
+package co.edu.udea.salasinfo.controller.v1;
 
 import co.edu.udea.salasinfo.dto.request.RoomRequest;
 import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/rooms")
+@RequestMapping("/v1/rooms")
 @RequiredArgsConstructor
 public class RoomController {
 
@@ -43,6 +44,7 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<RoomResponse> save(@RequestBody RoomRequest room) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roomService.createRoom(room));
     }
@@ -60,11 +62,13 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<RoomResponse> remove(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.deleteRoom(id));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<RoomResponse> update(@PathVariable Long id, @RequestBody RoomRequest room) {
         return ResponseEntity.ok(roomService.updateRoom(id, room));
     }

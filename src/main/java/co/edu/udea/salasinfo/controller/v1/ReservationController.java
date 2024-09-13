@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.controller;
+package co.edu.udea.salasinfo.controller.v1;
 
 import co.edu.udea.salasinfo.dto.request.ClassReservationRequest;
 import co.edu.udea.salasinfo.dto.request.ReservationRequest;
@@ -18,13 +18,14 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Builder
 @RestController
-@RequestMapping("/reservations")
+@RequestMapping("/v1/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;
@@ -47,6 +48,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "409", description = "A reservation at that time, in that room already exists", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @PostMapping("/class")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MONITOR')")
     public ResponseEntity<List<ReservationResponse>> createClass(@RequestBody @Valid ClassReservationRequest reservation) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 reservationService.saveClass(reservation)
@@ -67,6 +69,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "200", description = "List with just refused reservations", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
     })
     @GetMapping("/rejected")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<ReservationResponse>> findRefused() {
         return ResponseEntity.ok(reservationService.findStated(RStatus.REJECTED));
     }
@@ -95,6 +98,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "404", description = "Reservation not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @PutMapping("/{id}/accept")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ReservationResponse> acceptReservation(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.updateState(id, RStatus.ACCEPTED));
     }
@@ -105,6 +109,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "404", description = "Reservation not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @PutMapping("/{id}/reject")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ReservationResponse> rejectReservation(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.updateState(id, RStatus.REJECTED));
     }

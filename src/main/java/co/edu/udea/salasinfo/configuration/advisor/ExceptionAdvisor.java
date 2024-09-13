@@ -2,10 +2,7 @@ package co.edu.udea.salasinfo.configuration.advisor;
 
 import co.edu.udea.salasinfo.configuration.advisor.responses.ExceptionResponse;
 import co.edu.udea.salasinfo.configuration.advisor.responses.ValidationExceptionResponse;
-import co.edu.udea.salasinfo.exceptions.EntityAlreadyExistsException;
-import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
-import co.edu.udea.salasinfo.exceptions.ReservationNotFoundException;
-import co.edu.udea.salasinfo.exceptions.RoomOccupiedAtException;
+import co.edu.udea.salasinfo.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,7 +41,8 @@ public class ExceptionAdvisor {
 
     @ExceptionHandler({
             EntityAlreadyExistsException.class,
-            RoomOccupiedAtException.class
+            RoomOccupiedAtException.class,
+            EmailAlreadyRegisteredException.class
     })
     public ResponseEntity<ExceptionResponse> handleConflictException(RuntimeException e) {
         String message = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();

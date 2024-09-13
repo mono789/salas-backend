@@ -1,6 +1,5 @@
-package co.edu.udea.salasinfo.dto.request;
+package co.edu.udea.salasinfo.dto.request.user;
 
-import co.edu.udea.salasinfo.utils.enums.RoleName;
 import lombok.*;
 
 
@@ -15,5 +14,4 @@ public class UserRequest {
     private String lastname;
     private String email;
     private String password;
-    private RoleName roleName;
 }

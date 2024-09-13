@@ -44,8 +44,9 @@ public class SecurityConfiguration {
                         ))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(mvc.pattern("static/**")).permitAll();
-                    auth.anyRequest().permitAll();
-                    //.anyRequest().authenticated()
+                    auth.requestMatchers(mvc.pattern("/v1/auth/*")).permitAll();
+                    auth.requestMatchers(mvc.pattern("/v1/home")).permitAll();
+                    auth.anyRequest().authenticated();
                 })
                 .sessionManagement(sessionManager -> sessionManager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

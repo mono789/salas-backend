@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.controller;
+package co.edu.udea.salasinfo.controller.v1;
 
 
 import co.edu.udea.salasinfo.configuration.advisor.responses.ExceptionResponse;
@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
