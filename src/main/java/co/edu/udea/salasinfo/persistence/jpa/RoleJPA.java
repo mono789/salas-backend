@@ -15,6 +15,6 @@ public class RoleJPA implements RoleDAO {
 
     @Override
     public Role findByRoleName(RoleName roleName) {
-        return roleRepository.findByRoleName(roleName).orElseThrow(() -> new EntityNotFoundException(Role.class.getName(), roleName));
+        return roleRepository.findByRoleName(roleName).orElseThrow(() -> new EntityNotFoundException(Role.class.getName(), roleName.toString()));
     }
 }

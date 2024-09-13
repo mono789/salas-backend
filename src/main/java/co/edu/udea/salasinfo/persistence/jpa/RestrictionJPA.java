@@ -18,7 +18,7 @@ public class RestrictionJPA implements RestrictionDAO {
     @Override
     public Restriction findById(Long id) {
         return restrictionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Restriction.class.getSimpleName(), id));
+                .orElseThrow(() -> new EntityNotFoundException(Restriction.class.getSimpleName(), id.toString()));
     }
 
     @Override

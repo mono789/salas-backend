@@ -21,7 +21,7 @@ public class RoomJPA implements RoomDAO {
     @Override
     public Room findById(Long id) {
         return roomRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Room.class.getSimpleName(), id));
+                .orElseThrow(() -> new EntityNotFoundException(Room.class.getSimpleName(), id.toString()));
     }
 
     @Override

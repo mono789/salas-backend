@@ -4,6 +4,7 @@ import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
 import co.edu.udea.salasinfo.model.User;
 import co.edu.udea.salasinfo.persistence.UserDAO;
 import co.edu.udea.salasinfo.repository.UserRepository;
+import co.edu.udea.salasinfo.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class UserJPA implements UserDAO {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(Constants.EMAIL_NOT_FOUND_MESSAGE, email)));
     }
 
     @Override

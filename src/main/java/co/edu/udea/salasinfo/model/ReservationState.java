@@ -14,14 +14,14 @@ import java.io.Serializable;
 @Setter
 @ToString
 @Builder
-@Table(name="reservationstate")
+@Table(name = "reservationstate")
 public class ReservationState implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="reservationStateId")
+    @Column(name = "reservationStateId")
     private Long id;
 
-    @Column(name="description", nullable = false, length = 20, unique = true)
+    @Column(name = "description", nullable = false, length = 20, unique = true)
     private RStatus state;
 
 }

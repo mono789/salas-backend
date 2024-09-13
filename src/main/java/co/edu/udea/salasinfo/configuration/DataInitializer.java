@@ -9,13 +9,11 @@ import co.edu.udea.salasinfo.utils.enums.RoleName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
 @RequiredArgsConstructor
 public class DataInitializer {
 
@@ -110,8 +108,8 @@ public class DataInitializer {
 
             // Inserting reservation states
             ReservationState state1 = new ReservationState(null, RStatus.ACCEPTED);
-            ReservationState state2 = new ReservationState(null, RStatus.IN_REVISION);
-            ReservationState state3 = new ReservationState(null, RStatus.REFUSED);
+            ReservationState state2 = new ReservationState(null, RStatus.PENDING);
+            ReservationState state3 = new ReservationState(null, RStatus.REJECTED);
             reservationStateRepository.saveAll(Arrays.asList(state1, state2, state3));
 
             // Inserting reservations

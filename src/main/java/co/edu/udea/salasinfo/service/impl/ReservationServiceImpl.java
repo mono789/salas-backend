@@ -2,8 +2,7 @@ package co.edu.udea.salasinfo.service.impl;
 
 import co.edu.udea.salasinfo.dto.request.ClassReservationRequest;
 import co.edu.udea.salasinfo.dto.request.ReservationRequest;
-import co.edu.udea.salasinfo.dto.response.ReservationResponse;
-import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
+import co.edu.udea.salasinfo.dto.response.reservation.ReservationResponse;
 import co.edu.udea.salasinfo.exceptions.RoomOccupiedAtException;
 import co.edu.udea.salasinfo.mapper.request.ReservationRequestMapper;
 import co.edu.udea.salasinfo.mapper.response.ReservationResponseMapper;
@@ -11,7 +10,6 @@ import co.edu.udea.salasinfo.model.Reservation;
 import co.edu.udea.salasinfo.model.ReservationState;
 import co.edu.udea.salasinfo.persistence.ReservationDAO;
 import co.edu.udea.salasinfo.persistence.ReservationStateDAO;
-import co.edu.udea.salasinfo.persistence.RoleDAO;
 import co.edu.udea.salasinfo.service.ReservationService;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
@@ -49,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservationDAO.existsByStartsAtAndRoomId(entity.getStartsAt(), entity.getRoom()))
             throw new RoomOccupiedAtException(entity.getRoom().getId().toString(), entity.getStartsAt());
 
-        entity.setReservationState(reservationStateDAO.findByState(RStatus.IN_REVISION));
+        entity.setReservationState(reservationStateDAO.findByState(RStatus.PENDING));
         Reservation result = reservationDAO.save(entity);
         return reservationResponseMapper.toResponse(result);
     }
@@ -75,11 +73,14 @@ public class ReservationServiceImpl implements ReservationService {
     //actualizar una reserva existente
     @Override
     public ReservationResponse update(Long id, ReservationRequest reservation) {
-        //TODO: review update method
         Reservation entity = reservationDAO.findById(id);
-        if (reservationDAO.existsById(id))
-            throw new EntityNotFoundException(Reservation.class.getSimpleName(), id);
-        entity.setReservationState(ReservationState.builder().state(RStatus.IN_REVISION).build());
+        Reservation mapped = reservationRequestMapper.toEntity(reservation);
+        if(mapped.getActivityName() != null) entity.setActivityName(entity.getActivityName());
+        if(mapped.getActivityDescription() != null) entity.setActivityDescription(entity.getActivityDescription());
+        if(mapped.getStartsAt() != null) entity.setStartsAt(entity.getStartsAt());
+        if(mapped.getEndsAt() != null) entity.setEndsAt(entity.getEndsAt());
+        if(mapped.getRoom() != null) entity.setRoom(entity.getRoom());
+        if(mapped.getReservationState() != null) entity.setReservationState(entity.getReservationState());
         Reservation result = reservationDAO.save(entity);
         return reservationResponseMapper.toResponse(result);
 
@@ -89,26 +90,21 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationResponse updateState(Long id, RStatus state) {
         Reservation reservation = reservationDAO.findById(id);
 
-        //de lo contrario
-        reservation.setReservationState(ReservationState.builder().state(state).build());
+        reservation.setReservationState(reservationStateDAO.findByState(state));
         Reservation result = reservationDAO.save(reservation);
         return reservationResponseMapper.toResponse(result);
-
     }
 
+    /**
+     * Filters reservations and returns which match with the given RState
+     * @param state status of the reservation
+     * @return A list with the filtered reservations
+     */
     @Override
     public List<ReservationResponse> findStated(RStatus state) {
-
-        List<Reservation> reservations = reservationDAO.findAll();
-        //lista de reservas
-        List<Reservation> type = new ArrayList<>();
-        //itero por las recervas
-        reservations.forEach(reservation -> {
-            if (reservation.getReservationState().getState().equals(state))
-                type.add(reservation);
-
-        });
-        return reservationResponseMapper.toResponses(type);
+        List<Reservation> reservations = reservationDAO.findAll().stream()
+                .filter(reservation -> state.equals(reservation.getReservationState().getState())).toList();
+        return reservationResponseMapper.toResponses(reservations);
     }
 
 

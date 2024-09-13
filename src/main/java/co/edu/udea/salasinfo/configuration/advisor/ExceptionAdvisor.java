@@ -1,7 +1,7 @@
-package co.edu.udea.salasinfo.controller;
+package co.edu.udea.salasinfo.configuration.advisor;
 
-import co.edu.udea.salasinfo.dto.response.ExceptionResponse;
-import co.edu.udea.salasinfo.dto.response.ValidationExceptionResponse;
+import co.edu.udea.salasinfo.configuration.advisor.responses.ExceptionResponse;
+import co.edu.udea.salasinfo.configuration.advisor.responses.ValidationExceptionResponse;
 import co.edu.udea.salasinfo.exceptions.EntityAlreadyExistsException;
 import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
 import co.edu.udea.salasinfo.exceptions.ReservationNotFoundException;

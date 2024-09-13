@@ -1,5 +1,6 @@
-package co.edu.udea.salasinfo.configuration.security.jwt;
+package co.edu.udea.salasinfo.configuration.security.filter;
 
+import co.edu.udea.salasinfo.configuration.security.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,16 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String authorizationHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String username;
 
-        if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if(authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwt = authorizationHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
+        final String jwt = authorizationHeader.substring(7);
+        final String username = jwtService.extractUsername(jwt);
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -58,4 +57,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
 }

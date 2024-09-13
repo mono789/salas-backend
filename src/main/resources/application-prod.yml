@@ -16,6 +16,10 @@ spring: # Spring Configuration
     show-sql: false
     database: postgresql
 
+jwt:
+  secret_key: 87b19ab09c7f3a0da74dadc36353101073f7b63d86190cd1160d2be978290239
+  expiration_time: 86400000
+
 server:
   servlet:
     context-path: ${APP_PATH:/salasinfo}

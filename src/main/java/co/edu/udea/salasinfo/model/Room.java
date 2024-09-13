@@ -15,26 +15,26 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@Table(name="room")
+@Table(name = "room")
 public class Room implements Serializable {
     @Id
     @NotNull
-    @Column(name="roomId")
+    @Column(name = "roomId")
     private Long id;
 
-    @Column(name="computerAmount", nullable = false, length = 3)
+    @Column(name = "computerAmount", nullable = false, length = 3)
     private Integer computerAmount;
 
-    @Column(name="building", nullable = false, length = 16)
+    @Column(name = "building", nullable = false, length = 16)
     private String building;
 
-    @Column(name="roomNum", nullable = false, length = 3)
+    @Column(name = "roomNum", nullable = false, length = 3)
     private String roomNum;
 
-    @Column(name="roomName", length = 64)
+    @Column(name = "roomName", length = 64)
     private String roomName;
 
-    @Column(name="subRoom",  length = 2)
+    @Column(name = "subRoom", length = 2)
     private Integer subRoom;
 
     @JsonIgnore

@@ -1,12 +1,11 @@
 package co.edu.udea.salasinfo.model;
 
 import co.edu.udea.salasinfo.utils.enums.RoleName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
@@ -17,7 +16,7 @@ import java.util.List;
 @ToString
 @Builder
 @Table(name = "role")
-public class Role implements Serializable {
+public class Role implements Serializable, GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roleId")
@@ -25,4 +24,9 @@ public class Role implements Serializable {
 
     @Column(name = "name")
     private RoleName roleName;
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + roleName.name();
+    }
 }
