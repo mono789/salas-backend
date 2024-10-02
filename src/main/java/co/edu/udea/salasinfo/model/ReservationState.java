@@ -21,7 +21,7 @@ public class ReservationState implements Serializable {
     @Column(name="reservationStateId")
     private Long id;
 
-    @Column(name="description", nullable = false, length = 20)
+    @Column(name="description", nullable = false, length = 20, unique = true)
     private RStatus state;
 
 }

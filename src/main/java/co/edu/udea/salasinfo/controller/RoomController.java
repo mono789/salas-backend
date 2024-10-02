@@ -2,6 +2,7 @@ package co.edu.udea.salasinfo.controller;
 
 import co.edu.udea.salasinfo.dto.request.RoomRequest;
 import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
+import co.edu.udea.salasinfo.dto.response.ExceptionResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomScheduleResponse;
 import co.edu.udea.salasinfo.dto.response.room.SpecificRoomResponse;
@@ -51,7 +52,7 @@ public class RoomController {
             @ApiResponse(responseCode = "200", description = "Found room",
                     content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = SpecificRoomResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Room not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Room not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping("/{id}")
     public ResponseEntity<SpecificRoomResponse> findById(@PathVariable Long id) {
@@ -68,7 +69,7 @@ public class RoomController {
         return ResponseEntity.ok(roomService.updateRoom(id, room));
     }
 
-    @Operation(summary = "Find schedule free room now")
+    @Operation(summary = "Find free room right now")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found free rooms",
                     content = @Content(mediaType = "application/json",
@@ -94,7 +95,8 @@ public class RoomController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found schedule list",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = RoomScheduleResponse.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = RoomScheduleResponse.class)))),
+            @ApiResponse(responseCode = "404", description = "Room not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping("/{id}/schedule")
     public ResponseEntity<List<RoomScheduleResponse>> findSchedule(@PathVariable Long id) {

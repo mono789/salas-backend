@@ -23,6 +23,11 @@ public class ReservationJPA implements ReservationDAO {
     }
 
     @Override
+    public List<Reservation> saveAll(List<Reservation> reservations) {
+        return reservationRepository.saveAll(reservations);
+    }
+
+    @Override
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
     }
@@ -33,9 +38,8 @@ public class ReservationJPA implements ReservationDAO {
     }
 
     @Override
-    public Reservation findFirstByStartsAtAndRoomId(LocalDateTime startsAt, Room roomId) {
-        return reservationRepository
-                .findFirstByStartsAtAndRoom(startsAt, roomId).orElseThrow(() -> new ReservationNotFoundException(roomId.getId()));
+    public boolean existsByStartsAtAndRoomId(LocalDateTime startsAt, Room roomId) {
+        return reservationRepository.existsByStartsAtAndRoom(startsAt, roomId);
     }
 
     @Override
