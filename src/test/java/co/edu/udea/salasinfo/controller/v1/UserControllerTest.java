@@ -3,8 +3,6 @@ package co.edu.udea.salasinfo.controller.v1;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-
 import co.edu.udea.salasinfo.configuration.security.jwt.JwtService;
 import co.edu.udea.salasinfo.dto.request.user.UserRoleRequest;
 import co.edu.udea.salasinfo.dto.response.user.RoleResponse;

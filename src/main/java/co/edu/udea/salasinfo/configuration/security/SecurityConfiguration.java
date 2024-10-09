@@ -47,12 +47,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .requireCsrfProtectionMatcher(request
-                                -> request.getMethod().equalsIgnoreCase("post")
-                                && request.getRequestURI().startsWith("/secure/")
-                        ))
+                        .requireCsrfProtectionMatcher(request ->
+                                request.getMethod()
+                                        .equalsIgnoreCase("POST") && request.getRequestURI().startsWith("/secure/")))
                 .authorizeHttpRequests(auth -> {
                     AUTH_WHITELIST.forEach(uri ->
                             auth.requestMatchers(mvc.pattern(uri)).permitAll()

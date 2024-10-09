@@ -2,8 +2,6 @@ package co.edu.udea.salasinfo.dto.response.room;
 
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
