@@ -2,10 +2,12 @@ package co.edu.udea.salasinfo.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import lombok.Generated;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Generated
 @Configuration
 public class OpenApiConfiguration {
     private static final String APPLICATION_TITLE = "SalasInfo API";

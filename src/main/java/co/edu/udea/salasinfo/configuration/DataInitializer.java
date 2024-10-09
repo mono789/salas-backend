@@ -6,6 +6,7 @@ import co.edu.udea.salasinfo.utils.enums.ImplementCondition;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import co.edu.udea.salasinfo.utils.enums.RoleName;
+import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+@Generated
 @RequiredArgsConstructor
 public class DataInitializer {
 
