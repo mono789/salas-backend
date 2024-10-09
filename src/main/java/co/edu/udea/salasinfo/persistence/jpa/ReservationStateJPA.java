@@ -15,6 +15,6 @@ public class ReservationStateJPA implements ReservationStateDAO {
 
     @Override
     public ReservationState findByState(RStatus status) {
-        return reservationStateRepository.findByState(status).orElseThrow(() -> new EntityNotFoundException(ReservationState.class.getName(), status.name()));
+        return reservationStateRepository.findByState(status).orElseThrow(() -> new EntityNotFoundException(ReservationState.class.getSimpleName(), status.name()));
     }
 }

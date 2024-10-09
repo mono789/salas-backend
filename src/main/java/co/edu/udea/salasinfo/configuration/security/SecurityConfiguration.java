@@ -20,18 +20,29 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authProvider;
     private final MvcRequestMatcher.Builder mvc;
 
     @Value("${allowed-origins}")
     private List<String> allowedOrigins;
+
+    private static final List<String> AUTH_WHITELIST = List.of(
+            // -- Swagger UI
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "static/**",
+            "/v1/auth/*",
+            "/v1/home"
+    );
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,14 +54,15 @@ public class SecurityConfiguration {
                                 && request.getRequestURI().startsWith("/secure/")
                         ))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(mvc.pattern("static/**")).permitAll();
-                    auth.requestMatchers(mvc.pattern("/v1/auth/*")).permitAll();
-                    auth.requestMatchers(mvc.pattern("/v1/home")).permitAll();
+                    AUTH_WHITELIST.forEach(uri ->
+                            auth.requestMatchers(mvc.pattern(uri)).permitAll()
+                    );
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(sessionManager -> sessionManager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
+                .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

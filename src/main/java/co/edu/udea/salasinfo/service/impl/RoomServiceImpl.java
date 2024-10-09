@@ -15,6 +15,7 @@ import co.edu.udea.salasinfo.persistence.RoomDAO;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.service.RoomService;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class RoomServiceImpl implements RoomService {
      *
      * @return A list of the retrieved Rooms.
      */
+    @Override
     public List<RoomResponse> findAll(RoomFilter filter) {
         List<Room> rooms = roomDAO.findAll(filter);
         return roomResponseMapper.toResponses(rooms);
@@ -54,6 +56,7 @@ public class RoomServiceImpl implements RoomService {
      * @return A Response Entity with the found room as body and status code 200
      * Or a Response Entity without body and status code 404.
      */
+    @Override
     public SpecificRoomResponse findById(Long id) {
         Room optRoom = roomDAO.findById(id);
         return specificRoomResponseMapper.toResponse(optRoom);
@@ -66,6 +69,8 @@ public class RoomServiceImpl implements RoomService {
      * @param room A room object with the needed attributes.
      * @return A response entity with a 200 as status code and the saved room as body if there's a success and a 400 if something is wrong.
      */
+    @Override
+    @Transactional
     public RoomResponse createRoom(RoomRequest room) {
         String stringId = room.getBuilding() +
                 room.getRoomNum() +
@@ -74,7 +79,7 @@ public class RoomServiceImpl implements RoomService {
         try {
             roomDAO.findById(id);
             throw new EntityExistsException("Room with id " + id + " already exists");
-        }catch (EntityExistsException e) {
+        } catch (EntityExistsException e) {
             Room entity = roomRequestMapper.toEntity(room);
             entity.setId(id);
             return roomResponseMapper.toResponse(roomDAO.save(entity));
@@ -88,6 +93,8 @@ public class RoomServiceImpl implements RoomService {
      * @return A response entity with 200 as status code and the updated room as body
      * or a response entity with 404 as status code.
      */
+    @Override
+    @Transactional
     public RoomResponse updateRoom(Long id, RoomRequest room) {
         Room foundRoom = roomDAO.findById(id);
         if (room.getRoomName() != null) foundRoom.setRoomName(room.getRoomName());
@@ -102,6 +109,8 @@ public class RoomServiceImpl implements RoomService {
      * @param id The id of the room that is going to be deleted.
      * @return The Deleted room.
      */
+    @Override
+    @Transactional
     public RoomResponse deleteRoom(Long id) {
         Room deletedRoom = roomDAO.findById(id);
         roomDAO.deleteById(id);
@@ -113,6 +122,7 @@ public class RoomServiceImpl implements RoomService {
      * <p>
      * It filters the accepted reservations, filters occupied rooms at that time and then gets occupied rooms.
      * With those rooms it filters free rooms.
+     *
      * @param date a date that must be between [startAt, endsAt)
      * @return A list of free rooms at the given time.
      */
@@ -122,7 +132,7 @@ public class RoomServiceImpl implements RoomService {
         List<Room> occupiedReservations = reservations.stream()
                 .filter(reservation -> reservation.getReservationState().getState() == RStatus.ACCEPTED) // Accepted reservations
                 .filter(reservation -> { // Reservations at that specific time
-                    if(reservation.getStartsAt().isEqual(date)) return true;
+                    if (reservation.getStartsAt().isEqual(date)) return true;
                     return date.isAfter(reservation.getStartsAt()) && date.isBefore(reservation.getEndsAt());
                 })
                 .map(Reservation::getRoom) // Occupied room

@@ -35,6 +35,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final RoleDAO roleDAO;
 
+    private static final String ROLE = "role";
+
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         User user = userRepository
                 .findByEmail(request.getEmail())
@@ -48,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
 
         Map<String, String> claims = new HashMap<>();
-        claims.put("role", user.getAuthorities().stream().toList().get(0).getAuthority());
+        claims.put(ROLE, user.getAuthorities().stream().toList().get(0).getAuthority());
         String token = jwtService.generateToken(claims, user);
 
         return AuthenticationResponse.builder().token(token).role(user.getRole().getRoleName()).build();

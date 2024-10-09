@@ -9,6 +9,8 @@ import co.edu.udea.salasinfo.utils.enums.RoleName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -25,6 +27,7 @@ public class DataInitializer {
     private final ImplementRepository implementRepository;
     private final ReservationStateRepository reservationStateRepository;
     private final ReservationRepository reservationRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner initDatabase() {
@@ -32,13 +35,14 @@ public class DataInitializer {
             // Inserting roles
             Role roleAdmin = new Role(null, RoleName.ADMIN);
             Role roleUser = new Role(null, RoleName.USER);
-            Role roleManager = new Role(null, RoleName.PROFESSOR);
-            roleRepository.saveAll(Arrays.asList(roleAdmin, roleUser, roleManager));
+            Role roleProfessor = new Role(null, RoleName.PROFESSOR);
+            Role roleMonitor = new Role(null, RoleName.MONITOR);
+            roleRepository.saveAll(Arrays.asList(roleAdmin, roleUser, roleProfessor, roleMonitor));
 
             // Inserting customers
-            User user1 = new User(null, "John", "Doe", "john.doe@example.com", "password1", roleAdmin);
-            User user2 = new User(null,"Jane", "Smith", "jane.smith@example.com", "password1", roleUser);
-            User user3 = new User(null, "Bob", "Johnson", "bob.johnson@example.com", "oo", roleManager);
+            User user1 = new User(null, "Juan", "Doe", "juan.doe@example.com", passwordEncoder.encode("password"), roleUser);
+            User user2 = new User(null, "Ana", "Smith", "ana.smith@example.com", passwordEncoder.encode("password"), roleProfessor);
+            User user3 = new User(null, "Roberto", "Johnson", "roberto.johnson@example.com", passwordEncoder.encode("password"), roleMonitor);
             userRepository.saveAll(Arrays.asList(user1, user2, user3));
 
             // Inserting rooms
@@ -47,7 +51,7 @@ public class DataInitializer {
                     .computerAmount(20)
                     .building("21")
                     .roomNum("101")
-                    .roomName("Conference Room 1")
+                    .roomName("Sala de Conferencias 1")
                     .subRoom(2)
                     .build();
 
@@ -56,15 +60,15 @@ public class DataInitializer {
                     .computerAmount(30)
                     .building("20")
                     .roomNum("201")
-                    .roomName("Meeting Room 1")
+                    .roomName("Sala de Reuniones 1")
                     .subRoom(0)
                     .build();
 
             Room room3 = Room.builder()
-                    .id(182101L)
+                    .id(182181L)
                     .computerAmount(15)
                     .building("18")
-                    .roomNum("210")
+                    .roomNum("218")
                     .roomName("LIS - Sala 1")
                     .subRoom(1)
                     .build();
@@ -83,9 +87,9 @@ public class DataInitializer {
             roomRepository.saveAll(Arrays.asList(room1, room2, room3));
 
             // Inserting restrictions
-            Restriction restriction1 = new Restriction(null, "No food or drinks allowed", null);
-            Restriction restriction2 = new Restriction(null, "No smoking in the room", null);
-            Restriction restriction3 = new Restriction(null, "No pets allowed", null);
+            Restriction restriction1 = new Restriction(null, "No se permiten alimentos o bebidas", null);
+            Restriction restriction2 = new Restriction(null, "No fumar en la sala", null);
+            Restriction restriction3 = new Restriction(null, "No se permiten mascotas", null);
             restrictionRepository.saveAll(Arrays.asList(restriction1, restriction2, restriction3));
 
             // Assigning restrictions to rooms
@@ -95,9 +99,9 @@ public class DataInitializer {
             roomRepository.saveAll(Arrays.asList(room1, room2, room3));
 
             // Inserting implements
-            Implement implement1 = new Implement(null, "Projector", ImplementCondition.GOOD, null);
-            Implement implement2 = new Implement(null, "Whiteboard", ImplementCondition.BROKEN, null);
-            Implement implement3 = new Implement(null, "Sound System", ImplementCondition.BAD, null);
+            Implement implement1 = new Implement(null, "Proyector", ImplementCondition.GOOD, null);
+            Implement implement2 = new Implement(null, "Pizarra", ImplementCondition.BROKEN, null);
+            Implement implement3 = new Implement(null, "Sistema de Sonido", ImplementCondition.BAD, null);
             implementRepository.saveAll(Arrays.asList(implement1, implement2, implement3));
 
             // Assigning implements to rooms
@@ -114,8 +118,8 @@ public class DataInitializer {
 
             // Inserting reservations
             Reservation reservation1 = Reservation.builder()
-                    .activityName("Board Meeting")
-                    .activityDescription("Monthly board meeting")
+                    .activityName("Reunión de la Junta")
+                    .activityDescription("Reunión mensual de la junta")
                     .startsAt(LocalDateTime.of(2023, 10, 25, 14, 30))
                     .endsAt(LocalDateTime.of(2023, 10, 25, 16, 30))
                     .type(ReservationType.ONCE)
@@ -125,25 +129,25 @@ public class DataInitializer {
                     .build();
 
             Reservation reservation2 = Reservation.builder()
-                    .activityName("Training Session")
-                    .activityDescription("New employee training")
+                    .activityName("Sesión de Capacitación")
+                    .activityDescription("Capacitación para nuevos empleados")
                     .startsAt(LocalDateTime.of(2023, 10, 28, 9, 0))
                     .endsAt(LocalDateTime.of(2023, 10, 28, 11, 0))
                     .type(ReservationType.WEEKLY)
                     .room(room3)
                     .user(user2)
-                    .reservationState(state1)
+                    .reservationState(state2)
                     .build();
 
             Reservation reservation3 = Reservation.builder()
-                    .activityName("Team Meeting")
-                    .activityDescription("Weekly team meeting")
+                    .activityName("Reunión de Equipo")
+                    .activityDescription("Reunión semanal del equipo")
                     .startsAt(LocalDateTime.of(2023, 10, 27, 15, 0))
                     .endsAt(LocalDateTime.of(2023, 10, 27, 17, 0))
                     .type(ReservationType.WEEKLY)
                     .room(room2)
                     .user(user3)
-                    .reservationState(state1)
+                    .reservationState(state3)
                     .build();
 
             reservationRepository.saveAll(Arrays.asList(reservation1, reservation2, reservation3));

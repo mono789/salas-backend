@@ -52,16 +52,4 @@ public class Reservation implements Serializable {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "reservationStateId", referencedColumnName = "reservationStateId")
     private ReservationState reservationState;
-
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "reservationId=" + id +
-                ", activityName='" + activityName + '\'' +
-                ", activityDescription='" + activityDescription + '\'' +
-                ", startsAt=" + startsAt +
-                ", endsAt=" + endsAt +
-                ", reservationType=" + type +
-                '}';
-    }
 }

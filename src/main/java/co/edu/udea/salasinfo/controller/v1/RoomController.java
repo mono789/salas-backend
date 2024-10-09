@@ -7,12 +7,14 @@ import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomScheduleResponse;
 import co.edu.udea.salasinfo.dto.response.room.SpecificRoomResponse;
 import co.edu.udea.salasinfo.service.RoomService;
+import co.edu.udea.salasinfo.utils.RestConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,51 +33,69 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @Operation(summary = "Find all rooms and, if you pass a filter parameter, filters it")
+    @Operation(summary = RestConstants.SWAGGER_FIND_ALL_ROOMS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found rooms",
-
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = RestConstants.SWAGGER_FOUND_ROOMS,
                     content = @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = RoomResponse.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = RoomResponse.class))))
     })
     @GetMapping
-    public ResponseEntity<List<RoomResponse>> findAll(RoomFilter filter) {
+    public ResponseEntity<List<RoomResponse>> findAll(@Valid RoomFilter filter) {
         return ResponseEntity.ok(roomService.findAll(filter));
     }
 
+    @Operation(summary = RestConstants.SWAGGER_CREATE_ROOM_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = RestConstants.CODE_CREATED, description = "Room created successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RoomResponse.class)))
+    })
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<RoomResponse> save(@RequestBody RoomRequest room) {
+    public ResponseEntity<RoomResponse> save(@RequestBody @Valid RoomRequest room) {
         return ResponseEntity.status(HttpStatus.CREATED).body(roomService.createRoom(room));
     }
 
-    @Operation(summary = "Find a specific room")
+    @Operation(summary = RestConstants.SWAGGER_FOUND_ROOM_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found room",
-                    content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = SpecificRoomResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Room not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = RestConstants.SWAGGER_FOUND_ROOM,
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SpecificRoomResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = RestConstants.SWAGGER_ROOM_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping("/{id}")
     public ResponseEntity<SpecificRoomResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.findById(id));
     }
 
+    @Operation(summary = RestConstants.SWAGGER_DELETE_ROOM_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = "Room deleted successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RoomResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = RestConstants.SWAGGER_ROOM_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+    })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<RoomResponse> remove(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.deleteRoom(id));
     }
 
+    @Operation(summary = RestConstants.SWAGGER_UPDATE_ROOM_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = "Room updated successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RoomResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = RestConstants.SWAGGER_ROOM_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+    })
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<RoomResponse> update(@PathVariable Long id, @RequestBody RoomRequest room) {
+    public ResponseEntity<RoomResponse> update(@PathVariable Long id, @RequestBody @Valid RoomRequest room) {
         return ResponseEntity.ok(roomService.updateRoom(id, room));
     }
 
-    @Operation(summary = "Find free room right now")
+    @Operation(summary = RestConstants.SWAGGER_FIND_FREE_ROOM_NOW_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found free rooms",
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = RestConstants.SWAGGER_FOUND_FREE_ROOMS,
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = RoomResponse.class))))
     })
@@ -84,9 +104,9 @@ public class RoomController {
         return ResponseEntity.ok(roomService.findFreeAt(LocalDateTime.now()));
     }
 
-    @Operation(summary = "Find schedule free room at a specific time")
+    @Operation(summary = RestConstants.SWAGGER_FIND_FREE_ROOM_AT_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found free rooms",
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = RestConstants.SWAGGER_FOUND_FREE_ROOMS,
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = RoomResponse.class))))
     })
@@ -95,16 +115,16 @@ public class RoomController {
         return ResponseEntity.ok(roomService.findFreeAt(date));
     }
 
-    @Operation(summary = "Find schedule of a specific room")
+    @Operation(summary = RestConstants.SWAGGER_FIND_SCHEDULE_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found schedule list",
+            @ApiResponse(responseCode = RestConstants.CODE_OK, description = RestConstants.SWAGGER_FOUND_SCHEDULE_LIST,
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = RoomScheduleResponse.class)))),
-            @ApiResponse(responseCode = "404", description = "Room not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = RestConstants.SWAGGER_ROOM_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping("/{id}/schedule")
     public ResponseEntity<List<RoomScheduleResponse>> findSchedule(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.findRoomSchedule(id));
     }
-
 }

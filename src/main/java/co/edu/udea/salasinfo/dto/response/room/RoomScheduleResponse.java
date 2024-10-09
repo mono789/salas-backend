@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.dto.response.room;
 
+import co.edu.udea.salasinfo.utils.Constants;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,10 +20,10 @@ public class RoomScheduleResponse {
     private String activityName;
     private String activityDescription;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private LocalDateTime startsAt;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private LocalDateTime endsAt;
     private ReservationType type;
 }

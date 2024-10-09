@@ -9,6 +9,7 @@ import co.edu.udea.salasinfo.mapper.response.RestrictionResponseMapper;
 import co.edu.udea.salasinfo.persistence.RestrictionDAO;
 import co.edu.udea.salasinfo.model.Restriction;
 import co.edu.udea.salasinfo.service.RestrictionService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class RestrictionServiceImpl implements RestrictionService {
      * Retrieves all existent room restrictions.
      * @return A response Entity with the Found Restrictions as body.
      */
+    @Override
     public List<RestrictionResponse> findAllRestrictions(){
         return restrictionResponseMapper.toResponses(restrictionDAO.findAll());
     }
@@ -35,6 +37,8 @@ public class RestrictionServiceImpl implements RestrictionService {
      * @param restriction The restriction to save.
      * @return A response entity with the saved restriction or a bad request.
      */
+    @Override
+    @Transactional
     public RestrictionResponse createRestriction(RestrictionRequest restriction){
         try{
             restrictionDAO .findByDescription(restriction.getDescription());
@@ -50,6 +54,7 @@ public class RestrictionServiceImpl implements RestrictionService {
      * @param id The id of the wanted restriction.
      * @return A response entity with the found restriction as body or a not found response entity.
      */
+    @Override
     public RestrictionResponse findRestrictionById(Long id) {
         Restriction foundRestriction = restrictionDAO.findById(id);
         return restrictionResponseMapper.toResponse(foundRestriction);
@@ -60,6 +65,8 @@ public class RestrictionServiceImpl implements RestrictionService {
      * @param id The restriction's id to be deleted.
      * @return A response entity  with the deleted restriction as body or just a not found code.
      */
+    @Transactional
+    @Override
     public RestrictionResponse deleteRestriction(Long id){
         Restriction foundRestriction = restrictionDAO.findById(id);
         restrictionDAO.deleteById(id);
