@@ -1,105 +1,110 @@
--- TABLES
-CREATE TABLE Customer (
-                          customerId int NOT NULL,
-                          firstname varchar(64) NOT NULL,
-                          lastname varchar(64) NOT NULL,
-                          username varchar(64) NOT NULL,
-                          role int NOT NULL,
-                          password varchar(64) NOT NULL,
+CREATE TABLE application (
+                             applicationId BIGSERIAL NOT NULL,
+                             applicationName VARCHAR(255),
+                             version VARCHAR(255),
+                             PRIMARY KEY (applicationId)
+);
+
+CREATE TABLE customer (
+                          roleId BIGINT,
+                          customerId VARCHAR(64) NOT NULL,
+                          email VARCHAR(255),
+                          firstname VARCHAR(255),
+                          lastname VARCHAR(255),
+                          password VARCHAR(255),
                           PRIMARY KEY (customerId),
-                          CONSTRAINT uc_Customer_email UNIQUE (username)
+                          CONSTRAINT UK_email_customerId UNIQUE (email, customerId)
 );
 
-CREATE TABLE Role (
-                      roleId SERIAL PRIMARY KEY,
-                      roleName varchar(64) NOT NULL,
-                      CONSTRAINT uc_RoleName UNIQUE (roleName)
+CREATE TABLE implement (
+                           state SMALLINT CHECK (state BETWEEN 0 AND 3),
+                           implementId BIGSERIAL NOT NULL,
+                           implementName VARCHAR(255),
+                           PRIMARY KEY (implementId)
 );
 
-CREATE TABLE Room (
-                      roomId SERIAL PRIMARY KEY,
-                      computerAmount int NOT NULL,
-                      building int NOT NULL,
-                      roomNum int NOT NULL,
-                      roomName varchar(32),
-                      subRoom int NOT NULL
+CREATE TABLE reservation (
+                             reservationType SMALLINT NOT NULL CHECK (reservationType BETWEEN 0 AND 1),
+                             endsAt TIMESTAMP(6) NOT NULL,
+                             reservationId BIGSERIAL NOT NULL,
+                             reservationStateId BIGINT,
+                             roomId BIGINT,
+                             startsAt TIMESTAMP(6) NOT NULL,
+                             activityName VARCHAR(64) NOT NULL,
+                             customerId VARCHAR(64),
+                             activityDescription VARCHAR(512) NOT NULL,
+                             PRIMARY KEY (reservationId)
 );
 
-CREATE TABLE ReservationState (
-                                  reservationStateId SERIAL PRIMARY KEY,
-                                  description varchar(20) NOT NULL
+CREATE TABLE reservationstate (
+                                  description SMALLINT NOT NULL UNIQUE CHECK (description BETWEEN 0 AND 2),
+                                  reservationStateId BIGSERIAL NOT NULL,
+                                  PRIMARY KEY (reservationStateId)
 );
 
-CREATE TABLE Reservation (
-                             reservationId SERIAL PRIMARY KEY,
-                             activityName varchar(64) NOT NULL,
-                             activityDescription varchar(512) NOT NULL,
-                             startsAt timestamp NOT NULL,
-                             endsAt timestamp NOT NULL,
-                             reservationType int NOT NULL,
-                             roomId int NOT NULL,
-                             reservationStateId int,
-                             customerId int NOT NULL,
-                             FOREIGN KEY (reservationStateId) REFERENCES ReservationState (reservationStateId),
-                             FOREIGN KEY (roomId) REFERENCES Room (roomId),
-                             FOREIGN KEY (customerId) REFERENCES Customer (customerId)
+CREATE TABLE restriction (
+                             restrictionId BIGSERIAL NOT NULL,
+                             description VARCHAR(255),
+                             PRIMARY KEY (restrictionId)
 );
 
-CREATE TABLE Application (
-                             applicationId SERIAL PRIMARY KEY,
-                             applicationName varchar(64) NOT NULL,
-                             version varchar(16) NOT NULL
+CREATE TABLE role (
+                      name SMALLINT CHECK (name BETWEEN 0 AND 3),
+                      roleId BIGSERIAL NOT NULL,
+                      PRIMARY KEY (roleId)
 );
 
-CREATE TABLE RoomSoftware (
-                              applicationId int NOT NULL,
-                              roomId int NOT NULL,
-                              FOREIGN KEY (applicationId) REFERENCES Application (applicationId),
-                              FOREIGN KEY (roomId) REFERENCES Room (roomId)
+CREATE TABLE room (
+                      computerAmount INTEGER NOT NULL,
+                      roomNum VARCHAR(3) NOT NULL,
+                      subRoom INTEGER,
+                      roomId BIGINT NOT NULL,
+                      building VARCHAR(16) NOT NULL,
+                      roomName VARCHAR(64),
+                      PRIMARY KEY (roomId)
 );
 
-CREATE TABLE Restriction (
-                             restrictionId SERIAL PRIMARY KEY,
-                             description varchar(128) NOT NULL
+CREATE TABLE roomimplement (
+                               implementId BIGINT NOT NULL,
+                               roomId BIGINT NOT NULL
 );
 
-CREATE TABLE RoomRestriction (
-                                 restrictionId int NOT NULL,
-                                 roomId int NOT NULL,
-                                 FOREIGN KEY (restrictionId) REFERENCES Restriction (restrictionId),
-                                 FOREIGN KEY (roomId) REFERENCES Room (roomId)
+CREATE TABLE roomrestriction (
+                                 restrictionId BIGINT NOT NULL,
+                                 roomId BIGINT NOT NULL
 );
 
-CREATE TABLE Implement (
-                           implementId SERIAL PRIMARY KEY,
-                           implementName varchar(32) NOT NULL,
-                           state varchar(32) NOT NULL
+CREATE TABLE roomsoftware (
+                              applicationId BIGINT NOT NULL,
+                              roomId BIGINT NOT NULL
 );
 
-CREATE TABLE RoomImplement (
-                               implementId int NOT NULL,
-                               roomId int NOT NULL,
-                               FOREIGN KEY (implementId) REFERENCES Implement (implementId),
-                               FOREIGN KEY (roomId) REFERENCES Room (roomId)
-);
+ALTER TABLE customer
+    ADD CONSTRAINT FK_customer_role FOREIGN KEY (roleId) REFERENCES role;
 
--- CONSTRAINTS
-ALTER TABLE Customer ADD CONSTRAINT fk_CustomerRoleId FOREIGN KEY (role) REFERENCES Role (roleId);
+ALTER TABLE reservation
+    ADD CONSTRAINT FK_reservation_state FOREIGN KEY (reservationStateId) REFERENCES reservationstate;
 
-ALTER TABLE Reservation ADD CONSTRAINT fk_ReservStateId FOREIGN KEY (reservationStateId) REFERENCES ReservationState (reservationStateId);
+ALTER TABLE reservation
+    ADD CONSTRAINT FK_reservation_room FOREIGN KEY (roomId) REFERENCES room;
 
-ALTER TABLE Reservation ADD CONSTRAINT fk_ReservRoomId FOREIGN KEY (roomId) REFERENCES Room (roomId);
+ALTER TABLE reservation
+    ADD CONSTRAINT FK_reservation_customer FOREIGN KEY (customerId) REFERENCES customer;
 
-ALTER TABLE Reservation ADD CONSTRAINT fk_ReservCustomerId FOREIGN KEY (customerId) REFERENCES Customer (customerId);
+ALTER TABLE roomimplement
+    ADD CONSTRAINT FK_room_implement FOREIGN KEY (implementId) REFERENCES implement;
 
-ALTER TABLE RoomSoftware ADD CONSTRAINT fk_RoomSoftwareId FOREIGN KEY (applicationId) REFERENCES Application (applicationId);
+ALTER TABLE roomimplement
+    ADD CONSTRAINT FK_implement_room FOREIGN KEY (roomId) REFERENCES room;
 
-ALTER TABLE RoomSoftware ADD CONSTRAINT fk_SoftwareId FOREIGN KEY (roomId) REFERENCES Room (roomId);
+ALTER TABLE roomrestriction
+    ADD CONSTRAINT FK_room_restriction FOREIGN KEY (restrictionId) REFERENCES restriction;
 
-ALTER TABLE RoomRestriction ADD CONSTRAINT fk_RoomRestrictionId FOREIGN KEY (restrictionId) REFERENCES Restriction (restrictionId);
+ALTER TABLE roomrestriction
+    ADD CONSTRAINT FK_restriction_room FOREIGN KEY (roomId) REFERENCES room;
 
-ALTER TABLE RoomRestriction ADD CONSTRAINT fk_RestrictionId FOREIGN KEY (roomId) REFERENCES Room (roomId);
+ALTER TABLE roomsoftware
+    ADD CONSTRAINT FK_room_software FOREIGN KEY (applicationId) REFERENCES application;
 
-ALTER TABLE RoomImplement ADD CONSTRAINT fk_RoomImplementId FOREIGN KEY (implementId) REFERENCES Implement (implementId);
-
-ALTER TABLE RoomImplement ADD CONSTRAINT fk_ImplementId FOREIGN KEY (roomId) REFERENCES Room (roomId);
+ALTER TABLE roomsoftware
+    ADD CONSTRAINT FK_software_room FOREIGN KEY (roomId) REFERENCES room;

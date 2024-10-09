@@ -5,7 +5,6 @@ public class Constants {
         throw new IllegalStateException("Utility class");
     }
 
-
     public static final String INVALID_TOKEN_MESSAGE = "The given token is invalid";
     public static final String INVALID_TOKEN_TYPE_MESSAGE = "The given token has a wrong typ2";
     public static final String ROOM_OCCUPIED_AT_MESSAGE = "Room '%s' is occupied at %s";
@@ -31,6 +30,12 @@ public class Constants {
     public static final String EMAIL_FIELD_NOT_NULL_MESSAGE = "'email' cannot be null";
     public static final String PASSWORD_FIELD_NOT_NULL_MESSAGE = "'password' cannot be null";
 
+    public static final String COMPUTER_AMOUNT_FIELD_NOT_NULL_MESSAGE = "'computerAmount' cannot be null";
+    public static final String BUILDING_FIELD_NOT_NULL_MESSAGE = "'building' cannot be null";
+    public static final String ROOM_NUM_FIELD_NOT_NULL_MESSAGE = "'roomNum' cannot be null";
+    public static final String ROOM_NAME_FIELD_NOT_NULL_MESSAGE = "'roomName' cannot be null";
+    public static final String SUB_ROOM_FIELD_NOT_NULL_MESSAGE = "'subRoom' cannot be null";
+
     // Past dates messages
     public static final String STARTS_AT_FIELD_NOT_PAST_MESSAGE = "'startsAt' cannot be a past date";
     public static final String ENDS_AT_FIELD_NOT_PAST_MESSAGE = "'endsAt' cannot be a past date";
@@ -47,4 +52,12 @@ public class Constants {
     public static final String EMAIL_NOT_FOUND_MESSAGE = "User with email '%s' not found";
 
     public static final String USER_REGISTERED_MESSAGE = "%s %s with '%s' has been registered";
+
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String HOUR_FORMAT = "HH:mm";
+
+
+    // Positive
+    public static final String  COMPUTER_AMOUNT_POSITIVE_MESSAGE = "'computerAmount' must be positive'";
+
 }

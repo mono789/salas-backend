@@ -20,6 +20,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     //retorna una lista de salones, recibe una lista(string) de application(columna applicationName)
     //recibo una lista de string(Applications) y capturo sus id-->retorno una lista de id
+    @Override
     public List<RoomResponse> applicationMatch(List<String> applicationNames) {
         List<Application> allApplications = applicationDAO.findAll();
 

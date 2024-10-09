@@ -20,11 +20,16 @@ import java.util.function.Function;
 @Slf4j
 @Service
 public class JwtService {
-    @Value("${jwt.secret_key}")
-    private String secret;
+    private final String secret;
 
-    @Value("${jwt.expiration_time}")
-    private Integer expirationTime;
+    private final Integer expirationTime;
+
+    public JwtService(
+            @Value("${jwt.secret_key}") String secret,
+            @Value("${jwt.expiration_time}") Integer expirationTime) {
+        this.secret = secret;
+        this.expirationTime = expirationTime;
+    }
 
     public String generateToken(Map<String, String> claims, UserDetails userDetails) {
         log.info("Generating token for user: {}", userDetails.getUsername());
@@ -51,12 +56,12 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-            final String username = getClaim(token, Claims::getSubject);
-            return username.equals(userDetails.getUsername());
+        final String username = getClaim(token, Claims::getSubject);
+        return username.equals(userDetails.getUsername());
     }
 
-    private Claims extractAllClaims(String token){
-        try{
+    private Claims extractAllClaims(String token) {
+        try {
             return Jwts.parser().verifyWith((SecretKey) getSignatureKey()).build().parseSignedClaims(token).getPayload();
         } catch (SecurityException e) {
             throw new InvalidTokenException();

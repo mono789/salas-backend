@@ -11,6 +11,7 @@ import co.edu.udea.salasinfo.model.ReservationState;
 import co.edu.udea.salasinfo.persistence.ReservationDAO;
 import co.edu.udea.salasinfo.persistence.ReservationStateDAO;
 import co.edu.udea.salasinfo.service.ReservationService;
+import co.edu.udea.salasinfo.utils.StreamUtils;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import co.edu.udea.salasinfo.utils.enums.WeekDay;
@@ -79,12 +80,12 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationResponse update(Long id, ReservationRequest reservation) {
         Reservation entity = reservationDAO.findById(id);
         Reservation mapped = reservationRequestMapper.toEntity(reservation);
-        if(mapped.getActivityName() != null) entity.setActivityName(entity.getActivityName());
-        if(mapped.getActivityDescription() != null) entity.setActivityDescription(entity.getActivityDescription());
-        if(mapped.getStartsAt() != null) entity.setStartsAt(entity.getStartsAt());
-        if(mapped.getEndsAt() != null) entity.setEndsAt(entity.getEndsAt());
-        if(mapped.getRoom() != null) entity.setRoom(entity.getRoom());
-        if(mapped.getReservationState() != null) entity.setReservationState(entity.getReservationState());
+        if (mapped.getActivityName() != null) entity.setActivityName(entity.getActivityName());
+        if (mapped.getActivityDescription() != null) entity.setActivityDescription(entity.getActivityDescription());
+        if (mapped.getStartsAt() != null) entity.setStartsAt(entity.getStartsAt());
+        if (mapped.getEndsAt() != null) entity.setEndsAt(entity.getEndsAt());
+        if (mapped.getRoom() != null) entity.setRoom(entity.getRoom());
+        if (mapped.getReservationState() != null) entity.setReservationState(entity.getReservationState());
         Reservation result = reservationDAO.save(entity);
         return reservationResponseMapper.toResponse(result);
 
@@ -102,6 +103,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * Filters reservations and returns which match with the given RState
+     *
      * @param state status of the reservation
      * @return A list with the filtered reservations
      */
@@ -138,11 +140,11 @@ public class ReservationServiceImpl implements ReservationService {
         });
 
         ReservationState reservationState = reservationStateDAO.findByState(RStatus.ACCEPTED);
-        return reservationRequestMapper.toEntities(reservationRequests).stream()
-                .map(reservation -> {
+        return StreamUtils.map(reservationRequestMapper.toEntities(reservationRequests),
+                reservation -> {
                     reservation.setReservationState(reservationState);
                     return reservation;
-                }).toList();
+                });
     }
 
     private DayOfWeek mapWeekDay(WeekDay day) {

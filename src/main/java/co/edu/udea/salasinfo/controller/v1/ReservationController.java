@@ -6,6 +6,7 @@ import co.edu.udea.salasinfo.configuration.advisor.responses.ExceptionResponse;
 import co.edu.udea.salasinfo.dto.response.reservation.ReservationResponse;
 import co.edu.udea.salasinfo.configuration.advisor.responses.ValidationExceptionResponse;
 import co.edu.udea.salasinfo.service.ReservationService;
+import co.edu.udea.salasinfo.utils.RestConstants;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -30,43 +31,57 @@ import java.util.List;
 public class ReservationController {
     private final ReservationService reservationService;
 
-    @Operation(summary = "creates a new reservation")
+    @Operation(summary = RestConstants.SWAGGER_CREATE_RESERVATION_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "reservation has been saved", content = @Content(schema = @Schema(implementation = ReservationResponse.class))),
-            @ApiResponse(responseCode = "400", description = "any of the validations is not fulfilled", content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
-            @ApiResponse(responseCode = "409", description = "A reservation at that time already exists", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_CREATED,
+                    description = RestConstants.SWAGGER_CREATE_RESERVATION_SUCCESS,
+                    content = @Content(schema = @Schema(implementation = ReservationResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_BAD_REQUEST,
+                    description = RestConstants.SWAGGER_VALIDATIONS_DONT_PASS,
+                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_CONFLICT,
+                    description = RestConstants.SWAGGER_RESERVATION_CONFLICT,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @PostMapping()
     public ResponseEntity<ReservationResponse> save(@RequestBody @Valid ReservationRequest reservation) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
     }
 
-    @Operation(summary = "creates a bunch of reservations for all the semester")
+    @Operation(summary = RestConstants.SWAGGER_CREATE_BUNCH_RESERVATIONS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "reservations have been saved", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
-            @ApiResponse(responseCode = "400", description = "any of the validations is not fulfilled", content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
-            @ApiResponse(responseCode = "409", description = "A reservation at that time, in that room already exists", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_CREATED,
+                    description = RestConstants.SWAGGER_BUNCH_RESERVATIONS_SUCCESS,
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
+            @ApiResponse(responseCode = RestConstants.CODE_BAD_REQUEST,
+                    description = RestConstants.SWAGGER_VALIDATIONS_DONT_PASS,
+                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_CONFLICT,
+                    description = RestConstants.SWAGGER_RESERVATION_CONFLICT,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @PostMapping("/class")
     @PreAuthorize("hasAnyRole('ADMIN', 'MONITOR')")
     public ResponseEntity<List<ReservationResponse>> createClass(@RequestBody @Valid ClassReservationRequest reservation) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                reservationService.saveClass(reservation)
-        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.saveClass(reservation));
     }
 
-    @Operation(summary = "find all reservations")
+    @Operation(summary = RestConstants.SWAGGER_FIND_ALL_RESERVATIONS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List with all reservations", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
+            @ApiResponse(responseCode = RestConstants.CODE_OK,
+                    description = "List with all reservations",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
     })
     @GetMapping()
     public ResponseEntity<List<ReservationResponse>> findAll() {
         return ResponseEntity.ok(reservationService.findAll());
     }
 
-    @Operation(summary = "find rejected reservations")
+    @Operation(summary = RestConstants.SWAGGER_FIND_REJECTED_RESERVATIONS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List with just refused reservations", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
+            @ApiResponse(responseCode = RestConstants.CODE_OK,
+                    description = "List with just refused reservations",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
     })
     @GetMapping("/rejected")
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -74,28 +89,36 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.findStated(RStatus.REJECTED));
     }
 
-    @Operation(summary = "find accepted reservations")
+    @Operation(summary = RestConstants.SWAGGER_FIND_ACCEPTED_RESERVATIONS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List with just accepted reservations", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
+            @ApiResponse(responseCode = RestConstants.CODE_OK,
+                    description = "List with just accepted reservations",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
     })
     @GetMapping("/accepted")
     public ResponseEntity<List<ReservationResponse>> findAccept() {
         return ResponseEntity.ok(reservationService.findStated(RStatus.ACCEPTED));
     }
 
-    @Operation(summary = "find pending reservations")
+    @Operation(summary = RestConstants.SWAGGER_FIND_PENDING_RESERVATIONS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List with just pending reservations", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
+            @ApiResponse(responseCode = RestConstants.CODE_OK,
+                    description = "List with just pending reservations",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ReservationResponse.class)))),
     })
     @GetMapping("/pending")
     public ResponseEntity<List<ReservationResponse>> findRevision() {
         return ResponseEntity.ok(reservationService.findStated(RStatus.PENDING));
     }
 
-    @Operation(summary = "Changes the state of a function to accepted")
+    @Operation(summary = "Changes the state of a reservation to accepted")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Reservation has been accepted", content = @Content(schema = @Schema(implementation = ReservationResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Reservation not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+            @ApiResponse(responseCode = RestConstants.CODE_OK,
+                    description = RestConstants.SWAGGER_ACCEPT_RESERVATION_SUCCESS,
+                    content = @Content(schema = @Schema(implementation = ReservationResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND,
+                    description = RestConstants.SWAGGER_RESERVATION_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @PutMapping("/{id}/accept")
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -103,10 +126,14 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.updateState(id, RStatus.ACCEPTED));
     }
 
-    @Operation(summary = "Changes the state of a function to rejected")
+    @Operation(summary = "Changes the state of a reservation to rejected")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Reservation has been rejected", content = @Content(schema = @Schema(implementation = ReservationResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Reservation not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+            @ApiResponse(responseCode = RestConstants.CODE_OK,
+                    description = RestConstants.SWAGGER_REJECT_RESERVATION_SUCCESS,
+                    content = @Content(schema = @Schema(implementation = ReservationResponse.class))),
+            @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND,
+                    description = RestConstants.SWAGGER_RESERVATION_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @PutMapping("/{id}/reject")
     @PreAuthorize("hasAnyRole('ADMIN')")

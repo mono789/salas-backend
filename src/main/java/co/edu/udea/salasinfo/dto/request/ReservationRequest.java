@@ -5,6 +5,7 @@ import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;
@@ -25,15 +26,15 @@ public class ReservationRequest {
     private String activityDescription;
 
     @NotNull(message = Constants.STARTS_AT_FIELD_NOT_NULL_MESSAGE)
-    @Past(message = Constants.STARTS_AT_FIELD_NOT_PAST_MESSAGE)
+    @Future(message = Constants.STARTS_AT_FIELD_NOT_PAST_MESSAGE)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private LocalDateTime startsAt;
 
     @NotNull(message = Constants.ENDS_AT_FIELD_NOT_NULL_MESSAGE)
-    @Past(message = Constants.ENDS_AT_FIELD_NOT_PAST_MESSAGE)
+    @Future(message = Constants.ENDS_AT_FIELD_NOT_PAST_MESSAGE)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private LocalDateTime endsAt;
 
     @NotNull(message = Constants.TYPE_FIELD_NOT_NULL_MESSAGE)

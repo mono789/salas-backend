@@ -18,10 +18,12 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ReservationRequestMapper {
+    @Generated
     default Room longToRoom(Long id) {
         return Room.builder().id(id).build();
     }
 
+    @Generated
     default User stringToUser(String id) {
         return User.builder().id(id).build();
     }
