@@ -1,8 +1,6 @@
 package co.edu.udea.salasinfo.persistence;
 
 import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
-import co.edu.udea.salasinfo.model.Application;
-import co.edu.udea.salasinfo.model.Implement;
 import co.edu.udea.salasinfo.model.Room;
 import jakarta.annotation.Nullable;
 
