@@ -8,10 +8,17 @@ import co.edu.udea.salasinfo.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class UserJPA implements UserDAO {
     private final UserRepository userRepository;
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 
     @Override
     public User findByEmail(String email) {

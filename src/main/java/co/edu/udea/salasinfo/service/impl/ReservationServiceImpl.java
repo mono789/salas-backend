@@ -14,6 +14,7 @@ import co.edu.udea.salasinfo.service.ReservationService;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import co.edu.udea.salasinfo.utils.enums.WeekDay;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationResponseMapper.toResponse(reservationDAO.findById(roomId));
     }
 
+    @Transactional
     @Override
     public ReservationResponse save(ReservationRequest reservation) {
         Reservation entity = reservationRequestMapper.toEntity(reservation);
@@ -52,6 +54,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationResponseMapper.toResponse(result);
     }
 
+    @Transactional
     @Override
     public List<ReservationResponse> saveClass(ClassReservationRequest classReservation) {
         List<Reservation> reservations = generateClassReservations(classReservation);
@@ -71,6 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     //actualizar una reserva existente
+    @Transactional
     @Override
     public ReservationResponse update(Long id, ReservationRequest reservation) {
         Reservation entity = reservationDAO.findById(id);
@@ -86,6 +90,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     }
 
+    @Transactional
     @Override
     public ReservationResponse updateState(Long id, RStatus state) {
         Reservation reservation = reservationDAO.findById(id);

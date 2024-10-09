@@ -36,9 +36,9 @@ public class DataInitializer {
             roleRepository.saveAll(Arrays.asList(roleAdmin, roleUser, roleManager));
 
             // Inserting customers
-            User user1 = new User(null, "123456", "John", "Doe", "john.doe@example.com", "password1", roleAdmin);
-            User user2 = new User(null, "789012","Jane", "Smith", "jane.smith@example.com", "password1", roleUser);
-            User user3 = new User(null, "345678", "Bob", "Johnson", "bob.johnson@example.com", "oo", roleManager);
+            User user1 = new User(null, "John", "Doe", "john.doe@example.com", "password1", roleAdmin);
+            User user2 = new User(null,"Jane", "Smith", "jane.smith@example.com", "password1", roleUser);
+            User user3 = new User(null, "Bob", "Johnson", "bob.johnson@example.com", "oo", roleManager);
             userRepository.saveAll(Arrays.asList(user1, user2, user3));
 
             // Inserting rooms

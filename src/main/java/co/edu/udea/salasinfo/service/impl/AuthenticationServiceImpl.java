@@ -36,22 +36,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleDAO roleDAO;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-
         User user = userRepository
                 .findByEmail(request.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException(request.getEmail()));
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getId(),
+                        request.getPassword()
+                )
+        );
 
         Map<String, String> claims = new HashMap<>();
         claims.put("role", user.getAuthorities().stream().toList().get(0).getAuthority());
         String token = jwtService.generateToken(claims, user);
 
-        return AuthenticationResponse.builder().token(token).build();
+        return AuthenticationResponse.builder().token(token).role(user.getRole().getRoleName()).build();
     }
 
     @Override

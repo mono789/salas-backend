@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.mapper.request;
 
-import co.edu.udea.salasinfo.dto.request.UserRequest;
+import co.edu.udea.salasinfo.dto.request.user.UserRequest;
 import co.edu.udea.salasinfo.model.User;
 import co.edu.udea.salasinfo.utils.Generated;
 import org.mapstruct.AnnotateWith;
