@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.dto.auth;
+package co.edu.udea.salasinfo.dto.request.auth;
 
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.configuration.security;
 
-import co.edu.udea.salasinfo.configuration.security.jwt.JwtAuthenticationFilter;
+import co.edu.udea.salasinfo.configuration.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

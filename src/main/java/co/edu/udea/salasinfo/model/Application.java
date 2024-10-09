@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
-@Table(name="application")
+@Table(name = "application")
 public class Application implements Serializable {
     // Attributes
     @Id

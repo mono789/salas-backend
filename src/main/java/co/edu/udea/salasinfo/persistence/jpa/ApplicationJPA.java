@@ -18,7 +18,7 @@ public class ApplicationJPA implements ApplicationDAO {
 
     @Override
     public Application findById(Long id) {
-        return applicationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Application.class.getSimpleName(), id));
+        return applicationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Application.class.getSimpleName(), id.toString()));
     }
 
     @Override

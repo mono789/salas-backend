@@ -2,7 +2,6 @@ package co.edu.udea.salasinfo.service.specification;
 
 import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
 import co.edu.udea.salasinfo.model.Room;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RoomSpec {

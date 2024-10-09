@@ -1,4 +1,4 @@
-package co.edu.udea.salasinfo.dto.auth;
+package co.edu.udea.salasinfo.dto.response.auth;
 
 import lombok.*;
 
@@ -10,4 +10,5 @@ import lombok.*;
 @Builder
 public class AuthenticationResponse {
     private String token;
+    private String role;
 }

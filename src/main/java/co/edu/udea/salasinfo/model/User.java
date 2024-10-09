@@ -19,46 +19,41 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="customer",uniqueConstraints = {@UniqueConstraint(columnNames = {"email","customerId"})} )
+@Table(name = "customer", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "customerId"})})
 public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "customerId", length = 64)
     private String id;
 
-    @Column(name="firstname")
+    @Column(name = "firstname")
     private String firstname;
 
-    @Column(name = "document")
-    private String document;
-
-    @Column(name="lastname")
+    @Column(name = "lastname")
     private String lastname;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
     @ManyToOne
-    @JoinColumn(name="roleId", referencedColumnName = "roleId")
+    @JoinColumn(name = "roleId", referencedColumnName = "roleId")
     private Role role;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName().toString()));
+        authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
         return authorities;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return id;
     }
 
-    //todos los booleans retornan true porque es el token el que va a decir que pasa, por lo tanto lo que retornen no afecta
     @Override
     public boolean isAccountNonExpired() {
         return true;

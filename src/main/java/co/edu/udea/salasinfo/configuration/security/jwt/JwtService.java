@@ -1,6 +1,6 @@
 package co.edu.udea.salasinfo.configuration.security.jwt;
 
-import com.emazon.user.configuration.security.jwt.exceptions.InvalidTokenException;
+import co.edu.udea.salasinfo.configuration.security.jwt.exceptions.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

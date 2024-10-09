@@ -18,7 +18,7 @@ public class ImplementJPA implements ImplementDAO {
     @Override
     public Implement findById(Long id) {
         return implementRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Implement.class.getSimpleName(), id));
+                .orElseThrow(() -> new EntityNotFoundException(Implement.class.getSimpleName(), id.toString()));
 
     }
 

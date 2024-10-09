@@ -2,7 +2,7 @@ package co.edu.udea.salasinfo.controller;
 
 import co.edu.udea.salasinfo.dto.request.RoomRequest;
 import co.edu.udea.salasinfo.dto.request.filter.RoomFilter;
-import co.edu.udea.salasinfo.dto.response.ExceptionResponse;
+import co.edu.udea.salasinfo.configuration.advisor.responses.ExceptionResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomScheduleResponse;
 import co.edu.udea.salasinfo.dto.response.room.SpecificRoomResponse;

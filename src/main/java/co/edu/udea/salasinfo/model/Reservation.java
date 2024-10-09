@@ -16,41 +16,41 @@ import java.time.LocalDateTime;
 @Setter
 //@ToString
 @Builder
-@Table(name="reservation")
+@Table(name = "reservation")
 public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="reservationId")
+    @Column(name = "reservationId")
     private Long id;
 
-    @Column(name="activityName", nullable = false, length = 64)
+    @Column(name = "activityName", nullable = false, length = 64)
     private String activityName;
 
-    @Column(name="activityDescription", nullable = false, length = 512)
+    @Column(name = "activityDescription", nullable = false, length = 512)
     private String activityDescription;
 
-    @Column(name="startsAt", nullable = false)
+    @Column(name = "startsAt", nullable = false)
     private LocalDateTime startsAt;
 
-    @Column(name="endsAt", nullable = false)
+    @Column(name = "endsAt", nullable = false)
     private LocalDateTime endsAt;
 
-    @Column(name="reservationType", nullable = false)
+    @Column(name = "reservationType", nullable = false)
     private ReservationType type;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="customerId", referencedColumnName = "customerId")
+    @JoinColumn(name = "customerId", referencedColumnName = "customerId")
     private User user;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="roomId", referencedColumnName = "roomId")
+    @JoinColumn(name = "roomId", referencedColumnName = "roomId")
     private Room room;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="reservationStateId", referencedColumnName = "reservationStateId")
+    @JoinColumn(name = "reservationStateId", referencedColumnName = "reservationStateId")
     private ReservationState reservationState;
 
     @Override
