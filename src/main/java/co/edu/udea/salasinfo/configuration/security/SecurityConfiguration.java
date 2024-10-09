@@ -1,6 +1,7 @@
 package co.edu.udea.salasinfo.configuration.security;
 
 import co.edu.udea.salasinfo.configuration.security.filter.JwtAuthenticationFilter;
+import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 
+@Generated
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -50,9 +52,8 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .requireCsrfProtectionMatcher(request ->
-                                request.getMethod()
-                                        .equalsIgnoreCase("POST") && request.getRequestURI().startsWith("/secure/")))
+                        //.requireCsrfProtectionMatcher(request -> request.getMethod() .equalsIgnoreCase("POST") && request.getRequestURI().startsWith("/secure/"))
+                )
                 .authorizeHttpRequests(auth -> {
                     AUTH_WHITELIST.forEach(uri ->
                             auth.requestMatchers(mvc.pattern(uri)).permitAll()
