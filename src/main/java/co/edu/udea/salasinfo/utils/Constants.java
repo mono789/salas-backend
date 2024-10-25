@@ -53,7 +53,7 @@ public class Constants {
 
     public static final String USER_REGISTERED_MESSAGE = "%s %s with '%s' has been registered";
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
     public static final String HOUR_FORMAT = "HH:mm";
 
 
