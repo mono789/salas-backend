@@ -1,0 +1,25 @@
+spring: # Spring Configuration
+  datasource: # Connection with database
+    url: jdbc:postgresql://${DB_HOST:db.xyiebdeoxjnkmxtutrtn.supabase.co}:${DB_PORT:5432}/${DB_NAME:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:S4lasInf0*udea}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    database: postgresql
+
+jwt:
+  secret_key: 87b19ab09c7f3a0da74dadc36353101073f7b63d86190cd1160d2be978290239
+  expiration_time: 86400000
+
+server:
+  servlet:
+    context-path: ${APP_PATH:/salasinfo}

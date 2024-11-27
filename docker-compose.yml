@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  salasinfo:
+    container_name: $PROJECT_NAME
+    image: $TAG_COMMIT
+    expose:
+      - "$PORT"
+    env_file:
+      - $ENV
+    restart: always
+    labels:
+      io.portainer.accesscontrol.users: __MEMBERSLIST__
+      io.portainer.accesscontrol.teams: po
+      traefik.http.routers.__PROJECT_NAME__.rule: PathPrefix(`/$PROJECT_NAME`)
+
+networks:
+  default:
+    external: true
+    name: web
+      
+

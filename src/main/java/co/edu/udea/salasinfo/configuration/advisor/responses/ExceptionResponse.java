@@ -1,0 +1,27 @@
+package co.edu.udea.salasinfo.configuration.advisor.responses;
+
+import co.edu.udea.salasinfo.utils.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import lombok.*;
+import org.springframework.http.HttpStatus;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+@ToString
+public class ExceptionResponse {
+    private Integer statusCode;
+    private HttpStatus status;
+    private String message;
+
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
+    private LocalDateTime timestamp;
+}
