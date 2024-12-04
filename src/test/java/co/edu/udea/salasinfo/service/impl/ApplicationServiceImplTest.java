@@ -3,10 +3,15 @@ package co.edu.udea.salasinfo.service.impl;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import co.edu.udea.salasinfo.dto.response.ApplicationResponse;
+import co.edu.udea.salasinfo.dto.response.ImplementResponse;
+import co.edu.udea.salasinfo.dto.response.RestrictionResponse;
+import co.edu.udea.salasinfo.dto.response.room.RoomApplicationResponse;
+import co.edu.udea.salasinfo.dto.response.room.RoomImplementResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
+import co.edu.udea.salasinfo.dto.response.room.RoomRestrictionResponse;
 import co.edu.udea.salasinfo.mapper.response.RoomResponseMapper;
-import co.edu.udea.salasinfo.model.Application;
-import co.edu.udea.salasinfo.model.Room;
+import co.edu.udea.salasinfo.model.*;
 import co.edu.udea.salasinfo.persistence.ApplicationDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,10 +67,46 @@ class ApplicationServiceImplTest {
         when(applicationDAO.findRoomsByApplicationId(2L)).thenReturn(roomsForApplication2);
 
         // Expected matching room (Room1 has both applications)
-        RoomResponse roomResponse = new RoomResponse(1, 1, "Room1", "Room", "Room", 0);
+        RoomResponse roomResponse = new RoomResponse();
+        // Create Application Responses
+        ApplicationResponse app1Response = new ApplicationResponse(1L, "Microsoft Word");
+        ApplicationResponse app2Response = new ApplicationResponse(2L, "Adobe Photoshop");
+        List<ApplicationResponse> applicationResponses = Arrays.asList(app1Response, app2Response);
+
+        // Create Room Application Responses
+        RoomApplicationResponse roomApp1 = new RoomApplicationResponse(1L, app1Response, "1.0");
+        RoomApplicationResponse roomApp2 = new RoomApplicationResponse(2L, app2Response, "2.5");
+        List<RoomApplicationResponse> softwareResponses = Arrays.asList(roomApp1, roomApp2);
+
+
+        ImplementResponse impl1Response = new ImplementResponse(1L, "Proyector");
+        ImplementResponse impl2Response = new ImplementResponse(2L, "Pizarrón");
+
+        RoomImplementResponse roomImpl1 = new RoomImplementResponse(1L, impl1Response, "bueno");
+        RoomImplementResponse roomImpl2 = new RoomImplementResponse(2L, impl2Response, "regular");
+        List<RoomImplementResponse> implementResponses = Arrays.asList(roomImpl1, roomImpl2);
+
+        RestrictionResponse restriction1 = new RestrictionResponse(1L, "No comida ni bebidas");
+        RestrictionResponse restriction2 = new RestrictionResponse(2L, "Horario limitado");
+
+        RoomRestrictionResponse roomRestriction1 = new RoomRestrictionResponse(1, restriction1);
+        RoomRestrictionResponse roomRestriction2 = new RoomRestrictionResponse(2, restriction2);
+        List<RoomRestrictionResponse> restrictionResponses = Arrays.asList(roomRestriction1, roomRestriction2);
+
+        // Crear instancia de RoomResponse
+
+        roomResponse.setId(1);
+        roomResponse.setComputerAmount(20);
+        roomResponse.setBuilding("Main Building");
+        roomResponse.setRoomNum("101");
+        roomResponse.setRoomName("Lab");
+        roomResponse.setSubRoom(0);
+        roomResponse.setSoftware(softwareResponses);
+        roomResponse.setRestrictions(restrictionResponses);
+        roomResponse.setImplementsList(implementResponses);
         when(roomResponseMapper.toResponses(anyList())).thenReturn(List.of(roomResponse));
 
-        List<String> applicationNames = Arrays.asList("App1", "App2");
+        List<String> applicationNames = Arrays.asList("Microsoft Word", "Adobe Photoshop");
         List<RoomResponse> result = applicationService.applicationMatch(applicationNames);
 
         // Verify the result contains only Room1

@@ -1,6 +1,6 @@
 spring: # Spring Configuration
     datasource: # Connection with database
-        url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:salasinfo}
+        url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgress}
         username: ${DB_USER:postgres}
         password: ${DB_PASSWORD:123}
         driver-class-name: org.postgresql.Driver

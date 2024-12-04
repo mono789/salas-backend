@@ -1,8 +1,5 @@
 package co.edu.udea.salasinfo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,9 +10,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@Table(name = "roomsoftware")
-public class RoomApplication {
-
+@Table(name = "roomrestriction")
+public class RoomRestriction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Identificador único
@@ -25,9 +21,6 @@ public class RoomApplication {
     private Room room;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "applicationId", nullable = false)
-    private Application application;
-
-    @Column(name = "version", nullable = false)
-    private String version; // Atributo adicional
+    @JoinColumn(name = "restrictionId", nullable = false)
+    private Restriction restriction;
 }

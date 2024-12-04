@@ -33,7 +33,7 @@ class RestrictionJPATest {
         restriction = Restriction.builder()
                 .id(1L)
                 .description("No food allowed")
-                .rooms(Collections.emptyList()) // Assuming no rooms initially
+                .roomRestrictions(Collections.emptyList()) // Assuming no rooms initially
                 .build();
     }
 

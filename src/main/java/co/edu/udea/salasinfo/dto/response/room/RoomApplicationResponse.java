@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.dto.response.room;
 
+import co.edu.udea.salasinfo.dto.response.ApplicationResponse;
 import lombok.*;
 
 @Data
@@ -11,7 +12,6 @@ import lombok.*;
 @Builder
 public class RoomApplicationResponse {
     private Long id;
-    private Long roomId;
-    private Long applicationId;
+    private ApplicationResponse application;
     private String version;
 }

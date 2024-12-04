@@ -92,10 +92,22 @@ public class DataInitializer {
             Restriction restriction3 = new Restriction(null, "No se permiten mascotas", null);
             restrictionRepository.saveAll(Arrays.asList(restriction1, restriction2, restriction3));
 
+            RoomRestriction roomRestriction1 = new RoomRestriction();
+            roomRestriction1.setRoom(room1);
+            roomRestriction1.setRestriction(restriction1);
+
+            RoomRestriction roomRestriction2 = new RoomRestriction();
+            roomRestriction2.setRoom(room2);
+            roomRestriction2.setRestriction(restriction2);
+
+            RoomRestriction roomRestriction3 = new RoomRestriction();
+            roomRestriction3.setRoom(room3);
+            roomRestriction3.setRestriction(restriction3);
+
             // Assigning restrictions to rooms
-            room1.setRestrictions(List.of(restriction1));
-            room2.setRestrictions(List.of(restriction2));
-            room3.setRestrictions(List.of(restriction3));
+            room1.setRestrictions(List.of(roomRestriction1));
+            room2.setRestrictions(List.of(roomRestriction2));
+            room3.setRestrictions(List.of(roomRestriction3));
             roomRepository.saveAll(Arrays.asList(room1, room2, room3));
 
             // Inserting implements

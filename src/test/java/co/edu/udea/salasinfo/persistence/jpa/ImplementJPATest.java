@@ -3,6 +3,7 @@ package co.edu.udea.salasinfo.persistence.jpa;
 import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
 import co.edu.udea.salasinfo.model.Implement;
 import co.edu.udea.salasinfo.model.Room;
+import co.edu.udea.salasinfo.model.RoomImplement;
 import co.edu.udea.salasinfo.repository.ImplementRepository;
 import co.edu.udea.salasinfo.utils.enums.ImplementCondition;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ class ImplementJPATest {
         implement = Implement.builder()
                 .id(1L)
                 .name("Projector")
-                .rooms(Collections.emptyList())
+                .roomImplements(Collections.emptyList())
                 .build();
     }
 
@@ -87,7 +88,9 @@ class ImplementJPATest {
         room1.setId(1L);
         room1.setRoomName("Room A");
 
-        implement.setRooms(List.of(room1));
+        RoomImplement roomImplement = new RoomImplement(1L, room1, implement, "bueno");
+
+        implement.setRoomImplements(List.of(roomImplement));
         when(implementRepository.findById(1L)).thenReturn(Optional.of(implement));
 
         // Act
