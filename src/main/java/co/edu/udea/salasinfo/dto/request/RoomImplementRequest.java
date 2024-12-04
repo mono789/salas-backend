@@ -16,5 +16,5 @@ public class RoomImplementRequest {
     private Long implementId;
 
     @NotNull
-    private ImplementCondition condition;
+    private ImplementCondition state;
 }

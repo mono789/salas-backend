@@ -39,6 +39,9 @@ public class RestrictionServiceImpl implements RestrictionService {
     @Transactional
     public RestrictionResponse createRestriction(RestrictionRequest restriction) {
         // Se verifica descripción para no tener restricciones duplicadas
+        if (restrictionDAO.existsByDescription(restriction.getDescription())) {
+            throw new IllegalArgumentException("A restriction with description '" + restriction.getDescription() + "' already exists.");
+        }
 
         // Si no está duplicado, creamos la restricción
         Restriction entity = restrictionRequestMapper.toEntity(restriction);

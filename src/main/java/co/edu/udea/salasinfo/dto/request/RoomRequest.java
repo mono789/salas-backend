@@ -1,6 +1,10 @@
 package co.edu.udea.salasinfo.dto.request;
 
 import co.edu.udea.salasinfo.utils.Constants;
+import co.edu.udea.salasinfo.utils.enums.ImplementCondition;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -26,7 +30,9 @@ public class RoomRequest {
     @NotNull(message = Constants.SUB_ROOM_FIELD_NOT_NULL_MESSAGE)
     private Integer subRoom;
     private List<Long> implementIds;
-    private List<String> implementStates;
+    @Valid
+    @Enumerated(EnumType.STRING)
+    private List<ImplementCondition> implementStates;
 
     private List<Long> softwareIds;
     private List<String> softwareVersions;

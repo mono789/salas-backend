@@ -35,6 +35,10 @@ public class ImplementServiceImpl implements ImplementService {
     @Override
     @Transactional
     public ImplementResponse createImplement(ImplementRequest request) {
+
+        if (implementDAO.existsByName(request.getName())) {
+            throw new IllegalArgumentException("A implement with name '" + request.getName() + "' already exists.");
+        }
         Implement implement = implementRequestMapper.toEntity(request);
         return implementResponseMapper.toResponse(implementDAO.save(implement));
     }

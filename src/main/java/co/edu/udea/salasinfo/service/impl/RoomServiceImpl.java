@@ -110,7 +110,7 @@ public class RoomServiceImpl implements RoomService {
                 RoomImplement roomImplement = RoomImplement.builder()
                         .room(room)  // Usamos la sala ya persistida
                         .implement(implement)
-                        .state(roomRequest.getImplementStates().get(i))
+                        .state(String.valueOf(roomRequest.getImplementStates().get(i)))
                         .build();
                 roomImplementDAO.save(roomImplement);
                 roomImplementList.add(roomImplement);
@@ -204,7 +204,7 @@ public class RoomServiceImpl implements RoomService {
                 RoomImplement roomImplement = RoomImplement.builder()
                         .room(foundRoom)
                         .implement(implement)
-                        .state(roomRequest.getImplementStates().get(i))
+                        .state(String.valueOf(roomRequest.getImplementStates().get(i)))
                         .build();
                 roomImplementDAO.save(roomImplement);
                 roomImplementList.add(roomImplement);
