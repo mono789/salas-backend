@@ -13,4 +13,5 @@ public interface RestrictionDAO{
     Restriction findByDescription(String description);
     void deleteById(Long id);
     List<Restriction> findAllById(List<Long> restrictionIds);
+    boolean existsByDescription(String description);
 }

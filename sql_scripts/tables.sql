@@ -72,14 +72,13 @@ CREATE TABLE roomimplement (
 
 CREATE TABLE roomrestriction (
                                  restrictionId BIGINT NOT NULL,
-                                 roomId BIGINT NOT NULL,
-                                 version VARCHAR(20) NOT NULL
+                                 roomId BIGINT NOT NULL
 );
 
 CREATE TABLE roomsoftware (
                               applicationId BIGINT NOT NULL,
                               roomId BIGINT NOT NULL,
-                              version VARCHAR(20) NOT NULL
+                              version VARCHAR(20)
 );
 
 ALTER TABLE customer

@@ -2,6 +2,7 @@ package co.edu.udea.salasinfo.persistence;
 
 import co.edu.udea.salasinfo.model.Application;
 import co.edu.udea.salasinfo.model.Room;
+import co.edu.udea.salasinfo.model.RoomApplication;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface ApplicationDAO{
     void deleteById(Long id);
     Application save(Application application);
     List<Application> findAllById(List<Long> softwareIds);
+    boolean existsByName(String name);
 }

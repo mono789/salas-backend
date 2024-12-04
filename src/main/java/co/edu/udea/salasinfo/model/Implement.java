@@ -29,11 +29,6 @@ public class Implement implements Serializable {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(
-            targetEntity = Room.class,
-            mappedBy = "implementList",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    private List<Room> rooms;
+    @OneToMany(mappedBy = "implement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RoomImplement> roomImplements;
 }

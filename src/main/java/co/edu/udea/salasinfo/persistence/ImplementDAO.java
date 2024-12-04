@@ -13,4 +13,5 @@ public interface ImplementDAO {
     void deleteById(Long id);
     Implement save(Implement implement);
     List<Implement> findAllById(List<Long> implementIds);
+    boolean existsByName(String name);
 }

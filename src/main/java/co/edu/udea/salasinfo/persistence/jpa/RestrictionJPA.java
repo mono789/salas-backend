@@ -1,7 +1,6 @@
 package co.edu.udea.salasinfo.persistence.jpa;
 
 import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
-import co.edu.udea.salasinfo.model.Application;
 import co.edu.udea.salasinfo.model.Restriction;
 import co.edu.udea.salasinfo.persistence.RestrictionDAO;
 import co.edu.udea.salasinfo.repository.RestrictionRepository;
@@ -47,5 +46,10 @@ public class RestrictionJPA implements RestrictionDAO {
     @Override
     public List<Restriction> findAllById(List<Long> restrictionIds) {
         return restrictionRepository.findAllById(restrictionIds);
+    }
+
+    @Override
+    public boolean existsByDescription(String description) {
+        return restrictionRepository.existsByDescription(description);
     }
 }

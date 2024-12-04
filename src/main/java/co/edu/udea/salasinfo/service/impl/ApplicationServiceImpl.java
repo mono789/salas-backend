@@ -6,6 +6,7 @@ import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.mapper.request.ApplicationRequestMapper;
 import co.edu.udea.salasinfo.mapper.response.ApplicationResponseMapper;
 import co.edu.udea.salasinfo.mapper.response.RoomResponseMapper;
+import co.edu.udea.salasinfo.model.RoomApplication;
 import co.edu.udea.salasinfo.persistence.ApplicationDAO;
 import co.edu.udea.salasinfo.model.Application;
 import co.edu.udea.salasinfo.model.Room;
@@ -99,6 +100,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     @Transactional
     public ApplicationResponse createApplication(ApplicationRequest request) {
+        if (applicationDAO.existsByName(request.getName())) {
+            throw new IllegalArgumentException("An application with the name '" + request.getName() + "' already exists.");
+        }
         Application application = applicationRequestMapper.toEntity(request);
         return applicationResponseMapper.toResponse(applicationDAO.save(application));
     }
@@ -107,6 +111,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     public ApplicationResponse updateApplication(Long id, ApplicationRequest request) {
         Application application = applicationDAO.findById(id);
+        if (request.getName() != null && !request.getName().equals(application.getName())
+                && applicationDAO.existsByName(request.getName())) {
+            throw new IllegalArgumentException("An application with the name '" + request.getName() + "' already exists.");
+        }
         if (request.getName() != null) application.setName(request.getName());
         return applicationResponseMapper.toResponse(applicationDAO.save(application));
     }

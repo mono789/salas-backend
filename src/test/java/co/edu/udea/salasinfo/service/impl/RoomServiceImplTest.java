@@ -136,7 +136,7 @@ class RoomServiceImplTest {
         when(roomResponseMapper.toResponse(any())).thenReturn(mockRoomResponse);
 
         // Act
-        RoomResponse response = roomService.createRoom(mockRoomRequest);
+        SpecificRoomResponse response = roomService.createRoom(mockRoomRequest);
 
         // Assert
         assertNotNull(response);
@@ -162,7 +162,7 @@ class RoomServiceImplTest {
         when(roomResponseMapper.toResponse(any())).thenReturn(mockRoomResponse);
 
         // Act
-        RoomResponse response = roomService.updateRoom(1L, mockRoomRequest);
+        SpecificRoomResponse response = roomService.updateRoom(1L, mockRoomRequest);
 
         // Assert
         assertNotNull(response);
