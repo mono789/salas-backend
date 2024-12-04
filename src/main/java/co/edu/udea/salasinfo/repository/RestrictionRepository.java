@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface RestrictionRepository extends JpaRepository<Restriction, Long> {
     public Optional<Restriction> findByDescription(String description);
+    //hacer lo mismo para verificar la existencia por description
 }
