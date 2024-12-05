@@ -28,9 +28,9 @@ public class ApplicationController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = RestConstants.CODE_OK, description = "Applications retrieved successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApplicationResponse.class)))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApplicationResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_FIND_ALL_APPLICATIONS_SUMMARY, description = RestConstants.SWAGGER_FIND_ALL_APPLICATIONS_DESCRIPTION)
     @GetMapping
     public ResponseEntity<List<ApplicationResponse>> findAll() {
         return ResponseEntity.ok(applicationService.findAll());
@@ -40,6 +40,7 @@ public class ApplicationController {
             @ApiResponse(responseCode = RestConstants.CODE_CREATED, description = "Application created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApplicationResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_SAVE_APPLICATION_SUMMARY, description = RestConstants.SWAGGER_SAVE_APPLICATION_DESCRIPTION)
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ApplicationResponse> save(@RequestBody @Valid ApplicationRequest applicationRequest) {
@@ -52,6 +53,7 @@ public class ApplicationController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = "Application not found",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_FIND_APPLICATION_BY_ID_SUMMARY, description = RestConstants.SWAGGER_FIND_APPLICATION_BY_ID_DESCRIPTION)
     @GetMapping("/{id}")
     public ResponseEntity<ApplicationResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(applicationService.findById(id));
@@ -63,7 +65,7 @@ public class ApplicationController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = "Application not found",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
-
+    @Operation(summary = RestConstants.SWAGGER_REMOVE_APPLICATION_SUMMARY, description = RestConstants.SWAGGER_REMOVE_APPLICATION_DESCRIPTION)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ApplicationResponse> remove(@PathVariable Long id) {
@@ -76,6 +78,7 @@ public class ApplicationController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = "Application not found",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_UPDATE_APPLICATION_SUMMARY, description = RestConstants.SWAGGER_UPDATE_APPLICATION_DESCRIPTION)
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ApplicationResponse> update(@PathVariable Long id, @RequestBody @Valid ApplicationRequest applicationRequest) {

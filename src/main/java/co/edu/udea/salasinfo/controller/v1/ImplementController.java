@@ -5,6 +5,7 @@ import co.edu.udea.salasinfo.dto.request.ImplementRequest;
 import co.edu.udea.salasinfo.dto.response.ImplementResponse;
 import co.edu.udea.salasinfo.service.ImplementService;
 import co.edu.udea.salasinfo.utils.RestConstants;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,6 +31,7 @@ public class ImplementController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ImplementResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_FIND_ALL_IMPLEMENTS_SUMMARY, description = RestConstants.SWAGGER_FIND_ALL_IMPLEMENTS_DESCRIPTION)
     @GetMapping
     public ResponseEntity<List<ImplementResponse>> findAll() {
         return ResponseEntity.ok(implementService.findAll());
@@ -39,6 +41,7 @@ public class ImplementController {
             @ApiResponse(responseCode = RestConstants.CODE_CREATED, description = "Implement created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ImplementResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_SAVE_IMPLEMENT_SUMMARY, description = RestConstants.SWAGGER_SAVE_APPLICATION_DESCRIPTION)
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ImplementResponse> save(@RequestBody @Valid ImplementRequest implementRequest) {
@@ -51,6 +54,7 @@ public class ImplementController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = "Application not found",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_FIND_IMPLEMENT_BY_ID_SUMMARY, description = RestConstants.SWAGGER_FIND_IMPLEMENT_BY_ID_DESCRIPTION)
     @GetMapping("/{id}")
     public ResponseEntity<ImplementResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(implementService.findById(id));
@@ -62,7 +66,7 @@ public class ImplementController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = "Application not found",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
-
+    @Operation(summary = RestConstants.SWAGGER_REMOVE_IMPLEMENT_SUMMARY, description = RestConstants.SWAGGER_REMOVE_IMPLEMENT_DESCRIPTION)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ImplementResponse> remove(@PathVariable Long id) {
@@ -75,6 +79,7 @@ public class ImplementController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = "Application not found",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
+    @Operation(summary = RestConstants.SWAGGER_UPDATE_IMPLEMENT_SUMMARY, description = RestConstants.SWAGGER_UPDATE_IMPLEMENT_DESCRIPTION)
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ImplementResponse> update(@PathVariable Long id, @RequestBody @Valid ImplementRequest implementRequest) {
