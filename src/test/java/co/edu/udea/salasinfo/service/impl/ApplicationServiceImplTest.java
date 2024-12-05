@@ -3,6 +3,7 @@ package co.edu.udea.salasinfo.service.impl;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import co.edu.udea.salasinfo.dto.request.ApplicationRequest;
 import co.edu.udea.salasinfo.dto.response.ApplicationResponse;
 import co.edu.udea.salasinfo.dto.response.ImplementResponse;
 import co.edu.udea.salasinfo.dto.response.RestrictionResponse;
@@ -10,6 +11,8 @@ import co.edu.udea.salasinfo.dto.response.room.RoomApplicationResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomImplementResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomResponse;
 import co.edu.udea.salasinfo.dto.response.room.RoomRestrictionResponse;
+import co.edu.udea.salasinfo.mapper.request.ApplicationRequestMapper;
+import co.edu.udea.salasinfo.mapper.response.ApplicationResponseMapper;
 import co.edu.udea.salasinfo.mapper.response.RoomResponseMapper;
 import co.edu.udea.salasinfo.model.*;
 import co.edu.udea.salasinfo.persistence.ApplicationDAO;
@@ -34,6 +37,18 @@ class ApplicationServiceImplTest {
 
     @Mock
     private RoomResponseMapper roomResponseMapper;
+
+    @Mock
+    private ApplicationRequestMapper applicationRequestMapper;
+
+    @Mock
+    private ApplicationResponseMapper applicationResponseMapper;
+
+    @Mock
+    private ApplicationResponse mockApplicationResponse;
+
+    @Mock
+    private Application mockApplication;
 
     private List<Application> allApplications;
 
@@ -147,4 +162,45 @@ class ApplicationServiceImplTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void createApplication_CreatesNewApplication() {
+        // Arrange
+        ApplicationRequest request = new ApplicationRequest();
+        request.setName("Application 1");
+
+        // Simulamos que no existe una aplicación con el mismo nombre
+        when(applicationDAO.existsByName(any())).thenReturn(false);
+
+        // Mapeo de la solicitud a la entidad
+        when(applicationRequestMapper.toEntity(any())).thenReturn(mockApplication);
+
+        // Guardamos la aplicación
+        when(applicationDAO.save(any())).thenReturn(mockApplication);
+
+        // Mapeo de la entidad a la respuesta
+        when(applicationResponseMapper.toResponse(any())).thenReturn(mockApplicationResponse);
+
+        // Act
+        ApplicationResponse response = applicationService.createApplication(request);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(mockApplicationResponse, response);
+        verify(applicationDAO).save(any());  // Verificamos que el DAO haya guardado la aplicación
+    }
+
+    @Test
+    void createApplication_ThrowsExceptionWhenApplicationExists() {
+        // Arrange
+        ApplicationRequest request = new ApplicationRequest();
+        request.setName("Application 1");
+
+        // Simulamos que ya existe una aplicación con el mismo nombre
+        when(applicationDAO.existsByName(any())).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> applicationService.createApplication(request));
+    }
+
 }

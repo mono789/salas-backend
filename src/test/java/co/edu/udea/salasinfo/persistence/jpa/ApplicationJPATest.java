@@ -11,6 +11,7 @@ import co.edu.udea.salasinfo.exceptions.EntityNotFoundException;
 import co.edu.udea.salasinfo.model.Application;
 import co.edu.udea.salasinfo.model.Room;
 import co.edu.udea.salasinfo.model.RoomApplication;
+import co.edu.udea.salasinfo.persistence.ApplicationDAO;
 import co.edu.udea.salasinfo.repository.ApplicationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,11 @@ class ApplicationJPATest {
     @InjectMocks
     private ApplicationJPA applicationJPA;
 
+    @Mock
     private Application mockApplication;
+
+    @Mock
+    private ApplicationDAO applicationDAO;
 
     @BeforeEach
     public void setUp() {
@@ -111,4 +116,33 @@ class ApplicationJPATest {
         assertEquals("Entity of 'Application' type searched with '1' not found", thrown.getMessage()); // Update based on your exception message implementation
         verify(applicationRepository).findById(1L);
     }
+
+    @Test
+    void existsByName_ShouldReturnTrue_WhenNameExists() {
+        // Arrange
+        String name = "Zoom";
+        when(applicationRepository.existsByName(name)).thenReturn(true);
+
+        // Act
+        boolean result = applicationDAO.existsByName(name);
+
+        // Assert
+        assertTrue(result);
+        verify(applicationRepository, times(1)).existsByName(name);
+    }
+
+    @Test
+    void existsByName_ShouldReturnFalse_WhenNameDoesNotExist() {
+        // Arrange
+        String name = "Slack";
+        when(applicationRepository.existsByName(name)).thenReturn(false);
+
+        // Act
+        boolean result = applicationDAO.existsByName(name);
+
+        // Assert
+        assertFalse(result);
+        verify(applicationRepository, times(1)).existsByName(name);
+    }
+
 }

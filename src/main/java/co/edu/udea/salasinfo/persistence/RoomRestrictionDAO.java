@@ -9,6 +9,5 @@ import org.springframework.data.repository.query.Param;
 public interface RoomRestrictionDAO extends JpaRepository<RoomRestriction, Long> {
 
     @Modifying
-    @Query("DELETE FROM RoomRestriction rr WHERE rr.room.id = :roomId")
     void deleteAllByRoomId(@Param("roomId") Long roomId);
 }

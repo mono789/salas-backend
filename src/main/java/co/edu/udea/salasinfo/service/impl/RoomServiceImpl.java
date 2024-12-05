@@ -95,8 +95,8 @@ public class RoomServiceImpl implements RoomService {
         Room room = roomRequestMapper.toEntity(roomRequest);
         room.setId(id);
 
-
-        room = roomDAO.save(room);  // Guardamos la sala primero
+        // Guardar la sala
+        room = roomDAO.save(room);
 
         // Guardar implementos con estado
         if (roomRequest.getImplementIds() != null && roomRequest.getImplementStates() != null) {
@@ -134,11 +134,8 @@ public class RoomServiceImpl implements RoomService {
                         .build();
                 roomApplicationDAO.save(roomApplication);
                 roomApplicationList.add(roomApplication);
-
             }
-
             room.setRoomApplications(roomApplicationList);
-
         }
 
         // Guardar restricciones
@@ -156,11 +153,17 @@ public class RoomServiceImpl implements RoomService {
         }
 
         // Refrescar la entidad Room para cargar relaciones
-        roomDAO.save(room);
-        Room newRoom = roomDAO.findById(room.getId());
+        room = roomDAO.save(room); // We save the room after associating with implements, software, and restrictions.
 
-        return specificRoomResponseMapper.toResponse(newRoom);
+        // Usamos findById y verificamos la existencia manualmente
+        room = roomDAO.findById(room.getId());
+        if (room == null) {
+            throw new EntityNotFoundException("Room not found");
+        }
+
+        return specificRoomResponseMapper.toResponse(room);
     }
+
 
 
     /**
@@ -280,15 +283,21 @@ public class RoomServiceImpl implements RoomService {
             throw new RuntimeException("No se puede eliminar la sala porque tiene reservas asociadas");
         }
 
-        // Limpiar relaciones
-        room.getImplementList().clear();
-        //room.getSoftware().clear();
-        room.getRestrictions().clear();
+        // Limpiar relaciones con implementos
+        if (room.getImplementList() != null && !room.getImplementList().isEmpty()) {
+            roomImplementDAO.deleteAllByRoomId(room.getId()); // Borrar implementos relacionados
+        }
 
-        // Guardar la sala con las relaciones limpiadas
-        roomDAO.save(room);
+        // Limpiar relaciones con software
+        if (room.getRoomApplications() != null && !room.getRoomApplications().isEmpty()) {
+            roomApplicationDAO.deleteAllByRoomId(room.getId()); // Borrar software relacionado
+        }
 
-        // Ahora sí eliminar la sala
+        // Limpiar relaciones con restricciones
+        if (room.getRestrictions() != null && !room.getRestrictions().isEmpty()) {
+            roomRestrictionDAO.deleteAllByRoomId(room.getId()); // Borrar restricciones relacionadas
+        }
+
         roomDAO.deleteById(id);
 
         return roomResponseMapper.toResponse(room);
