@@ -21,7 +21,7 @@ public class RestConstants {
     public static final String SWAGGER_LOGIN_SUMMARY = "Authenticate a user with their email and password";
     public static final String SWAGGER_LOGIN_SUCCESSFUL = "User has been authenticated";
 
-    public static final String SWAGGER_REGISTER_SUMMARY = "Create a new user in the system with USER role by default";
+    public static final String SWAGGER_REGISTER_SUMMARY = "Create a new user in the system with Usuario role by default";
     public static final String SWAGGER_REGISTER_SUCCESSFUL = "User has been registered";
     public static final String SWAGGER_USER_ALREADY_REGISTERED = "A user with that email is already registered";
 

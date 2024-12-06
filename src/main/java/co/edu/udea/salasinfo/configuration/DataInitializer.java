@@ -2,7 +2,6 @@ package co.edu.udea.salasinfo.configuration;
 
 import co.edu.udea.salasinfo.model.*;
 import co.edu.udea.salasinfo.repository.*;
-import co.edu.udea.salasinfo.utils.enums.ImplementCondition;
 import co.edu.udea.salasinfo.utils.enums.RStatus;
 import co.edu.udea.salasinfo.utils.enums.ReservationType;
 import co.edu.udea.salasinfo.utils.enums.RoleName;
@@ -38,10 +37,10 @@ public class DataInitializer {
         return args -> {
             if(roleRepository.existsById(1L)) return;
             // Inserting roles
-            Role roleAdmin = new Role(null, RoleName.ADMIN);
-            Role roleUser = new Role(null, RoleName.USER);
-            Role roleProfessor = new Role(null, RoleName.PROFESSOR);
-            Role roleMonitor = new Role(null, RoleName.MONITOR);
+            Role roleAdmin = new Role(null, RoleName.Admin);
+            Role roleUser = new Role(null, RoleName.Usuario);
+            Role roleProfessor = new Role(null, RoleName.Profesor);
+            Role roleMonitor = new Role(null, RoleName.Monitor);
             roleRepository.saveAll(Arrays.asList(roleAdmin, roleUser, roleProfessor, roleMonitor));
 
             // Inserting customers

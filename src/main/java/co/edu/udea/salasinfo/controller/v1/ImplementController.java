@@ -43,7 +43,7 @@ public class ImplementController {
     })
     @Operation(summary = RestConstants.SWAGGER_SAVE_IMPLEMENT_SUMMARY, description = RestConstants.SWAGGER_SAVE_APPLICATION_DESCRIPTION)
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<ImplementResponse> save(@RequestBody @Valid ImplementRequest implementRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(implementService.createImplement(implementRequest));
     }
@@ -68,7 +68,7 @@ public class ImplementController {
     })
     @Operation(summary = RestConstants.SWAGGER_REMOVE_IMPLEMENT_SUMMARY, description = RestConstants.SWAGGER_REMOVE_IMPLEMENT_DESCRIPTION)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<ImplementResponse> remove(@PathVariable Long id) {
         return ResponseEntity.ok(implementService.deleteImplement(id));
     }
@@ -81,7 +81,7 @@ public class ImplementController {
     })
     @Operation(summary = RestConstants.SWAGGER_UPDATE_IMPLEMENT_SUMMARY, description = RestConstants.SWAGGER_UPDATE_IMPLEMENT_DESCRIPTION)
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<ImplementResponse> update(@PathVariable Long id, @RequestBody @Valid ImplementRequest implementRequest) {
         return ResponseEntity.ok(implementService.updateImplement(id, implementRequest));
     }

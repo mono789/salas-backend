@@ -350,7 +350,7 @@ class RoomControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void deleteRoom_notFound() throws Exception {
         when(roomService.deleteRoom(1L)).thenThrow(new EntityNotFoundException(Room.class.getSimpleName(), "1"));
 
@@ -361,7 +361,7 @@ class RoomControllerTest {
 
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void updateRoom_invalidInput() throws Exception {
         List<Long> implementIds = Arrays.asList(-1L,-1L,-1L);
         List<Long> softwareIds = Arrays.asList(-1L, -2L);

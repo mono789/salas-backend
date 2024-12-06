@@ -175,7 +175,7 @@ class RoomServiceImplTest {
 
         // Configurar el mock del RoomRequest
         mockRoomRequest.setImplementIds(List.of(1L));
-        mockRoomRequest.setImplementStates(List.of(ImplementCondition.BUENO));
+        mockRoomRequest.setImplementStates(List.of(ImplementCondition.Bueno));
         mockRoomRequest.setSoftwareIds(List.of(1L));
         mockRoomRequest.setSoftwareVersions(List.of("5.0.1"));
         mockRoomRequest.setRestrictionIds(List.of(1L));
@@ -223,7 +223,7 @@ class RoomServiceImplTest {
         mockRoomRequest.setRoomName("Updated Room");
         mockRoomRequest.setComputerAmount(10);
         mockRoomRequest.setImplementIds(Arrays.asList(1L, 2L));
-        mockRoomRequest.setImplementStates(Arrays.asList(ImplementCondition.BUENO, ImplementCondition.MALO));
+        mockRoomRequest.setImplementStates(Arrays.asList(ImplementCondition.Bueno, ImplementCondition.Malo));
         mockRoomRequest.setSoftwareIds(Arrays.asList(1L));
         mockRoomRequest.setSoftwareVersions(Arrays.asList("v1.0"));
         mockRoomRequest.setRestrictionIds(Arrays.asList(1L));

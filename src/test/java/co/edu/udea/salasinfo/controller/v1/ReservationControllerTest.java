@@ -56,7 +56,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testSaveReservation_Success() throws Exception {
         // Arrange
         ReservationRequest request = new ReservationRequest(
@@ -85,7 +85,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testSaveReservation_BadRequest() throws Exception {
         // Arrange
         ReservationRequest request = new ReservationRequest(null, null, null, null, null, null, null);
@@ -98,7 +98,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testCreateClass_Success() throws Exception {
         // Arrange
         ClassReservationRequest request = new ClassReservationRequest(
@@ -149,7 +149,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testFindRefused_Success() throws Exception {
         // Arrange
         ReservationResponse response = new ReservationResponse(3L, "Canceled Reservation", "This was canceled",
@@ -166,7 +166,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testFindAccepted() throws Exception {
         // Arrange
         ReservationResponse response = new ReservationResponse(3L, "Canceled Reservation", "This was canceled",
@@ -183,7 +183,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testFindPending() throws Exception {
         // Arrange
         ReservationResponse response = new ReservationResponse(3L, "Canceled Reservation", "This was canceled",
@@ -200,7 +200,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testAcceptReservation_Success() throws Exception {
         // Arrange
         ReservationResponse response = new ReservationResponse(1L, "Yoga Class", "Relaxing yoga session",
@@ -217,7 +217,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "Admin")
     void testRejectReservation_Success() throws Exception {
         // Arrange
         ReservationResponse response = new ReservationResponse(2L, "Yoga Class", "Relaxing yoga session",

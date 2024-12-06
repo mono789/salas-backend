@@ -42,7 +42,7 @@ public class ApplicationController {
     })
     @Operation(summary = RestConstants.SWAGGER_SAVE_APPLICATION_SUMMARY, description = RestConstants.SWAGGER_SAVE_APPLICATION_DESCRIPTION)
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<ApplicationResponse> save(@RequestBody @Valid ApplicationRequest applicationRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(applicationService.createApplication(applicationRequest));
     }
@@ -67,7 +67,7 @@ public class ApplicationController {
     })
     @Operation(summary = RestConstants.SWAGGER_REMOVE_APPLICATION_SUMMARY, description = RestConstants.SWAGGER_REMOVE_APPLICATION_DESCRIPTION)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<ApplicationResponse> remove(@PathVariable Long id) {
         return ResponseEntity.ok(applicationService.deleteApplication(id));
     }
@@ -80,7 +80,7 @@ public class ApplicationController {
     })
     @Operation(summary = RestConstants.SWAGGER_UPDATE_APPLICATION_SUMMARY, description = RestConstants.SWAGGER_UPDATE_APPLICATION_DESCRIPTION)
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<ApplicationResponse> update(@PathVariable Long id, @RequestBody @Valid ApplicationRequest applicationRequest) {
         return ResponseEntity.ok(applicationService.updateApplication(id, applicationRequest));
     }

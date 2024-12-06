@@ -43,7 +43,7 @@ public class RestrictionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = RestrictionResponse.class)))
     })
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<RestrictionResponse> save(@RequestBody @Valid RestrictionRequest restrictionRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restrictionService.createRestriction(restrictionRequest));
     }
@@ -67,7 +67,7 @@ public class RestrictionController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = RestConstants.SWAGGER_RESTRICTION_NOT_FOUND)
     })
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<RestrictionResponse> remove(@PathVariable Long id) {
         return ResponseEntity.ok(restrictionService.deleteRestriction(id));
     }
@@ -80,7 +80,7 @@ public class RestrictionController {
             @ApiResponse(responseCode = RestConstants.CODE_NOT_FOUND, description = RestConstants.SWAGGER_RESTRICTION_NOT_FOUND)
     })
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin')")
     public ResponseEntity<RestrictionResponse> update(@PathVariable Long id, @RequestBody @Valid RestrictionRequest restrictionRequest) {
         return ResponseEntity.ok(restrictionService.updateRestriction(id, restrictionRequest));
     }
