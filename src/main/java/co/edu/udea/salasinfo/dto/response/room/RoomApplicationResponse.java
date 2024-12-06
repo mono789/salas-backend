@@ -1,5 +1,6 @@
 package co.edu.udea.salasinfo.dto.response.room;
 
+import co.edu.udea.salasinfo.dto.response.ApplicationResponse;
 import lombok.*;
 
 @Data

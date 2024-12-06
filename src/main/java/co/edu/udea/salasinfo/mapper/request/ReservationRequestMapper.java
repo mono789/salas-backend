@@ -29,7 +29,7 @@ public interface ReservationRequestMapper {
     }
 
     @Generated
-    default Reservation toEntity(ReservationRequest request){
+    default Reservation toEntity(ReservationRequest request) {
         return Reservation.builder()
                 .activityName(request.getActivityName())
                 .activityDescription(request.getActivityDescription())
@@ -39,9 +39,6 @@ public interface ReservationRequestMapper {
                 .room(longToRoom(request.getRoomId()))
                 .build();
     }
-    @Mapping(target = "user", source = "userId")
-    @Mapping(target = "room", source = "roomId")
-    Reservation toEntity(ReservationRequest request);
 
     List<Reservation> toEntities(List<ReservationRequest> requests);
 
