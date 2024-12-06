@@ -8,6 +8,7 @@ import co.edu.udea.salasinfo.model.User;
 import co.edu.udea.salasinfo.utils.Generated;
 import org.mapstruct.AnnotateWith;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -38,6 +39,9 @@ public interface ReservationRequestMapper {
                 .room(longToRoom(request.getRoomId()))
                 .build();
     }
+    @Mapping(target = "user", source = "userId")
+    @Mapping(target = "room", source = "roomId")
+    Reservation toEntity(ReservationRequest request);
 
     List<Reservation> toEntities(List<ReservationRequest> requests);
 

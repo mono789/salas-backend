@@ -8,8 +8,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@Builder
 public class RoomApplicationResponse {
-    private Integer id;
-    private String name;
+    private Long id;
+    private ApplicationResponse application;
     private String version;
 }

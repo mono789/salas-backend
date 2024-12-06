@@ -34,16 +34,19 @@ public class ReservationRequest {
     private LocalDate date;
 
     @NotNull(message = Constants.STARTS_AT_FIELD_NOT_NULL_MESSAGE)
-    @Schema(type = "String", pattern = Constants.HOUR_FORMAT)
-    @JsonDeserialize(using = LocalTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.HOUR_FORMAT)
-    private LocalTime startsAt;
+    @Future(message = Constants.STARTS_AT_FIELD_NOT_PAST_MESSAGE)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
+    private LocalDateTime startsAt;
 
     @NotNull(message = Constants.ENDS_AT_FIELD_NOT_NULL_MESSAGE)
-    @Schema(type = "String", pattern = Constants.HOUR_FORMAT)
-    @JsonDeserialize(using = LocalTimeDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.HOUR_FORMAT)
-    private LocalTime endsAt;
+    @Future(message = Constants.ENDS_AT_FIELD_NOT_PAST_MESSAGE)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
+    private LocalDateTime endsAt;
+
+    @NotNull(message = Constants.TYPE_FIELD_NOT_NULL_MESSAGE)
+    private ReservationType type;
 
     @NotNull(message = Constants.USER_ID_FIELD_NOT_NULL_MESSAGE)
     private String userId;

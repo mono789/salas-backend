@@ -144,9 +144,9 @@ public class ReservationServiceImpl implements ReservationService {
 
             while (startAt.isBefore(classReservation.getSemesterEndsAt().atStartOfDay())) {
                 ReservationRequest reservationRequest = reservationRequestMapper.toRequest(classReservation);
-                reservationRequest.setDate(startAt.toLocalDate());
-                reservationRequest.setStartsAt(session.getStartsAt());
-                reservationRequest.setEndsAt(session.getEndsAt());
+                reservationRequest.setStartsAt(startAt);
+                reservationRequest.setEndsAt(startAt.toLocalDate().atTime(session.getEndsAt()));
+                reservationRequest.setType(ReservationType.WEEKLY);
                 reservationRequests.add(reservationRequest);
                 startAt = startAt.plusWeeks(1L);
             }
