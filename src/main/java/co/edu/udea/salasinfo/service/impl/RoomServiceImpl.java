@@ -242,11 +242,15 @@ public class RoomServiceImpl implements RoomService {
 
         // Eliminar restricciones antiguas
         roomRestrictionDAO.deleteAllByRoomId(foundRoom.getId());
-        foundRoom.getRestrictions().clear();
+        //foundRoom.getRestrictions().clear();
 
         // Actualizar restricciones
         if (roomRequest.getRestrictionIds() != null) {
             List<Restriction> restrictionsList = restrictionDAO.findAllById(roomRequest.getRestrictionIds());
+            // Verificar si todas las restricciones fueron encontradas
+            if (restrictionsList.size() != roomRequest.getRestrictionIds().size()) {
+                throw new EntityNotFoundException("Some restrictions not found for IDs " + roomRequest.getRestrictionIds());
+            }
             foundRoom.setRestrictions(restrictionsList.stream()
                     .map(restriction -> {
                         RoomRestriction roomRestriction = new RoomRestriction();
@@ -259,10 +263,9 @@ public class RoomServiceImpl implements RoomService {
 
         // Guardar los cambios
         roomDAO.save(foundRoom);
-        Room updatedRoom = roomDAO.findById(foundRoom.getId());
 
         // Devolver la respuesta en el formato esperado
-        return specificRoomResponseMapper.toResponse(updatedRoom);
+        return specificRoomResponseMapper.toResponse(foundRoom);
     }
 
 

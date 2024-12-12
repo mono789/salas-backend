@@ -44,10 +44,8 @@ class ApplicationServiceImplTest {
     @Mock
     private ApplicationResponseMapper applicationResponseMapper;
 
-    @Mock
     private ApplicationResponse mockApplicationResponse;
 
-    @Mock
     private Application mockApplication;
 
     private List<Application> allApplications;
@@ -70,6 +68,15 @@ class ApplicationServiceImplTest {
 
         roomsForApplication1 = Arrays.asList(room1, room2);  // Rooms that have App1
         roomsForApplication2 = Collections.singletonList(room1);  // Only Room1 has both App1 and App2
+
+        mockApplication = new Application();
+        mockApplication.setId(1L);
+        mockApplication.setName("Zoom");
+
+        mockApplicationResponse = new ApplicationResponse();
+        mockApplicationResponse.setName("Application 1");
+
+
     }
 
     @Test

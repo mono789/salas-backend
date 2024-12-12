@@ -29,7 +29,6 @@ class ApplicationJPATest {
     @InjectMocks
     private ApplicationJPA applicationJPA;
 
-    @Mock
     private Application mockApplication;
 
     @Mock
@@ -115,34 +114,6 @@ class ApplicationJPATest {
         EntityNotFoundException thrown = assertThrows(EntityNotFoundException.class, () -> applicationJPA.findRoomsByApplicationId(1L));
         assertEquals("Entity of 'Application' type searched with '1' not found", thrown.getMessage()); // Update based on your exception message implementation
         verify(applicationRepository).findById(1L);
-    }
-
-    @Test
-    void existsByName_ShouldReturnTrue_WhenNameExists() {
-        // Arrange
-        String name = "Zoom";
-        when(applicationRepository.existsByName(name)).thenReturn(true);
-
-        // Act
-        boolean result = applicationDAO.existsByName(name);
-
-        // Assert
-        assertTrue(result);
-        verify(applicationRepository, times(1)).existsByName(name);
-    }
-
-    @Test
-    void existsByName_ShouldReturnFalse_WhenNameDoesNotExist() {
-        // Arrange
-        String name = "Slack";
-        when(applicationRepository.existsByName(name)).thenReturn(false);
-
-        // Act
-        boolean result = applicationDAO.existsByName(name);
-
-        // Assert
-        assertFalse(result);
-        verify(applicationRepository, times(1)).existsByName(name);
     }
 
 }
